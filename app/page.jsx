@@ -30,22 +30,22 @@ export default function Home() {
     {
       title: "MyMediaTracker",
       id: 1,
-      thumb_url: "https://private-user-images.githubusercontent.com/112519806/476156011-112ab1f0-fde9-4dff-95a3-a2a6272c0880.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTc5MTY1NzUsIm5iZiI6MTc1NzkxNjI3NSwicGF0aCI6Ii8xMTI1MTk4MDYvNDc2MTU2MDExLTExMmFiMWYwLWZkZTktNGRmZi05NWEzLWEyYTYyNzJjMDg4MC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwOTE1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDkxNVQwNjA0MzVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1hNWRlNjMxNTQxNWE2ZWM3MDYxNjg0YzZlOGFhNzFlNWEyNThhYWU2MDdkZmRmYjU5MmNiN2EzMDY0ZDBlMmMxJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.XJFBUxySsKEWnzVk-vVIqNpjqTDncOlQtR7ChrW_DQ8"
+      thumb_url: "/images/thumb/mymediatracker.png"
     },
     {
       title: "MyMediaTracker | App",
       id: 2,
-      thumb_url: "https://files.catbox.moe/vvdxg3.png"
+      thumb_url: "/images/thumb/mymediatracker-app.png",
     },
     {
       title: "Pomodoro Pals",
       id: 3,
-      thumb_url: "https://file.notion.so/f/f/cd5968b9-2ee7-47cc-9922-9a09715312c8/90b410d1-53b4-44d5-be94-724dc9a509bc/9ba08bc5-a0b8-4dd6-aafe-dd93318001ba.png?table=block&id=21b9b9a3-6e05-8063-ac49-db8eb2a87be0&spaceId=cd5968b9-2ee7-47cc-9922-9a09715312c8&expirationTimestamp=1757901600000&signature=h_RnoQQfxWfDxGbpgmjrJDRR-PkL907hedwQ4g665vQ&downloadName=image.png"
+      thumb_url: "/images/thumb/pomodoropals.png"
     },
     {
       title: "Match Me!",
       id: 4,
-      thumb_url: "https://private-user-images.githubusercontent.com/112519806/460913631-dd5c2e58-d62e-455f-b656-4bb1876b60af.jpeg?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTc5NDEyMTUsIm5iZiI6MTc1Nzk0MDkxNSwicGF0aCI6Ii8xMTI1MTk4MDYvNDYwOTEzNjMxLWRkNWMyZTU4LWQ2MmUtNDU1Zi1iNjU2LTRiYjE4NzZiNjBhZi5qcGVnP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDkxNSUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA5MTVUMTI1NTE1WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9MjFjYzI5OGVhNGVjMDc0ZWJmODU1ZTBiMGZiNjQzYjFlZDFkMGNkNzA2MTE0ZjMxYjRjYmE2NzI0ZDY2MGIzOCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.dxEjcx-gG9zsBbF7-zMb7Fc66zwwY06DzAxohQXI6Uw"
+      thumb_url: "/images/thumb/matchme.jpeg",
     }
   ]
 
