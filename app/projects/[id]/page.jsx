@@ -11,7 +11,7 @@ export default function Home() {
             title: "MyMediaTracker",
             thumb_url: "/images/thumb/mymediatracker.png",
             link: "https://mymediatracker.vercel.app/",
-            highlight: "700+ users",
+            highlight: "800+ users",
             tech_feature: [
               "Secure authentication using **JWT + bcrypt** and **rate limiting for brute-force protection**.",
               "**Scalable NoSQL schema (MongoDB)** supporting social features (follow/unfollow).", 
