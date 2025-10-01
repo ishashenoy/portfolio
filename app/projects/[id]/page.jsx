@@ -18,7 +18,7 @@ export default function Home() {
               "**RESTful API backend (Node.js/Express)** with external API integration and **local caching** for performance.",
               "Responsive, mobile-first UI, deployed via Render + Vercel, with **Google reCAPTCHA** for bot prevention."
             ],
-            overview: "Centralized Media Management Platform.",
+            overview: "Track shows, movies, books, and games in one clean hub — with social features to share and discover media.",
             pics: ['https://files.catbox.moe/2zn5ov.png','https://files.catbox.moe/m9ixt4.png','https://files.catbox.moe/63fkk8.png'],
             design_process: ['https://files.catbox.moe/2zn5ov.png','https://files.catbox.moe/m9ixt4.png','https://files.catbox.moe/63fkk8.png'],
             tech: ['React', 'Javascript', 'Node.js', 'Express', 'MongoDB', 'HTML', 'CSS']
@@ -92,6 +92,13 @@ export default function Home() {
           }
           <p className="font-bold text-xl">{project?.highlight && project.highlight}</p>
           </div>
+        <div className='flex-wrap overflow-hidden gap-1 flex rounded-md border-1 border-solid border-[#ebeae92b] p-2'>
+          {project?.tech && project.tech.map((tech) => (
+              <div key={tech} className="skill">
+                  {tech}
+              </div>
+          ))}
+        </div>
         <div className="flex flex-col gap-2">
           <div className="rounded-md border-1 border-solid border-[#ebeae92b] p-3">
             <p className='font-bold section bg-[#E1E366]'>Overview</p>
@@ -107,13 +114,6 @@ export default function Home() {
           ))}
           </ul>
         </div>
-        <div className='flex-wrap overflow-hidden gap-1 flex rounded-md border-1 border-solid border-[#ebeae92b] p-2'>
-              {project?.tech && project.tech.map((tech) => (
-                  <div key={tech} className="skill">
-                      {tech}
-                  </div>
-              ))}
-            </div>
         </div>
         <Link href="/" className='heading'>Back</Link>
       </div>

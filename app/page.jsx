@@ -17,6 +17,7 @@ export default function Home() {
     "React",
     "React Native",
     "Next.js",
+    "Selenium",
     "MongoDB",
     "Express",
     "Tailwind",
