@@ -58,7 +58,7 @@ export default function Home() {
         <div className='flex gap-3 justify-center'>
           <button onClick={()=> {setShowAbout(!showAbout); setShowProjects(false)}} className='cursor-pointer section bg-[#EB649F] hover:-rotate-5' >About</button>
           <button onClick={()=> {setShowProjects(!showProjects); setShowAbout(false)}} className='cursor-pointer section bg-[#E1E366] hover:-rotate-5' >Projects</button>
-          <Link href='/IshaShenoy_Resume_Online.pdf' target="_blank" rel="noopener noreferrer" className='section bg-[#EEE0E0] hover:-rotate-5'>Resume</Link>
+          <Link href='https://drive.google.com/file/d/14mkg2P8_zrI10RepVzGZ21CnGgXMCRx3/view?usp=sharing' target="_blank" rel="noopener noreferrer" className='section bg-[#EEE0E0] hover:-rotate-5'>Resume</Link>
         </div>
         { showAbout && 
           <div className="overflow-auto md:w-150 gap-3 flex flex-col">

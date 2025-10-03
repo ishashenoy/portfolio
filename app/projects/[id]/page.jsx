@@ -10,8 +10,8 @@ export default function Home() {
         {
             title: "MyMediaTracker",
             thumb_url: "/images/thumb/mymediatracker.png",
-            link: "https://mymediatracker.vercel.app/",
-            highlight: "800+ users",
+            link: "https://mymediatracker.app/",
+            highlight: "900+ users",
             tech_feature: [
               "Secure authentication using **JWT + bcrypt** and **rate limiting for brute-force protection**.",
               "**Scalable NoSQL schema (MongoDB)** supporting social features (follow/unfollow).", 
@@ -85,23 +85,20 @@ export default function Home() {
         ))}
         </div>
         <div className="flex flex-col sm:flex-row justify-between items-center">
-          {project?.link ? 
-            <Link target="_blank" href={project.link} className='font-bold text-3xl sm:text-3xl'>{project.title}</Link> 
-            :
-            <p className='font-bold text-3xl sm:text-3xl'>{project.title}</p>
-          }
+          <p className='font-bold text-3xl sm:text-3xl'>{project.title}</p>
           <p className="font-bold text-xl">{project?.highlight && project.highlight}</p>
           </div>
         <div className='flex-wrap overflow-hidden gap-1 flex rounded-md border-1 border-solid border-[#ebeae92b] p-2'>
           {project?.tech && project.tech.map((tech) => (
               <div key={tech} className="skill">
-                  {tech}
+                {tech}
               </div>
           ))}
         </div>
         <div className="flex flex-col gap-2">
           <div className="rounded-md border-1 border-solid border-[#ebeae92b] p-3">
             <p className='font-bold section bg-[#E1E366]'>Overview</p>
+            {project?.link && <Link target="_blank" href={project.link} className='font-bold pt-2'>Link</Link>}
             {project?.overview && <p className="pt-2">{project.overview}</p>}
           </div>
         <div className="rounded-md border-1 border-solid border-[#ebeae92b] p-3">
