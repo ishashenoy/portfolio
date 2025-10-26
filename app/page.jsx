@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { BsLinkedin, BsGithub } from "react-icons/bs";
 
 export default function Home() {
-  const [showAbout, setShowAbout] = useState(false);
-  const [showProjects, setShowProjects] = useState(false);
+  const [sectionVisible, setSectionVisible] = useState(false);
 
   const skills = [
     "Python",
@@ -52,15 +52,14 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen p-5 justify-center items-center">
-      
       <div className="relative flex flex-col gap-3 justify-center items-center">
         <p className='font-bold text-4xl sm:text-7xl'>isha shenoy</p>
         <div className='flex gap-3 justify-center'>
-          <button onClick={()=> {setShowAbout(!showAbout); setShowProjects(false)}} className='cursor-pointer section bg-[#EB649F] hover:-rotate-5' >About</button>
-          <button onClick={()=> {setShowProjects(!showProjects); setShowAbout(false)}} className='cursor-pointer section bg-[#E1E366] hover:-rotate-5' >Projects</button>
+          <button onClick={() => setSectionVisible(prev => prev === 'about' ? false : 'about')} className='cursor-pointer section bg-[#EB649F] hover:-rotate-5' >About</button>
+          <button onClick={() => setSectionVisible(prev => prev === 'projects' ? false : 'projects')} className='cursor-pointer section bg-[#E1E366] hover:-rotate-5' >Projects</button>
           <Link href='https://drive.google.com/file/d/14mkg2P8_zrI10RepVzGZ21CnGgXMCRx3/view?usp=sharing' target="_blank" rel="noopener noreferrer" className='section bg-[#EEE0E0] hover:-rotate-5'>Resume</Link>
         </div>
-        { showAbout && 
+        { sectionVisible=='about' && 
           <div className="overflow-auto md:w-150 gap-3 flex flex-col">
           <div className='flex flex-col gap-2 container'>
             <div className='heading'>Education</div>
@@ -89,7 +88,7 @@ export default function Home() {
             </div>
           </div>
         }
-        { showProjects && 
+        { sectionVisible=='projects' && 
           <div>
             <div className='flex md:w-150 flex-col gap-3 container' >
               <div className='heading'>Projects</div>
@@ -111,6 +110,14 @@ export default function Home() {
             </div>
           </div>
         }
+        <div className="flex flex-row gap-3">
+        <Link href="https://www.linkedin.com/in/ishashenoy/" target="_blank" rel="noopener noreferrer">
+          <BsLinkedin size={20} aria-hidden="true" />
+        </Link>
+        <Link href="https://github.com/ishashenoy" target="_blank" rel="noopener noreferrer">
+          <BsGithub size={20} aria-hidden="true" />
+        </Link>
+      </div>
       </div>
     </div>
   );
