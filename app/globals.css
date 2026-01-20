@@ -19,11 +19,11 @@
   font-family: "Inter", sans-serif;
 }
 
-body{
-  background-color: #0A1720;
-  background-image: linear-gradient(rgba(202, 207, 216, 0.05) .1em, transparent .1em), linear-gradient(90deg, rgba(201, 206, 216, 0.05) .1em, transparent .1em);
-  background-size: 2em 2em;
-  background-attachment: fixed;
+body {
+    background-color: #0a1720;
+    background-image: linear-gradient(#cacfd80d .1em, #0000 0), linear-gradient(90deg, #c9ced80d .1em, #0000 0);
+    background-size: 2em 2em;
+    background-attachment: fixed;
 }
 
 .section{
