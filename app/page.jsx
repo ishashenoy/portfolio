@@ -53,8 +53,8 @@ export default function Home() {
         <span className="font-bold text-xl tracking-tight">isha shenoy</span>
         <div className="flex gap-4 text-sm">
           <a href="#about" className="hover:underline">about</a>
-          <a href="#projects" className="hover:underline">projects</a>
           <a href="#experience" className="hover:underline">experience</a>
+          <a href="#projects" className="hover:underline">projects</a>
           <a href="#skills" className="hover:underline">skills</a>
           <Link href='https://drive.google.com/file/d/14mkg2P8_zrI10RepVzGZ21CnGgXMCRx3/view?usp=sharing' target="_blank" rel="noopener noreferrer" className='hover:underline skill'>resume</Link>
         </div>
