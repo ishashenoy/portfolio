@@ -69,3 +69,11 @@ body {
   border-radius: 3px;
   cursor: pointer;
 }
+
+.pink{
+  color: #EB649F !important;
+}
+
+.yellow{
+  color: #E1E366 !important;
+}

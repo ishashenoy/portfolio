@@ -3,8 +3,46 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BsLinkedin, BsGithub, BsEnvelopeFill } from "react-icons/bs";
+import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
+  const [cursorTrail, setCursorTrail] = useState([]);
+  const trailRef = useRef([]);
+  const animationRef = useRef();
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const newTrail = {
+        x: e.clientX,
+        y: e.clientY,
+        id: Date.now(),
+        opacity: 1
+      };
+      
+      trailRef.current = [...trailRef.current, newTrail].slice(-15); // Keep last 15 points
+      setCursorTrail([...trailRef.current]);
+    };
+
+    const animateTrail = () => {
+      trailRef.current = trailRef.current.map((point, index) => ({
+        ...point,
+        opacity: point.opacity - 0.08
+      })).filter(point => point.opacity > 0);
+      
+      setCursorTrail([...trailRef.current]);
+      animationRef.current = requestAnimationFrame(animateTrail);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    animationRef.current = requestAnimationFrame(animateTrail);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
   const skills = {
     Languages: ["Python", "Java", "JavaScript", "HTML", "CSS", "SQL", "VBA", "Bash"],
     Frameworks: ["React", "React Native", "Next.js", "Node.js", "Express", "Tailwind", "Bootstrap"],
@@ -29,8 +67,16 @@ export default function Home() {
       tech: ["React Native"],
     },
     {
-      title: "Pomodoro Pals",
+      title: "AlphaHedge",
       id: 3,
+      thumb_url: "/images/thumb/alphahedge.png",
+      desc: "Recipe discovery app that generates personalized meal suggestions based on user preferences, dietary restrictions, and available ingredients.",
+      tech: ["React", "Node.js", "Express", "MongoDB"],
+      links: { github: "https://github.com/ishashenoy/AlphaHedge" }
+    },
+    {
+      title: "Pomodoro Pals",
+      id: 4,
       thumb_url: "/images/thumb/pomodoropals.png",
       desc: "Customizable Pomodoro timer and task manager that persists sessions, supports music integration, and provides session analytics to improve focus.",
       tech: ["JavaScript", "HTML", "CSS"],
@@ -38,7 +84,7 @@ export default function Home() {
     },
     {
       title: "Match Me!",
-      id: 4,
+      id: 5,
       thumb_url: "/images/thumb/matchme.jpeg",
       desc: "Responsive memory-card matching game with theme unlocks, local high-score persistence, and smooth animations for cross-platform play.",
       tech: ["JavaScript", "Bootstrap", "HTML", "CSS"],
@@ -47,7 +93,24 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center px-4">
+    <div className="min-h-screen w-full flex flex-col items-center px-4 overflow-hidden">
+      {/* Cursor Trail Effect */}
+      <div className="fixed inset-0 pointer-events-none z-10">
+        {cursorTrail.map((point, index) => (
+          <div
+            key={point.id}
+            className="absolute w-2 h-2 bg-gradient-to-r from-[#ffffff] to-[#ffffff] rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-100"
+            style={{
+              left: `${point.x}px`,
+              top: `${point.y}px`,
+              opacity: point.opacity,
+              scale: point.opacity,
+              filter: `blur(${(1 - point.opacity) * 2}px)`
+            }}
+          />
+        ))}
+      </div>
+
       {/* Sticky Nav */}
       <nav className="w-full max-w-3xl sticky top-0 z-20 backdrop-blur flex flex-row justify-between items-center py-3 mb-4 border-b">
         <span className="font-bold text-xl tracking-tight">isha shenoy</span>
