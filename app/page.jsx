@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { BsLinkedin, BsGithub, BsEnvelopeFill } from "react-icons/bs";
+import { BsLinkedin, BsGithub, BsEnvelopeFill, BsTwitter } from "react-icons/bs";
 import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
@@ -70,13 +70,21 @@ export default function Home() {
       title: "AlphaHedge",
       id: 3,
       thumb_url: "/images/thumb/alphahedge.png",
-      desc: "Recipe discovery app that generates personalized meal suggestions based on user preferences, dietary restrictions, and available ingredients.",
+      desc: "AI-powered investment research platform that simulates institutional-grade equity analysis in under two minutes using parallel analyst agents.",
       tech: ["React", "Node.js", "Express", "MongoDB"],
       links: { github: "https://github.com/ishashenoy/AlphaHedge" }
     },
     {
-      title: "Pomodoro Pals",
+      title: "SignWave",
       id: 4,
+      thumb_url: "/images/thumb/signwave.png",
+      desc: "Real-time computer vision rhythm game that uses a custom-trained PyTorch neural network and MediaPipe hand tracking to classify live hand gestures and translate them into interactive gameplay.",
+      tech: ["Python", "Flask", "PyTorch", "OpenCV", "MediaPipe", "NumPy"],
+      links: { github: "https://github.com/ishashenoy/SignWave" }
+    },
+    {
+      title: "Pomodoro Pals",
+      id: 5,
       thumb_url: "/images/thumb/pomodoropals.png",
       desc: "Customizable Pomodoro timer and task manager that persists sessions, supports music integration, and provides session analytics to improve focus.",
       tech: ["JavaScript", "HTML", "CSS"],
@@ -84,7 +92,7 @@ export default function Home() {
     },
     {
       title: "Match Me!",
-      id: 5,
+      id: 6,
       thumb_url: "/images/thumb/matchme.jpeg",
       desc: "Responsive memory-card matching game with theme unlocks, local high-score persistence, and smooth animations for cross-platform play.",
       tech: ["JavaScript", "Bootstrap", "HTML", "CSS"],
@@ -131,6 +139,8 @@ export default function Home() {
           <Link href="mailto:ishenoy@uwaterloo.ca" target="_blank" rel="noopener noreferrer"><BsEnvelopeFill size={22} aria-hidden="true" /></Link>
           <Link href="https://www.linkedin.com/in/ishashenoy/" target="_blank" rel="noopener noreferrer"><BsLinkedin size={22} aria-hidden="true" /></Link>
           <Link href="https://github.com/ishashenoy" target="_blank" rel="noopener noreferrer"><BsGithub size={22} aria-hidden="true" /></Link>
+          <Link href="https://x.com/ichiberries" target="_blank" rel="noopener noreferrer"><BsTwitter size={22} aria-hidden="true" /></Link>
+
         </div>
       </section>
 
@@ -173,6 +183,7 @@ export default function Home() {
               <div className="font-bold text-lg flex flex-row items-center gap-2">
                 {project.title}
                 {project.links?.demo && <Link href={project.links.demo} target="_blank" rel="noopener noreferrer" className="text-xs font-normal underline">demo</Link>}
+                {project.links?.github && <Link href={project.links.github} target="_blank" rel="noopener noreferrer" className="text-xs font-normal underline">github</Link>}
               </div>
               <div className="text-gray-700 text-sm mb-2">{project.desc}</div>
               <div className="flex flex-wrap gap-1 mt-auto">
