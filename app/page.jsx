@@ -78,7 +78,7 @@ export default function Home() {
       title: "SignWave",
       id: 4,
       thumb_url: "/images/thumb/signwave.png",
-      desc: "Real-time computer vision rhythm game that uses a custom-trained PyTorch neural network and MediaPipe hand tracking to classify live hand gestures and translate them into interactive gameplay.",
+      desc: "Real-time computer vision rhythm game that uses a custom-trained PyTorch neural network and MediaPipe hand tracking to turn live hand gestures into interactive gameplay.",
       tech: ["Python", "Flask", "PyTorch", "OpenCV", "MediaPipe", "NumPy"],
       links: { github: "https://github.com/ishashenoy/SignWave" }
     },
@@ -132,15 +132,20 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="w-full max-w-3xl flex flex-col items-center gap-2 mt-4 mb-8 text-center">
-        <h1 className="font-bold text-4xl sm:text-6xl">isha shenoy</h1>
-        <p className="text-lg sm:text-xl text-gray-700">engineering @ uwaterloo · full-stack developer · open to co-op</p>
-        <div className="flex flex-row gap-4 justify-center mt-2">
-          <Link href="mailto:ishenoy@uwaterloo.ca" target="_blank" rel="noopener noreferrer"><BsEnvelopeFill size={22} aria-hidden="true" /></Link>
-          <Link href="https://www.linkedin.com/in/ishashenoy/" target="_blank" rel="noopener noreferrer"><BsLinkedin size={22} aria-hidden="true" /></Link>
-          <Link href="https://github.com/ishashenoy" target="_blank" rel="noopener noreferrer"><BsGithub size={22} aria-hidden="true" /></Link>
-          <Link href="https://x.com/ichiberries" target="_blank" rel="noopener noreferrer"><BsTwitter size={22} aria-hidden="true" /></Link>
+      <section className="w-full max-w-3xl flex flex-col sm:flex-row items-start text-left gap-6 mt-4 mb-8">
+        <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-100">
+          <Image src="/images/profile_pic.png" alt="isha shenoy" width={128} height={128} className="object-cover w-full h-full" />
+        </div>
 
+        <div className="flex flex-col justify-start">
+          <h1 className="font-bold text-4xl sm:text-6xl">isha shenoy</h1>
+          <p className="text-lg sm:text-xl text-gray-700">engineering @ uwaterloo · full-stack developer · open to co-op</p>
+          <div className="flex flex-row gap-4 mt-2 items-start">
+            <Link href="mailto:ishenoy@uwaterloo.ca" target="_blank" rel="noopener noreferrer"><BsEnvelopeFill size={22} aria-hidden="true" /></Link>
+            <Link href="https://www.linkedin.com/in/ishashenoy/" target="_blank" rel="noopener noreferrer"><BsLinkedin size={22} aria-hidden="true" /></Link>
+            <Link href="https://github.com/ishashenoy" target="_blank" rel="noopener noreferrer"><BsGithub size={22} aria-hidden="true" /></Link>
+            {/* <Link href="https://x.com/ichiberries" target="_blank" rel="noopener noreferrer"><BsTwitter size={22} aria-hidden="true" /></Link> */}
+          </div>
         </div>
       </section>
 
