@@ -155,7 +155,7 @@ export default function Home() {
               <li>Designed and developed full-stack architecture for mobile / web app (React, Node.js, MongoDB).</li>
               <li>Led product, growth, and user acquisition strategy.</li>
             </ul>
-            <div className="flex flex-wrap gap-1 text-xs text-gray-500">Skills: <span className="skill">Selenium</span> <span className="skill">TypeScript</span> <span className="skill">Next.js</span></div>
+            <div className="flex flex-wrap gap-1 text-xs text-gray-500">Skills: <span className="skill">REST APIs</span> <span className="skill">React.js</span> <span className="skill">Node.js</span> <span className="skill">Express.js</span> <span className="skill">React Native</span> <span className="skill">MongoDB</span> <span className="skill">SEO</span></div>
           </div>
         </div>
         {/* Grassroots KW */}
@@ -168,7 +168,7 @@ export default function Home() {
               <li>Developing a climate advocacy platform with <b>TypeScript</b> and <b>Next.js</b>.</li>
               <li>Implementing Node.js backend with scraping pipeline (<b>Selenium</b>) for biweekly information refresh.</li>
             </ul>
-            <div className="flex flex-wrap gap-1 text-xs text-gray-500">Skills: <span className="skill">Selenium</span> <span className="skill">TypeScript</span> <span className="skill">Next.js</span></div>
+            <div className="flex flex-wrap gap-1 text-xs text-gray-500">Skills: <span className="skill">Automation</span> <span className="skill">Selenium</span> <span className="skill">TypeScript</span> <span className="skill">Next.js</span></div>
           </div>
         </div>
       </section>
