@@ -52,23 +52,8 @@ export default function Home() {
 
   const projects = [
     {
-      title: "MyMediaTracker",
-      id: 1,
-      thumb_url: "/images/thumb/mymediatracker.png",
-      desc: "Unified media-tracking platform for shows, movies, books, and games. Follow friends, share lists, and discover new media through recommendations.",
-      tech: ["React", "Node.js", "Express", "MongoDB"],
-      links: { demo: "https://mymediatracker.app/" }
-    },
-    {
-      title: "MyMediaTracker | App",
-      id: 2,
-      thumb_url: "/images/thumb/mymediatracker-app.png",
-      desc: "Mobile companion app for MyMediaTracker offering convenient media-tracking, push notifications, and sync with the web service.",
-      tech: ["React Native"],
-    },
-    {
       title: "AlphaHedge",
-      id: 3,
+      id: 1,
       thumb_url: "/images/thumb/alphahedge.png",
       desc: "AI-powered investment research platform that simulates institutional-grade equity analysis in under two minutes using parallel analyst agents.",
       tech: ["React", "Node.js", "Express", "MongoDB"],
@@ -76,7 +61,7 @@ export default function Home() {
     },
     {
       title: "SignWave",
-      id: 4,
+      id: 2,
       thumb_url: "/images/thumb/signwave.png",
       desc: "Real-time computer vision rhythm game that uses a custom-trained PyTorch neural network and MediaPipe hand tracking to turn live hand gestures into interactive gameplay.",
       tech: ["Python", "Flask", "PyTorch", "OpenCV", "MediaPipe", "NumPy"],
@@ -84,7 +69,7 @@ export default function Home() {
     },
     {
       title: "Pomodoro Pals",
-      id: 5,
+      id: 3,
       thumb_url: "/images/thumb/pomodoropals.png",
       desc: "Customizable Pomodoro timer and task manager that persists sessions, supports music integration, and provides session analytics to improve focus.",
       tech: ["JavaScript", "HTML", "CSS"],
@@ -92,7 +77,7 @@ export default function Home() {
     },
     {
       title: "Match Me!",
-      id: 6,
+      id: 4,
       thumb_url: "/images/thumb/matchme.jpeg",
       desc: "Responsive memory-card matching game with theme unlocks, local high-score persistence, and smooth animations for cross-platform play.",
       tech: ["JavaScript", "Bootstrap", "HTML", "CSS"],
@@ -151,19 +136,33 @@ export default function Home() {
 
       {/* About Section */}
       <section id="about" className="w-full max-w-3xl flex flex-col gap-3 mb-8">
-        <div className="flex gap-3 items-center container">
-          <p className="text-gray-700 mt-1">Management engineering student at the University of Waterloo passionate about building scalable web and mobile apps, with a focus on user experience and automation. Seeking co-op opportunities in software engineering, data, or product roles.</p>
-        </div>
+        <ul className="flex flex-col gap-1 container">
+          <li className="text-gray-700 mt-1">Management engineering student at the University of Waterloo passionate about building and shipping real things.</li>
+          <li className="text-gray-700 mt-1">Interested in SWE, PM, Data Science.</li>
+        </ul>
       </section>
 
       {/* Experience Section */}
       <section id="experience" className="w-full max-w-3xl flex flex-col gap-3 mb-8">
         <h2 className="heading">experience</h2>
+        {/* Grassroots KW */}
         <div className="flex flex-col gap-6 container">
-          {/* Grassroots KW */}
           <div>
-            <div className="font-bold text-base">Web Developer <span className="text-gray-500 font-normal">@ Grassroots KW</span></div>
+            <div className="font-bold text-base">Web Developer <span className="text-gray-500 font-normal">@ <a href="https://www.grassrootskw.org/" target="_blank" rel="noopener noreferrer" className="hover:underline !text-blue-600">Grassroots KW</a></span></div>
             <div className="text-xs text-gray-500 mb-1">Sep 2025 – Present</div>
+            <ul className="list-disc pl-5 text-gray-700 text-sm mb-1">
+              <li>Funded by Bloomberg Philanthropies.</li>
+              <li>Developing a climate advocacy platform with <b>TypeScript</b> and <b>Next.js</b>.</li>
+              <li>Implementing Node.js backend with scraping pipeline (<b>Selenium</b>) for biweekly information refresh.</li>
+            </ul>
+            <div className="flex flex-wrap gap-1 text-xs text-gray-500">Skills: <span className="skill">Selenium</span> <span className="skill">TypeScript</span> <span className="skill">Next.js</span></div>
+          </div>
+        </div>
+          {/* Mytria*/}
+        <div className="flex flex-col gap-6 container">
+          <div>
+            <div className="font-bold text-base">Founder & Full-Stack Developer <span className="text-gray-500 font-normal">@ <a href="https://www.mytria.app/" target="_blank" rel="noopener noreferrer" className="hover:underline !text-blue-600">Mytria</a></span></div>
+            <div className="text-xs text-gray-500 mb-1">Aug 2025 – Present</div>
             <ul className="list-disc pl-5 text-gray-700 text-sm mb-1">
               <li>Developing a climate advocacy platform with <b>TypeScript</b> and <b>Next.js</b>.</li>
               <li>Implementing Node.js backend with scraping pipeline (<b>Selenium</b>) for biweekly information refresh.</li>
@@ -171,9 +170,7 @@ export default function Home() {
             </ul>
             <div className="flex flex-wrap gap-1 text-xs text-gray-500">Skills: <span className="skill">Selenium</span> <span className="skill">TypeScript</span> <span className="skill">Next.js</span></div>
           </div>
-          {/* University of Waterloo */}
-
-          </div>
+        </div>
       </section>
 
       {/* Projects Section */}
