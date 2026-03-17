@@ -145,6 +145,19 @@ export default function Home() {
       {/* Experience Section */}
       <section id="experience" className="w-full max-w-3xl flex flex-col gap-3 mb-8">
         <h2 className="heading">experience</h2>
+        {/* Mytria*/}
+        <div className="flex flex-col gap-6 container">
+          <div>
+            <div className="font-bold text-base">Founder & Full-Stack Developer <span className="text-gray-500 font-normal">@ <a href="https://www.mytria.app/" target="_blank" rel="noopener noreferrer" className="hover:underline !text-blue-600">Mytria</a></span></div>
+            <div className="text-xs text-gray-500 mb-1">Aug 2025 – Present</div>
+            <ul className="list-disc pl-5 text-gray-700 text-sm mb-1">
+              <li>Developing a climate advocacy platform with <b>TypeScript</b> and <b>Next.js</b>.</li>
+              <li>Implementing Node.js backend with scraping pipeline (<b>Selenium</b>) for biweekly information refresh.</li>
+              <li>Received funding from Bloomberg and the City of Kitchener.</li>
+            </ul>
+            <div className="flex flex-wrap gap-1 text-xs text-gray-500">Skills: <span className="skill">Selenium</span> <span className="skill">TypeScript</span> <span className="skill">Next.js</span></div>
+          </div>
+        </div>
         {/* Grassroots KW */}
         <div className="flex flex-col gap-6 container">
           <div>
@@ -154,19 +167,6 @@ export default function Home() {
               <li>Funded by Bloomberg Philanthropies.</li>
               <li>Developing a climate advocacy platform with <b>TypeScript</b> and <b>Next.js</b>.</li>
               <li>Implementing Node.js backend with scraping pipeline (<b>Selenium</b>) for biweekly information refresh.</li>
-            </ul>
-            <div className="flex flex-wrap gap-1 text-xs text-gray-500">Skills: <span className="skill">Selenium</span> <span className="skill">TypeScript</span> <span className="skill">Next.js</span></div>
-          </div>
-        </div>
-          {/* Mytria*/}
-        <div className="flex flex-col gap-6 container">
-          <div>
-            <div className="font-bold text-base">Founder & Full-Stack Developer <span className="text-gray-500 font-normal">@ <a href="https://www.mytria.app/" target="_blank" rel="noopener noreferrer" className="hover:underline !text-blue-600">Mytria</a></span></div>
-            <div className="text-xs text-gray-500 mb-1">Aug 2025 – Present</div>
-            <ul className="list-disc pl-5 text-gray-700 text-sm mb-1">
-              <li>Developing a climate advocacy platform with <b>TypeScript</b> and <b>Next.js</b>.</li>
-              <li>Implementing Node.js backend with scraping pipeline (<b>Selenium</b>) for biweekly information refresh.</li>
-              <li>Received funding from Bloomberg and the City of Kitchener.</li>
             </ul>
             <div className="flex flex-wrap gap-1 text-xs text-gray-500">Skills: <span className="skill">Selenium</span> <span className="skill">TypeScript</span> <span className="skill">Next.js</span></div>
           </div>
