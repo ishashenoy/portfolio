@@ -151,9 +151,9 @@ export default function Home() {
             <div className="font-bold text-base">Founder & Full-Stack Developer <span className="text-gray-500 font-normal">@ <a href="https://mytria.app/" target="_blank" rel="noopener noreferrer" className="hover:underline !text-blue-600">Mytria</a></span></div>
             <div className="text-xs text-gray-500 mb-1">Aug 2025 – Present</div>
             <ul className="list-disc pl-5 text-gray-700 text-sm mb-1">
-              <li>Developing a climate advocacy platform with <b>TypeScript</b> and <b>Next.js</b>.</li>
-              <li>Implementing Node.js backend with scraping pipeline (<b>Selenium</b>) for biweekly information refresh.</li>
-              <li>Received funding from Bloomberg and the City of Kitchener.</li>
+              <li>10,000+ users and 200,000+ titles.</li>
+              <li>Designed and developed full-stack architecture for mobile / web app (React, Node.js, MongoDB).</li>
+              <li>Led product, growth, and user acquisition strategy.</li>
             </ul>
             <div className="flex flex-wrap gap-1 text-xs text-gray-500">Skills: <span className="skill">Selenium</span> <span className="skill">TypeScript</span> <span className="skill">Next.js</span></div>
           </div>
