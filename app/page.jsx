@@ -148,7 +148,7 @@ export default function Home() {
         {/* Mytria*/}
         <div className="flex flex-col gap-6 container">
           <div>
-            <div className="font-bold text-base">Founder & Full-Stack Developer <span className="text-gray-500 font-normal">@ <a href="https://www.mytria.app/" target="_blank" rel="noopener noreferrer" className="hover:underline !text-blue-600">Mytria</a></span></div>
+            <div className="font-bold text-base">Founder & Full-Stack Developer <span className="text-gray-500 font-normal">@ <a href="https://mytria.app/" target="_blank" rel="noopener noreferrer" className="hover:underline !text-blue-600">Mytria</a></span></div>
             <div className="text-xs text-gray-500 mb-1">Aug 2025 – Present</div>
             <ul className="list-disc pl-5 text-gray-700 text-sm mb-1">
               <li>Developing a climate advocacy platform with <b>TypeScript</b> and <b>Next.js</b>.</li>
