@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { BsLinkedin, BsGithub, BsEnvelopeFill, BsTwitter } from "react-icons/bs";
 import { useState, useEffect, useRef } from "react";
+import MusicPlayer from "./components/MusicPlayer";
+
 
 export default function Home() {
   const [cursorTrail, setCursorTrail] = useState([]);
@@ -249,6 +251,7 @@ export default function Home() {
             ))}
           </div>
         </div>
+        <MusicPlayer />
       </section>
 
       <footer className="w-full max-w-2xl text-center text-xs text-gray-400 py-4 border-t border-[#ebeae9] mt-4">

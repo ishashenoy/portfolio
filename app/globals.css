@@ -79,6 +79,18 @@ body {
   cursor: pointer;
 }
 
+@keyframes vinyl-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.vinyl-spinning {
+  animation: vinyl-spin 3s linear infinite;
+}
+.vinyl-paused {
+  animation: vinyl-spin 3s linear infinite;
+  animation-play-state: paused;
+}
+
 .pink{
   color: #EB649F !important;
 }
