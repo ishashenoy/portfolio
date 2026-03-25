@@ -46,24 +46,26 @@ export default function Home() {
     };
   }, []);
   const skills = {
-    Languages: ["Python", "Java", "JavaScript", "HTML", "CSS", "SQL", "VBA", "Bash"],
-    Frameworks: ["React", "React Native", "Next.js", "Node.js", "Express", "Tailwind", "Bootstrap"],
-    Tools: ["Git", "MongoDB", "Selenium", 'MySQL', "Postman", "Figma", "Excel"],
-    Concepts: ["OOP", "DSA", "SEO", "UML", "UI/UX Design", "Agile", "REST APIs", "Responsive Design"]
+    Languages: ["Python", "TypeScript", "JavaScript", "Java", "HTML/CSS", "SQL", "VBA", "Bash"],
+    Frameworks: ["React", "React Native", "Next.js", "Node.js", "Express", "Nest.js", "Flask", "Tailwind", "Bootstrap", "PyTorch"],
+    Tools: ["Git", "MongoDB", "MySQL", "PostgreSQL", "Supabase", "Selenium", "Postman", "Figma", "AWS", "Vercel", "Render", "Linux", "PowerBI", "Excel"],
+    Concepts: ["REST APIs", "RAG", "OOP", "DSA", "SDLC", "Unit Testing", "Scalability", "SEO", "Agile", "UI/UX Design", "UML", "Responsive Design"],
+    Libraries: ["MediaPipe", "OpenCV", "NumPy", "scikit-learn"],
   };
 
   const galleryPhotos = [
-    { src: "/images/gallery/photo1.jpg", caption: "game night @ grassrootskw" },
+    { src: "/images/gallery/photo1.jpg", caption: "happy 1 year grassrootskw!" },
     { src: "/images/gallery/photo2.jpg", caption: "w/ mayor of kitchener" },
     { src: "/images/gallery/photo3.jpg", caption: "golden gate bridge" },
     { src: "/images/gallery/photo4.jpg", caption: "outside yc headquarters" },
-    { src: "/images/gallery/photo5.jpg", caption: "happy 1 year grassrootskw!" },
+    { src: "/images/gallery/photo6.jpg", caption: "socratica symposium '26" },
   ];
 
   const projects = [
     {
       title: "AlphaHedge",
       id: 1,
+      date: "Jan '26",
       thumb_url: "/images/thumb/alphahedge.png",
       desc: <>AI-powered investment research platform that simulates institutional-grade equity analysis in under two minutes using parallel analyst agents, built during the <a href="https://events.ycombinator.com/fullstackhackathon" target="_blank" rel="noopener noreferrer" className="!text-blue-600">Y Combinator Full-Stack Hackathon</a>.</>,
       tech: ["TypeScript", "Next.js", "Supabase", "Google Gemini","Sim.ai","RAG"],
@@ -72,6 +74,7 @@ export default function Home() {
     {
       title: "SignWave",
       id: 2,
+      date: "Feb '26",
       thumb_url: "/images/thumb/signwave.png",
       desc: "Real-time computer vision rhythm game that uses a custom-trained PyTorch neural network and MediaPipe hand tracking to turn live hand gestures into interactive gameplay.",
       tech: ["Python", "Flask", "PyTorch", "OpenCV", "MediaPipe", "NumPy"],
@@ -80,6 +83,7 @@ export default function Home() {
     {
       title: "Pomodoro Pals",
       id: 3,
+      date: "June '25",
       thumb_url: "/images/thumb/pomodoropals.png",
       desc: "Customizable Pomodoro timer and task manager that persists sessions, supports music integration, and provides session analytics to improve focus.",
       tech: ["JavaScript", "HTML", "CSS"],
@@ -88,6 +92,7 @@ export default function Home() {
     {
       title: "Match Me!",
       id: 4,
+      date: "July '25",
       thumb_url: "/images/thumb/matchme.jpeg",
       desc: "Responsive memory-card matching game with theme unlocks, local high-score persistence, and smooth animations for cross-platform play.",
       tech: ["JavaScript", "Bootstrap", "HTML", "CSS"],
@@ -122,7 +127,7 @@ export default function Home() {
 
         <div className="flex flex-col justify-center">
           <h1 className="font-bold text-3xl sm:text-4xl">isha shenoy</h1>
-          <p className="text-sm sm:text-base text-gray-700">engineering @ uwaterloo · swe · product</p>
+          <p className="text-sm sm:text-base text-gray-700">engineering @ uwaterloo</p>
           <div className="flex flex-row gap-4 mt-2 items-start">
             <Link href="mailto:ishenoy@uwaterloo.ca" target="_blank" rel="noopener noreferrer"><BsEnvelopeFill size={22} aria-hidden="true" /></Link>
             <Link href="https://www.linkedin.com/in/ishashenoy/" target="_blank" rel="noopener noreferrer"><BsLinkedin size={22} aria-hidden="true" /></Link>
@@ -135,7 +140,6 @@ export default function Home() {
 
       {/* Nav Links */}
       <div className="w-full max-w-2xl flex gap-4 text-sm mb-6">
-        <a href="#about" className="hover:underline">about</a>
         <a href="#experience" className="hover:underline">experience</a>
         <a href="#projects" className="hover:underline">projects</a>
         <a href="#skills" className="hover:underline">skills</a>
@@ -146,6 +150,7 @@ export default function Home() {
       {/* About Section */}
       <section id="about" className="w-full max-w-2xl flex flex-col gap-2 mb-6">
         <p className="text-gray-700 text-sm">↳ management engineering at <Image src="/images/icons/uwaterloo-crest.png" alt="University of Waterloo" width={16} height={16} className="inline-block" /> university of waterloo</p>
+        <p className="text-gray-700 text-sm">↳ <a href="https://www.tiktok.com/@qoljee" target="_blank" rel="noopener noreferrer" className="hover:underline">6M+ content creator</a></p>
         <p className="text-gray-700 text-sm">↳ interested in swe, tpm, data.</p>
         <p className="text-gray-700 text-sm">↳ seeking summer 2026, winter 2027 co-op.</p>
       </section>
@@ -189,24 +194,31 @@ export default function Home() {
       {/* Projects Section */}
       <section id="projects" className="w-full max-w-2xl flex flex-col gap-3 mb-8">
         <h2 className="heading">projects</h2>
-        <div className="flex flex-col divide-y divide-[#ebeae92b]">
-          {projects.map((project, i) => (
-            <div key={project.id} className={`flex flex-row gap-3 items-start ${i === 0 ? 'pb-4' : i === projects.length - 1 ? 'pt-4' : 'py-4'}`}>
-              <div className="relative flex-shrink-0 w-16 h-16 rounded overflow-hidden">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10">
+          {projects.map((project) => (
+            <div key={project.id} className="flex flex-col gap-2">
+              <div className="relative w-full rounded overflow-hidden" style={{ aspectRatio: '4/3' }}>
                 <Image fill src={project.thumb_url} alt={project.title} className="object-cover" />
               </div>
-              <div className="flex flex-col min-w-0">
-                <div className="font-semibold text-sm flex flex-row items-center gap-2">
-                  {project.title}
-                  {project.links?.demo && <Link href={project.links.demo} target="_blank" rel="noopener noreferrer" className="text-xs font-normal underline">demo</Link>}
-                  {project.links?.github && <Link href={project.links.github} target="_blank" rel="noopener noreferrer" className="text-xs font-normal underline">github</Link>}
+              <div className="flex flex-col min-w-0 gap-1.5">
+                <div className="flex flex-row items-center justify-between gap-2 mb-0.5">
+                  <div className="font-semibold text-sm flex flex-row items-center gap-2">
+                    {project.links?.demo
+                      ? <Link href={project.links.demo} target="_blank" rel="noopener noreferrer">{project.title}</Link>
+                      : project.links?.github
+                      ? <Link href={project.links.github} target="_blank" rel="noopener noreferrer">{project.title}</Link>
+                      : project.title}
+                  </div>
+                  {project.date && (
+                    <span className="text-xs rounded-full px-2 py-0.5 flex-shrink-0" style={{ backgroundColor: 'white', color: '#09111f', fontWeight: '600' }}>{project.date}</span>
+                  )}
                 </div>
-                <div className="text-gray-700 text-sm mb-1">{project.desc}</div>
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-row gap-1 overflow-x-auto scrollbar-hidden">
                   {project.tech.map((tech) => (
-                    <span key={tech} className="skill">{tech}</span>
+                    <span key={tech} className="skill flex-shrink-0">{tech}</span>
                   ))}
                 </div>
+                <div className="text-gray-700 text-xs">{project.desc}</div>
               </div>
             </div>
           ))}
