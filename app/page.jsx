@@ -133,7 +133,7 @@ export default function Home() {
             <Link href="https://www.linkedin.com/in/ishashenoy/" target="_blank" rel="noopener noreferrer"><BsLinkedin size={22} aria-hidden="true" /></Link>
             <Link href="https://github.com/ishashenoy" target="_blank" rel="noopener noreferrer"><BsGithub size={22} aria-hidden="true" /></Link>
             <Link href="https://mytria.app/profile/ichiberry" target="_blank" rel="noopener noreferrer"><Image src="/images/icons/mytria-white.png" alt="Mytria" width={22} height={22} /></Link>
-            {/* <Link href="https://x.com/ichiberries" target="_blank" rel="noopener noreferrer"><BsTwitter size={22} aria-hidden="true" /></Link> */}
+            <Link href="https://x.com/ichiberries" target="_blank" rel="noopener noreferrer"><BsTwitter size={22} aria-hidden="true" /></Link>
           </div>
         </div>
       </section>
@@ -162,26 +162,26 @@ export default function Home() {
         <h2 className="heading">experience</h2>
         <div className="flex flex-col divide-y divide-[#ebeae92b]">
           {/* Mytria */}
-          <div className="pb-4">
+          <div className="experience-entry pb-6">
             <div className="font-semibold text-sm flex items-center gap-2">
               Founder & Full-Stack Developer @<Image src="/images/icons/mytria.png" alt="Mytria" width={18} height={18} className="rounded-sm object-contain flex-shrink-0" /><span className="text-gray-500 font-normal">
               <a href="https://mytria.app/" target="_blank" rel="noopener noreferrer" className="hover:underline !text-blue-600">Mytria</a></span>
             </div>
-            <div className="text-xs text-gray-500 mb-1">Aug 2025 – Present</div>
-            <ul className="list-disc pl-5 text-gray-700 text-sm mb-1">
+            <div className="text-xs text-gray-500 mb-2 mt-0.5">Aug 2025 – Present</div>
+            <ul className="experience-list list-disc pl-5 text-gray-700 text-sm mb-2">
               <li>10,000+ users and 200,000+ titles.</li>
               <li>Designed and developed full-stack architecture for mobile / web app (React, Node.js, MongoDB).</li>
               <li>Led product, growth, and user acquisition strategy.</li>
             </ul>
-            <div className="flex flex-wrap gap-1 text-xs text-gray-500">Skills: <span className="skill">REST APIs</span> <span className="skill">React.js</span> <span className="skill">Node.js</span> <span className="skill">Express.js</span> <span className="skill">React Native</span> <span className="skill">MongoDB</span> <span className="skill">SEO</span></div>
+            <div className="flex flex-wrap gap-1 text-xs text-gray-500 mt-1">Skills: <span className="skill">REST APIs</span> <span className="skill">React.js</span> <span className="skill">Node.js</span> <span className="skill">Express.js</span> <span className="skill">React Native</span> <span className="skill">MongoDB</span> <span className="skill">SEO</span></div>
           </div>
           {/* Grassroots KW */}
-          <div className="pt-4">
+          <div className="experience-entry pt-6">
             <div className="font-semibold text-sm flex items-center gap-2">
               Web Developer @<Image src="/images/icons/grassroots-kw.png" alt="Grassroots KW" width={18} height={18} className="rounded-sm object-contain flex-shrink-0" /><span className="text-gray-500 font-normal"><a href="https://www.grassrootskw.org/" target="_blank" rel="noopener noreferrer" className="hover:underline !text-blue-600">Grassroots KW</a></span>
             </div>
             <div className="text-xs text-gray-500 mb-1">Sep 2025 – Present</div>
-            <ul className="list-disc pl-5 text-gray-700 text-sm mb-1">
+            <ul className="experience-list list-disc pl-5 text-gray-700 text-sm mb-1">
               <li>Funded by Bloomberg Philanthropies.</li>
               <li>Developing a climate advocacy platform with <b>TypeScript</b> and <b>Next.js</b>.</li>
               <li>Implementing Node.js backend with scraping pipeline (<b>Selenium</b>) for biweekly information refresh.</li>

@@ -1,3 +1,17 @@
+/* Experience section custom spacing */
+.experience-entry {
+  padding-bottom: 1.5rem;
+}
+.experience-entry:last-child {
+  padding-bottom: 0;
+}
+.experience-list {
+  margin-bottom: 0.5rem;
+  margin-top: 0.1rem;
+}
+.experience-list li {
+  margin-bottom: 0.25rem;
+}
 @import "tailwindcss";
 
 @layer utilities {
