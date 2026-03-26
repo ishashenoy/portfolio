@@ -65,7 +65,7 @@ export default function Home() {
     {
       title: "AlphaHedge",
       id: 1,
-      date: "Jan '26",
+      date: "2026",
       thumb_url: "/images/thumb/alphahedge.png",
       desc: <>AI-powered investment research platform that simulates institutional-grade equity analysis in under two minutes using parallel analyst agents, built during the <a href="https://events.ycombinator.com/fullstackhackathon" target="_blank" rel="noopener noreferrer" className="!text-blue-600">Y Combinator Full-Stack Hackathon</a>.</>,
       tech: ["TypeScript", "Next.js", "Supabase", "Google Gemini","Sim.ai","RAG"],
@@ -74,7 +74,7 @@ export default function Home() {
     {
       title: "SignWave",
       id: 2,
-      date: "Feb '26",
+      date: "2026",
       thumb_url: "/images/thumb/signwave.png",
       desc: "Real-time computer vision rhythm game that uses a custom-trained PyTorch neural network and MediaPipe hand tracking to turn live hand gestures into interactive gameplay.",
       tech: ["Python", "Flask", "PyTorch", "OpenCV", "MediaPipe", "NumPy"],
@@ -83,7 +83,7 @@ export default function Home() {
     {
       title: "Pomodoro Pals",
       id: 3,
-      date: "June '25",
+      date: "2025",
       thumb_url: "/images/thumb/pomodoropals.png",
       desc: "Customizable Pomodoro timer and task manager that persists sessions, supports music integration, and provides session analytics to improve focus.",
       tech: ["JavaScript", "HTML", "CSS"],
@@ -92,7 +92,7 @@ export default function Home() {
     {
       title: "Match Me!",
       id: 4,
-      date: "July '25",
+      date: "2025",
       thumb_url: "/images/thumb/matchme.jpeg",
       desc: "Responsive memory-card matching game with theme unlocks, local high-score persistence, and smooth animations for cross-platform play.",
       tech: ["JavaScript", "Bootstrap", "HTML", "CSS"],
@@ -138,20 +138,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Nav Links */}
-      <div className="w-full max-w-2xl flex gap-4 text-sm mb-6">
-        <a href="#experience" className="hover:underline">experience</a>
-        <a href="#projects" className="hover:underline">projects</a>
-        <a href="#skills" className="hover:underline">skills</a>
-        <a href="#gallery" className="hover:underline">gallery</a>
-        <Link href='https://drive.google.com/file/d/14mkg2P8_zrI10RepVzGZ21CnGgXMCRx3/view?usp=sharing' target="_blank" rel="noopener noreferrer" className='hover:underline skill'>resume</Link>
-      </div>
-
       {/* About Section */}
       <section id="about" className="w-full max-w-2xl flex flex-col gap-2 mb-6">
         <p className="text-gray-700 text-sm">↳ management engineering at <Image src="/images/icons/uwaterloo-crest.png" alt="University of Waterloo" width={16} height={16} className="inline-block" /> university of waterloo</p>
         <p className="text-gray-700 text-sm">↳ <a href="https://www.tiktok.com/@qoljee" target="_blank" rel="noopener noreferrer" className="hover:underline">6M+ content creator</a></p>
-        <p className="text-gray-700 text-sm">↳ interested in swe, tpm, data.</p>
         <p className="text-gray-700 text-sm">↳ seeking summer 2026, winter 2027 co-op.</p>
       </section>
 
@@ -169,7 +159,7 @@ export default function Home() {
             </div>
             <div className="text-xs text-gray-500 mb-2 mt-0.5">Aug 2025 – Present</div>
             <ul className="experience-list list-disc pl-5 text-gray-700 text-sm mb-2">
-              <li>10,000+ users and 200,000+ titles.</li>
+              <li>15,000+ users and 200,000+ titles.</li>
               <li>Designed and developed full-stack architecture for mobile / web app (React, Node.js, MongoDB).</li>
               <li>Led product, growth, and user acquisition strategy.</li>
             </ul>
