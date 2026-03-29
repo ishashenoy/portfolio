@@ -112,3 +112,17 @@ body {
 .yellow{
   color: #E1E366 !important;
 }
+
+/* Light theme for profile-style pages (e.g. app/page2.jsx); beats global * and utilities */
+.profile-redesign {
+  color: #0a0a0a;
+}
+.profile-redesign *:not(a) {
+  color: inherit;
+}
+.profile-redesign a {
+  color: #1d4ed8 !important;
+}
+.profile-redesign a:hover {
+  color: #1e40af !important;
+}

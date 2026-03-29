@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 const TRACK_URL = "https://soundcloud.com/ishas_14/sets/faves?si=3b515896ee06495697d96fab67f5116d";
 
-export default function MusicPlayer() {
+export default function MusicPlayer({ iconFill = "#ffffff" }) {
   const iframeRef = useRef(null);
   const widgetRef = useRef(null);
   const readyRef = useRef(false);
@@ -79,7 +79,7 @@ export default function MusicPlayer() {
         >
           {/* Prev */}
           {skipBtn(() => widgetRef.current?.prev(), "Previous",
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill={iconFill}>
               <polygon points="19,4 7,12 19,20" />
               <rect x="4" y="4" width="3" height="16" rx="1" />
             </svg>
@@ -98,7 +98,6 @@ export default function MusicPlayer() {
                 height: 76,
                 borderRadius: "50%",
                 position: "relative",
-                boxShadow: "0 6px 28px rgba(0,0,0,0.6)",
                 overflow: "hidden",
               }}
             >
@@ -134,7 +133,7 @@ export default function MusicPlayer() {
 
           {/* Next */}
           {skipBtn(() => widgetRef.current?.next(), "Next",
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill={iconFill}>
               <polygon points="5,4 17,12 5,20" />
               <rect x="17" y="4" width="3" height="16" rx="1" />
             </svg>
