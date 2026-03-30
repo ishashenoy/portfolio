@@ -2,8 +2,8 @@
 
 import { useCallback, useState } from "react";
 import Image from "next/image";
-import MusicPlayer from "./components/MusicPlayer";
-import { projects } from "./data/projects";
+import MusicPlayer from "../components/MusicPlayer";
+import { projects } from "../data/projects";
 
 const galleryPhotos = [
   { src: "/images/gallery/photo1.jpg", caption: "happy 1 year grassrootskw!" },
