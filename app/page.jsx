@@ -14,6 +14,15 @@ const galleryPhotos = [
   { src: "/images/gallery/photo6.jpg", caption: "socratica symposium '26" },
 ];
 
+const artPhotos = [
+  { src: "/images/art/art1.jpg", caption: "watercolor painting" },
+  { src: "/images/art/art2.jpg", caption: "anatomical study" },
+  { src: "/images/art/art3.jpg", caption: "game environment" },
+  { src: "/images/art/art4.jpg", caption: "object study" },
+  { src: "/images/art/art5.jpg", caption: "3D model (low poly)" },
+  { src: "/images/art/art6.jpg", caption: "photoshop artwork" },
+];
+
 /** Inline emphasis for key facts (stats, affiliations) */
 const hl =
   "rounded-sm bg-amber-100 px-1 py-0.5 font-semibold !text-neutral-900 [box-decoration-break:clone]";
@@ -27,9 +36,25 @@ const skills = {
 };
 
 export default function Page2() {
+  const [galleryTab, setGalleryTab] = useState("gallery");
   const [galleryItems, setGalleryItems] = useState(() => [...galleryPhotos]);
+  const [artItems, setArtItems] = useState(() => [...artPhotos]);
   const [dragFrom, setDragFrom] = useState(null);
   const [dragOver, setDragOver] = useState(null);
+  const [expandedPhoto, setExpandedPhoto] = useState(null);
+
+  const clearGalleryDrag = useCallback(() => {
+    setDragFrom(null);
+    setDragOver(null);
+  }, []);
+
+  const tabBtnClass = (active) =>
+    [
+      "inline bg-transparent border-0 p-0 m-0 font-inherit text-[15px] leading-normal cursor-pointer text-left transition-colors",
+      active
+        ? "font-bold text-neutral-950 border-b border-neutral-600 pb-px"
+        : "font-normal text-neutral-500 hover:text-neutral-700",
+    ].join(" ");
 
   const onDragStart = useCallback((e, index) => {
     setDragFrom(index);
@@ -75,6 +100,30 @@ export default function Page2() {
     setDragFrom(null);
     setDragOver(null);
   }, []);
+
+  const onArtDrop = useCallback((e, dropIndex) => {
+    e.preventDefault();
+    const raw =
+      e.dataTransfer.getData("application/gallery-index") ||
+      e.dataTransfer.getData("text/plain");
+    const from = Number.parseInt(raw, 10);
+    if (Number.isNaN(from) || from === dropIndex) {
+      setDragFrom(null);
+      setDragOver(null);
+      return;
+    }
+    setArtItems((prev) => {
+      const next = [...prev];
+      const [removed] = next.splice(from, 1);
+      next.splice(dropIndex, 0, removed);
+      return next;
+    });
+    setDragFrom(null);
+    setDragOver(null);
+  }, []);
+
+  const projectCards = projects.filter((p) => !p.compact);
+  const compactProjectLine = projects.find((p) => p.compact);
 
   return (
     <div className="profile-redesign min-h-screen w-full bg-white font-sans text-[15px] leading-normal text-neutral-950">
@@ -129,12 +178,12 @@ export default function Page2() {
           </div>
           <ul className="list-disc pl-5 text-neutral-700 text-sm mb-2">
             <li>
-              <span className={hl}>15,000+ users, 200,000+ titles, 3M+ views</span> online.
+              <span className={hl}>15K+ users, 200K+ titles, 3M+ views</span> online.
             </li>
             <li>Designed and developed full-stack architecture for mobile / web app.</li>
             <li>Led product, growth, and user acquisition strategy.</li>
           </ul>
-          <span className="flex flex-wrap gap-1 text-xs text-neutral-500">Skills: <span className="skill">React.js</span> <span className="skill">Node.js</span> <span className="skill">Express.js</span> <span className="skill">React Native</span> <span className="skill">MongoDB</span> <span className="skill">SEO</span></span>
+          <span className="flex flex-wrap gap-1 text-xs text-neutral-500"><span className="skill">React.js</span> <span className="skill">Node.js</span> <span className="skill">Express.js</span> <span className="skill">React Native</span> <span className="skill">MongoDB</span> <span className="skill">SEO</span></span>
 
           <div className="mt-2 flex flex-nowrap items-center gap-x-1 text-sm">
             <span className="whitespace-nowrap font-semibold">web developer @</span>
@@ -161,7 +210,7 @@ export default function Page2() {
             <li>Developing a climate advocacy platform with TypeScript and Next.js.</li>
             <li>Implementing scraping pipeline (Playwright) for biweekly information refresh.</li>
           </ul>
-          <span className="flex flex-wrap gap-1 text-xs text-neutral-500">Skills: <span className="skill">Automation</span> <span className="skill">Playwright</span> <span className="skill">TypeScript</span> <span className="skill">Next.js</span></span>
+          <span className="flex flex-wrap gap-1 text-xs text-neutral-500"><span className="skill">Automation</span> <span className="skill">Playwright</span> <span className="skill">TypeScript</span> <span className="skill">Next.js</span></span>
         </section>
 
         <hr className="my-5 border-0 border-t border-dashed border-neutral-300" />
@@ -169,7 +218,7 @@ export default function Page2() {
         <section className="mt-4 text-sm">
           <h2 className="font-bold">projects</h2>
           <div className="mb-3 flex flex-col gap-4 text-neutral-700">
-            {projects.map((project) => {
+            {projectCards.map((project) => {
               const href = project.links?.demo ?? project.links?.github;
               const thumb = (
                 <div className="relative aspect-square w-20 shrink-0 overflow-hidden sm:w-24">
@@ -210,12 +259,11 @@ export default function Page2() {
                       <span className="font-semibold">{project.title}</span>
                     )}
                     {project.date ? (
-                      <span className="font-normal text-neutral-500"> · {project.date}</span>
+                      <span className="font-normal text-neutral-500"> ({project.date})</span>
                     ) : null}
-                    {": "}
+                    {" ... "}
                     {project.desc}
                     <div className="mt-1 flex flex-wrap gap-1 text-xs text-neutral-500">
-                      Skills:{" "}
                       {project.tech.map((tech) => (
                         <span key={tech} className="skill">
                           {tech}
@@ -227,12 +275,43 @@ export default function Page2() {
               );
             })}
           </div>
+          {compactProjectLine ? (
+            <div className="text-xs leading-snug text-neutral-600 sm:text-[13px]">
+              <p className="font-normal">
+                <a
+                  href={compactProjectLine.links?.pomodoro}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="!text-blue-600 hover:underline"
+                >
+                  Pomodoro Pals
+                </a>
+                ,{" "}
+                <a
+                  href={compactProjectLine.links?.matchme}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="!text-blue-600 hover:underline"
+                >
+                  Match Me
+                </a>{" "}
+                ... small web apps built for fun
+              </p>
+              <div className="mt-1 flex flex-wrap gap-1 text-[10px] text-neutral-500 sm:text-[11px]">
+                {compactProjectLine.tech.map((tech) => (
+                  <span key={tech} className="skill">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </section>
 
         <hr className="my-5 border-0 border-t border-dashed border-neutral-300" />
 
         <section className="mt-4 text-sm">
-        <h2 className="font-bold">skills</h2>
+        <h2 className="font-bold mb-2">skills</h2>
           {Object.entries(skills).map(([group, items]) => (
             <p key={group} className="mb-1">
               <span className="font-bold">{group}</span>{" "}
@@ -247,50 +326,169 @@ export default function Page2() {
         </section>
 
         <hr className="my-5 border-0 border-t border-dashed border-neutral-300" />
-        <h2 className="font-bold mb-2">gallery</h2>
         <div
-          className="grid grid-cols-3 grid-rows-2 w-full gap-x-1.5 gap-y-2 sm:gap-x-2 sm:gap-y-3"
+          className="mb-2 flex flex-wrap items-baseline gap-x-4 gap-y-1"
+          role="tablist"
+          aria-label="Gallery sections"
         >
-          {galleryItems.map((photo, i) => (
-            <div
-              key={photo.src}
-              draggable
-              tabIndex={0}
-              aria-grabbed={dragFrom === i}
-              onDragStart={(e) => onDragStart(e, i)}
-              onDragEnd={onDragEnd}
-              onDragOver={(e) => onDragOver(e, i)}
-              onDragLeave={onDragLeave}
-              onDrop={(e) => onDrop(e, i)}
-              className={[
-                "flex min-w-0 flex-col outline-none transition-shadow",
-                "cursor-grab active:cursor-grabbing",
-                "focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2",
-                dragFrom === i ? "opacity-60 scale-[0.98]" : "",
-                dragOver === i && dragFrom !== null && dragFrom !== i
-                  ? "ring-2 ring-blue-400 ring-offset-2"
-                  : "",
-              ].join(" ")}
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100 touch-none select-none">
-                <Image
-                  src={photo.src}
-                  alt=""
-                  draggable={false}
-                  fill
-                  className="pointer-events-none object-cover"
-                  sizes="(max-width: 36rem) 33vw, 240px"
-                />
-              </div>
-              {photo.caption ? (
-                <p className="mt-1 text-center text-[10px] leading-snug text-neutral-600 sm:text-[11px]">
-                  {photo.caption}
-                </p>
-              ) : null}
-            </div>
-          ))}
+          <button
+            type="button"
+            role="tab"
+            aria-selected={galleryTab === "gallery"}
+            id="gallery-tab-gallery"
+            className={tabBtnClass(galleryTab === "gallery")}
+            onClick={() => {
+              setGalleryTab("gallery");
+              clearGalleryDrag();
+            }}
+          >
+            Gallery
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={galleryTab === "art"}
+            id="gallery-tab-art"
+            className={tabBtnClass(galleryTab === "art")}
+            onClick={() => {
+              setGalleryTab("art");
+              clearGalleryDrag();
+            }}
+          >
+            Art
+          </button>
         </div>
+        {galleryTab === "gallery" ? (
+          <div
+            role="tabpanel"
+            aria-labelledby="gallery-tab-gallery"
+            className="grid grid-cols-3 grid-rows-2 w-full gap-x-1.5 gap-y-2 sm:gap-x-2 sm:gap-y-3"
+          >
+            {galleryItems.map((photo, i) => (
+              <div
+                key={photo.src}
+                draggable
+                tabIndex={0}
+                aria-grabbed={dragFrom === i}
+                onDragStart={(e) => onDragStart(e, i)}
+                onDragEnd={onDragEnd}
+                onDragOver={(e) => onDragOver(e, i)}
+                onDragLeave={onDragLeave}
+                onDrop={(e) => onDrop(e, i)}
+                className={[
+                  "flex min-w-0 flex-col outline-none transition-shadow",
+                  "cursor-grab active:cursor-grabbing",
+                  "focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2",
+                  dragFrom === i ? "opacity-60 scale-[0.98]" : "",
+                  dragOver === i && dragFrom !== null && dragFrom !== i
+                    ? "ring-2 ring-blue-400 ring-offset-2"
+                    : "",
+                ].join(" ")}
+              >
+                <div
+                  className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100 touch-none select-none"
+                  onClick={() => setExpandedPhoto(photo)}
+                >
+                  <Image
+                    src={photo.src}
+                    alt=""
+                    draggable={false}
+                    fill
+                    className="pointer-events-none object-cover"
+                    sizes="(max-width: 36rem) 33vw, 240px"
+                  />
+                </div>
+                {photo.caption ? (
+                  <p className="mt-1 text-center text-[10px] leading-snug text-neutral-600 sm:text-[11px]">
+                    {photo.caption}
+                  </p>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div
+            role="tabpanel"
+            aria-labelledby="gallery-tab-art"
+            className="grid grid-cols-3 grid-rows-2 w-full gap-x-1.5 gap-y-2 sm:gap-x-2 sm:gap-y-3"
+          >
+            {artItems.map((photo, i) => (
+              <div
+                key={photo.src}
+                draggable
+                tabIndex={0}
+                aria-grabbed={dragFrom === i}
+                onDragStart={(e) => onDragStart(e, i)}
+                onDragEnd={onDragEnd}
+                onDragOver={(e) => onDragOver(e, i)}
+                onDragLeave={onDragLeave}
+                onDrop={(e) => onArtDrop(e, i)}
+                className={[
+                  "flex min-w-0 flex-col outline-none transition-shadow",
+                  "cursor-grab active:cursor-grabbing",
+                  "focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2",
+                  dragFrom === i ? "opacity-60 scale-[0.98]" : "",
+                  dragOver === i && dragFrom !== null && dragFrom !== i
+                    ? "ring-2 ring-blue-400 ring-offset-2"
+                    : "",
+                ].join(" ")}
+              >
+                <div
+                  className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100 touch-none select-none"
+                  onClick={() => setExpandedPhoto(photo)}
+                >
+                  <Image
+                    src={photo.src}
+                    alt=""
+                    draggable={false}
+                    fill
+                    className="pointer-events-none object-cover"
+                    sizes="(max-width: 36rem) 33vw, 240px"
+                  />
+                </div>
+                {photo.caption ? (
+                  <p className="mt-1 text-center text-[10px] leading-snug text-neutral-600 sm:text-[11px]">
+                    {photo.caption}
+                  </p>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        )}
       </main>
+
+      {expandedPhoto ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4 py-6"
+          onClick={() => setExpandedPhoto(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Expanded image"
+        >
+          <div className="relative w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              onClick={() => setExpandedPhoto(null)}
+              className="absolute right-0 top-[-2.25rem] text-sm text-neutral-200 hover:text-white"
+            >
+              close
+            </button>
+            <div className="relative w-full overflow-hidden bg-neutral-900">
+              <Image
+                src={expandedPhoto.src}
+                alt={expandedPhoto.caption || "Expanded image"}
+                width={1600}
+                height={1200}
+                className="h-auto max-h-[80vh] w-full object-contain"
+                sizes="(max-width: 1024px) 100vw, 1024px"
+              />
+            </div>
+            {expandedPhoto.caption ? (
+              <p className="mt-2 text-center text-xs text-neutral-200">{expandedPhoto.caption}</p>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
 
       <MusicPlayer iconFill="#525252" />
     </div>
