@@ -129,24 +129,43 @@ export default function Page2() {
     <div className="profile-redesign min-h-screen w-full bg-white font-sans text-[15px] leading-normal text-neutral-950">
       <main className="mx-auto w-full max-w-xl px-5 py-6 sm:py-8">
         {/* Header */}
-        <header className="text-center text-base sm:text-lg tracking-tight mb-3">
-          <h1 className="font-semibold">isha shenoy</h1>
+        <header className="mb-3 flex items-center gap-4 text-left text-base sm:text-lg tracking-tight">
+          <div className="relative h-[5.5rem] w-[5.5rem] shrink-0 overflow-hidden rounded-2xl border-[6px] border-white shadow-[0_2px_5px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.05)] sm:h-28 sm:w-28">
+            <Image
+              src="/images/profile_pic.png"
+              alt="isha shenoy"
+              fill
+              className="object-cover"
+              sizes="112px"
+              priority
+            />
+          </div>
+          <div className="min-w-0">
+            <h1 className="font-semibold">isha shenoy</h1>
+            <p className="text-sm flex flex-row flex-wrap gap-2 justify-start items-center underline">
+              <a href="mailto:ishenoy@uwaterloo.ca" target="_blank" rel="noopener noreferrer">email</a>
+              <a href="https://github.com/ishashenoy" target="_blank" rel="noopener noreferrer">github</a>
+              <a href="https://www.linkedin.com/in/ishashenoy/" target="_blank" rel="noopener noreferrer">linkedin</a>
+              <a href="https://mytria.app/profile/ichiberry" target="_blank" rel="noopener noreferrer">mytria</a>
+              <a href="https://x.com/ichiberries" target="_blank" rel="noopener noreferrer">x</a>
+              <a
+                href="https://drive.google.com/file/d/14mkg2P8_zrI10RepVzGZ21CnGgXMCRx3/view"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${hl} underline hover:!text-neutral-900`}
+              >
+                resume
+              </a>
+            </p>
+          </div>
         </header>
 
-        <div className="mt-3 text-center text-sm text-neutral-800 space-y-1">
+        <div className="mt-3 text-left text-sm text-neutral-800 space-y-1">
           <p>
             <strong>
               management eng @ <span className={hl}>university of waterloo</span>
             </strong>{" "}
             seeking summer 2026 co-op
-          </p>
-          <p className="text-sm flex flex-row gap-2 justify-center items-center underline">
-            <a href="mailto:ishenoy@uwaterloo.ca" target="_blank" rel="noopener noreferrer">email</a>
-            <a href="https://github.com/ishashenoy" target="_blank" rel="noopener noreferrer">github</a>
-            <a href="https://www.linkedin.com/in/ishashenoy/" target="_blank" rel="noopener noreferrer">linkedin</a>
-            <a href="https://mytria.app/profile/ichiberry" target="_blank" rel="noopener noreferrer">mytria</a>
-            <a href="https://x.com/ichiberries" target="_blank" rel="noopener noreferrer">twitter</a>
-            <a href="https://drive.google.com/file/d/14mkg2P8_zrI10RepVzGZ21CnGgXMCRx3/view" target="_blank" rel="noopener noreferrer">resume</a>
           </p>
         </div>
 
