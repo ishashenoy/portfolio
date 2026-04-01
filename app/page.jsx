@@ -237,6 +237,7 @@ const skills = {
 export default function Page2() {
   const [galleryTab, setGalleryTab] = useState("gallery");
   const [expandedPhoto, setExpandedPhoto] = useState(null);
+  const [showMyMediaTrackerAppThumb, setShowMyMediaTrackerAppThumb] = useState(false);
 
   const tabBtnClass = (active) =>
     [
@@ -268,6 +269,12 @@ export default function Page2() {
             <h1 className="text-[1.375rem] font-medium lowercase leading-[1.2] tracking-[-0.03em] text-neutral-900 sm:text-[1.625rem]">
               isha shenoy
             </h1>
+            <p className="text-[15px] leading-relaxed text-neutral-700 lowercase">
+              <span className="font-medium text-neutral-900">
+                management eng @ <span className={hl}>university of waterloo</span>
+              </span>
+            </p>
+            <p className="text-neutral-600">seeking summer 2026 co-op</p>
             <p className="mt-1.5 flex flex-row flex-wrap items-center justify-start gap-x-3 gap-y-1 text-sm font-normal lowercase leading-normal text-neutral-600 underline decoration-neutral-300 underline-offset-[3px]">
               <a href="mailto:ishenoy@uwaterloo.ca" target="_blank" rel="noopener noreferrer">email</a>
               <a href="https://github.com/ishashenoy" target="_blank" rel="noopener noreferrer">github</a>
@@ -285,32 +292,31 @@ export default function Page2() {
             </p>
           </div>
         </header>
-
-        <div className="mt-3 text-left">
-          <p className="text-[15px] leading-relaxed text-neutral-700 lowercase">
-            <span className="font-medium text-neutral-900">
-              management eng @ <span className={hl}>university of waterloo</span>
-            </span>
-            <span className="text-neutral-500"> · </span>
-            <span className="text-neutral-600">seeking summer 2026 co-op</span>
-          </p>
-        </div>
-
         <hr className="my-4 border-0 border-t border-dashed border-neutral-300" />
 
         <section className="mt-4">
           <h2 className={sectionHeading}>experience</h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
             <article className="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-[#dfe3db] bg-white">
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100">
+              <button
+                type="button"
+                onClick={() => setShowMyMediaTrackerAppThumb((prev) => !prev)}
+                className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100 text-left"
+                aria-label="Toggle MyMediaTracker thumbnail view"
+                title="Click to switch image"
+              >
                 <Image
-                  src="/images/thumb/mymediatracker.png"
+                  src={
+                    showMyMediaTrackerAppThumb
+                      ? "/images/thumb/mymediatracker-app.png"
+                      : "/images/thumb/mymediatracker.png"
+                  }
                   alt="MyMediaTracker"
                   fill
                   className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                   sizes="(max-width: 640px) 100vw, 420px"
                 />
-              </div>
+              </button>
               <div className="flex flex-col gap-2.5 border-t border-neutral-100 p-3">
                 <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm lowercase leading-snug text-neutral-700">
                   <span className="font-medium text-neutral-800">founder @</span>
