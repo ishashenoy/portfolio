@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import { Lora } from "next/font/google";
+import ContextMenuCluster from "./components/ContextMenuCluster";
 import "./globals.css";
 
 const openRunde = localFont({
@@ -27,7 +28,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${openRunde.variable} ${lora.variable}`}>
-      <body className={`${openRunde.className} antialiased`}>{children}</body>
+      <body className={`${openRunde.className} antialiased`}>
+        {children}
+        <ContextMenuCluster />
+      </body>
     </html>
   );
 }

@@ -25,6 +25,7 @@ export default function Home() {
     { label: "Experience", href: "#experience-heading" },
     { label: "Projects", href: "#projects-heading" },
     { label: "Gallery", href: "#gallery-heading" },
+    { label: "Blog", href: "/blog" },
   ];
 
   return (

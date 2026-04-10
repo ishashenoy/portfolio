@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Custom context menu</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100vh;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+          sans-serif;
+        background: radial-gradient(ellipse at 30% 20%, #3d3d3d 0%, #1f1f1f 55%, #141414 100%);
+        color: #c8c8c8;
+      }
+
+      .hint {
+        padding: 2rem;
+        max-width: 36rem;
+        line-height: 1.6;
+      }
+
+      /* Cluster anchored at cursor (pageX / pageY) */
+      #menu-cluster {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 10000;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.12s ease;
+      }
+
+      #menu-cluster.is-open {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .cluster-anchor {
+        position: relative;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+      }
+
+      .pill {
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 999px;
+        background: linear-gradient(to bottom, #ffffff, #e6e6e6);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        color: #004a99;
+        font-size: 0.95rem;
+        font-weight: 500;
+        white-space: nowrap;
+        cursor: default;
+        pointer-events: auto;
+        transform: translate(-50%, -50%);
+        user-select: none;
+      }
+
+      .pill:focus {
+        outline: 2px solid #004a99;
+        outline-offset: 2px;
+      }
+
+      .pill:active {
+        filter: brightness(0.97);
+      }
+
+      .pill-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .pill-icon--arrow {
+        width: 1.35rem;
+        height: 1.35rem;
+        border-radius: 50%;
+        background: #e8e8e8;
+        color: #555;
+        font-size: 0.75rem;
+        line-height: 1;
+      }
+
+      /* Non-linear cluster offsets from anchor (cursor) */
+      .pill--random {
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -50%) translate(0, -102px);
+      }
+
+      .pill--todo {
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -50%) translate(0, -4px);
+      }
+
+      .pill--journal {
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -50%) translate(-158px, 20px);
+      }
+
+      .pill--picnic {
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -50%) translate(168px, 20px);
+      }
+
+      .pill--stroll {
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -50%) translate(0, 92px);
+      }
+    </style>
+  </head>
+  <body>
+    <p class="hint">
+      Right-click anywhere on this page. The default browser menu is disabled; a custom pill cluster
+      appears at the pointer.
+    </p>
+
+    <div id="menu-cluster" aria-hidden="true">
+      <div class="cluster-anchor">
+        <button type="button" class="pill pill--random" data-action="random">
+          <span class="pill-icon" aria-hidden="true">🕶</span>
+          Random...
+        </button>
+        <button type="button" class="pill pill--todo" data-action="todo">
+          <span class="pill-icon pill-icon--arrow" aria-hidden="true">←</span>
+          To do....
+        </button>
+        <button type="button" class="pill pill--journal" data-action="journal">Journal</button>
+        <button type="button" class="pill pill--picnic" data-action="picnic">Have a picnic</button>
+        <button type="button" class="pill pill--stroll" data-action="stroll">Stroll around....</button>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var cluster = document.getElementById("menu-cluster");
+
+        function clamp(value, min, max) {
+          return Math.min(Math.max(value, min), max);
+        }
+
+        function positionCluster(event) {
+          var x = event.pageX;
+          var y = event.pageY;
+          var margin = 16;
+          var vw = window.innerWidth;
+          var vh = window.innerHeight;
+          var scrollX = window.scrollX || window.pageXOffset;
+          var scrollY = window.scrollY || window.pageYOffset;
+
+          /* Rough bounds: cluster spans ~±130px horizontally, ~±90px vertically */
+          var maxX = scrollX + vw - margin;
+          var minX = scrollX + margin;
+          var maxY = scrollY + vh - margin;
+          var minY = scrollY + margin;
+
+          x = clamp(x, minX, maxX);
+          y = clamp(y, minY, maxY);
+
+          cluster.style.left = x + "px";
+          cluster.style.top = y + "px";
+        }
+
+        function openMenu(event) {
+          event.preventDefault();
+          positionCluster(event);
+          cluster.classList.add("is-open");
+          cluster.setAttribute("aria-hidden", "false");
+        }
+
+        function closeMenu() {
+          cluster.classList.remove("is-open");
+          cluster.setAttribute("aria-hidden", "true");
+        }
+
+        document.addEventListener("contextmenu", openMenu);
+
+        document.addEventListener(
+          "click",
+          function (e) {
+            if (!cluster.classList.contains("is-open")) return;
+            if (cluster.contains(e.target)) return;
+            closeMenu();
+          },
+          true
+        );
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") closeMenu();
+        });
+
+        window.addEventListener("scroll", closeMenu, true);
+        window.addEventListener("blur", closeMenu);
+
+        cluster.addEventListener("click", function (e) {
+          var btn = e.target.closest(".pill");
+          if (!btn) return;
+          e.stopPropagation();
+          var action = btn.getAttribute("data-action");
+          console.log("Selected:", action);
+          closeMenu();
+        });
+      })();
+    </script>
+  </body>
+</html>

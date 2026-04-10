@@ -202,12 +202,13 @@ export default function CollagePlayground() {
       e.preventDefault();
       e.currentTarget.setPointerCapture(e.pointerId);
       const rect = containerRef.current.getBoundingClientRect();
-      const leftPx = (positions[item.id].x / 100) * rect.width;
-      const topPx = (positions[item.id].y / 100) * rect.height;
+      const itemRect = e.currentTarget.getBoundingClientRect();
+      const leftPx = itemRect.left - rect.left;
+      const topPx = itemRect.top - rect.top;
       dragRef.current = {
         id: item.id,
-        w: item.w,
-        h: item.h + CAPTION_BLOCK_HEIGHT,
+        w: itemRect.width,
+        h: itemRect.height,
         grabDx: e.clientX - rect.left - leftPx,
         grabDy: e.clientY - rect.top - topPx,
       };
@@ -223,8 +224,12 @@ export default function CollagePlayground() {
       const rect = containerRef.current.getBoundingClientRect();
       let leftPx = e.clientX - rect.left - d.grabDx;
       let topPx = e.clientY - rect.top - d.grabDy;
-      leftPx = Math.max(0, Math.min(leftPx, rect.width - d.w));
-      topPx = Math.max(0, Math.min(topPx, rect.height - d.h));
+      const minX = EDGE_PADDING;
+      const minY = EDGE_PADDING;
+      const maxX = rect.width - d.w - EDGE_PADDING;
+      const maxY = rect.height - d.h - EDGE_PADDING;
+      leftPx = Math.max(minX, Math.min(leftPx, Math.max(minX, maxX)));
+      topPx = Math.max(minY, Math.min(topPx, Math.max(minY, maxY)));
       const x = (leftPx / rect.width) * 100;
       const y = (topPx / rect.height) * 100;
       setPositions((prev) => (prev ? { ...prev, [d.id]: { x, y } } : prev));
