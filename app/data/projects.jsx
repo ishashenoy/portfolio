@@ -1,3 +1,4 @@
+/** Local thumbnails in /public/images/thumb — use simple filenames (no spaces) for reliable next/image URLs. */
 export const projects = [
   {
     title: "AlphaHedge",
@@ -11,7 +12,7 @@ export const projects = [
           href="https://events.ycombinator.com/fullstackhackathon"
           target="_blank"
           rel="noopener noreferrer"
-          className="!text-blue-600"
+          className="bg-[#ff1493] px-1 text-white underline underline-offset-2 hover:opacity-90"
         >
           Y Combinator Full-Stack Hackathon
         </a>
@@ -20,6 +21,15 @@ export const projects = [
     ),
     tech: ["TypeScript", "Supabase", "Google Gemini", "Sim.ai", "RAG"],
     links: { github: "https://github.com/ishashenoy/AlphaHedge" },
+    detail: {
+      overview:
+        "Parallel analyst agents and retrieval-augmented workflows deliver fast, structured equity-style research summaries from natural-language prompts.",
+      tech_feature: [
+        "Orchestrated **multi-agent** research flows with tool use and structured outputs.",
+        "**Supabase** for auth, persistence, and server-adjacent glue.",
+        "**Gemini** and **RAG** for grounded answers with citation-friendly excerpts.",
+      ],
+    },
   },
   {
     title: "SignWave",
@@ -29,21 +39,39 @@ export const projects = [
     desc: "Real-time computer vision rhythm game that uses a custom-trained PyTorch neural network and MediaPipe hand tracking to turn live hand gestures into interactive gameplay.",
     tech: ["Python", "Flask", "PyTorch", "OpenCV", "MediaPipe", "NumPy"],
     links: { github: "https://github.com/ishashenoy/SignWave" },
+    detail: {
+      overview:
+        "Hand landmarks drive gameplay timing and scoring; a small custom model classifies poses for low-latency interaction in the browser or local demo.",
+      tech_feature: [
+        "**MediaPipe** hand tracking with stable landmark streams for gesture input.",
+        "**PyTorch** model training and inference integrated with a lightweight **Flask** backend.",
+        "**OpenCV** capture and preprocessing for robust frames under varied lighting.",
+      ],
+    },
   },
   {
     title: "BookTok",
     id: 3,
     date: "2026",
-    thumb_url: "/images/thumb/booktok.jpg",
-    desc: "TikTok-style React Native app with an async pipeline that generates narrated book-preview videos from summaries and keywords using Gemini, ElevenLabs, FFmpeg, and Cloudinary, backed by MongoDB.",
+    thumb_url: "/images/thumb/booktok.png",
+    desc: "TikTok-style React Native app with an async pipeline that generates narrated book-preview videos from summaries and keywords.",
     tech: ["React Native", "MongoDB", "Gemini", "ElevenLabs", "FFmpeg", "Cloudinary"],
     links: { demo: "https://devpost.com/software/booktok-3680je" },
+    detail: {
+      overview:
+        "End-to-end pipeline from text prompts to short narrated clips: orchestration, TTS, video assembly, and cloud delivery for shareable previews.",
+      tech_feature: [
+        "**Gemini** for structured copy and keywords from user or catalog input.",
+        "**ElevenLabs** narration and **FFmpeg** assembly into vertical video.",
+        "**Cloudinary** for media hosting; **MongoDB** for app data and job metadata.",
+      ],
+    },
   },
   {
     id: 4,
     compact: true,
-    line: "Pomodoro Pals, Match Me ... small web apps built for fun",
-    tech: ["javascript", "html", "css"],
+    line: "Pomodoro Pals, Match Me — small web apps built for fun",
+    tech: ["JavaScript", "HTML", "CSS"],
     links: {
       pomodoro: "https://pomodoropals.vercel.app/",
       matchme: "https://playmatchme.vercel.app/",

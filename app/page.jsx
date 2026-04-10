@@ -1,651 +1,335 @@
-"use client";
-
-import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
-import MusicPlayer from "./components/MusicPlayer";
+import Link from "next/link";
+import { MdDescription, MdEmail } from "react-icons/md";
+import { LuExternalLink } from "react-icons/lu";
+import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
+import CollagePlayground from "./components/CollagePlayground";
+import { experience } from "./data/experience";
 import { projects } from "./data/projects";
 
-const galleryPhotos = [
-  { src: "/images/gallery/photo1.jpg", caption: "happy 1 year grassrootskw!" },
-  { src: "/images/gallery/photo2.jpg", caption: "w/ mayor of kitchener" },
-  { src: "/images/gallery/photo3.jpg", caption: "golden gate bridge" },
-  { src: "/images/gallery/photo4.jpg", caption: "outside yc headquarters" },
-  { src: "/images/gallery/photo5.png", caption: "demoing at akatos symposium" },
-  { src: "/images/gallery/photo6.jpg", caption: "socratica symposium '26" },
+const EMAIL = "ishenoy@uwaterloo.ca";
+const RESUME_URL =
+  "https://drive.google.com/file/d/14mkg2P8_zrI10RepVzGZ21CnGgXMCRx3/view";
+const MYTRIA_URL = "https://mytria.app/profile/ichiberry";
+
+const social = [
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/ishashenoy/", Icon: SiLinkedin },
+  { label: "GitHub", href: "https://github.com/ishashenoy", Icon: SiGithub },
+  { label: "X", href: "https://x.com/ichiberries", Icon: SiX },
 ];
 
-const artPhotos = [
-  { src: "/images/art/art1.jpg", caption: "watercolor painting" },
-  { src: "/images/art/art2.jpg", caption: "anatomical study" },
-  { src: "/images/art/art3.jpg", caption: "game environment" },
-  { src: "/images/art/art4.jpg", caption: "object study" },
-  { src: "/images/art/art5.jpg", caption: "3D model (low poly)" },
-  { src: "/images/art/art6.jpg", caption: "photoshop artwork" },
-];
-
-/** Scatter layout: each index maps to desk position / rotation / stack order (updates when items reorder). */
-const POLAROID_SLOTS = [
-  { left: "0%", top: "2%", rotate: -11, z: 12 },
-  { left: "24%", top: "0%", rotate: 6, z: 22 },
-  { left: "50%", top: "6%", rotate: -5, z: 32 },
-  { left: "4%", top: "44%", rotate: 8, z: 26 },
-  { left: "32%", top: "48%", rotate: -7, z: 34 },
-  { left: "54%", top: "36%", rotate: 5, z: 38 },
-];
-
-const DRAG_CLICK_PX = 6;
-
-function PolaroidGalleryTray({ items, onPhotoClick, panelId, labelledBy }) {
-  const [offsets, setOffsets] = useState(() => ({}));
-  const [draggingSrc, setDraggingSrc] = useState(null);
-  const dragSessionRef = useRef(null);
-  const movedRef = useRef(false);
-
-  const handlePointerDown = useCallback((e, photo) => {
-    if (e.button !== 0) return;
-    e.preventDefault();
-    const off = offsets[photo.src] ?? { x: 0, y: 0 };
-    movedRef.current = false;
-    dragSessionRef.current = {
-      pointerId: e.pointerId,
-      startX: e.clientX,
-      startY: e.clientY,
-      origX: off.x,
-      origY: off.y,
-      src: photo.src,
-    };
-    setDraggingSrc(photo.src);
-    e.currentTarget.setPointerCapture(e.pointerId);
-  }, [offsets]);
-
-  const handlePointerMove = useCallback((e, photo) => {
-    const d = dragSessionRef.current;
-    if (!d || d.src !== photo.src) return;
-    const dx = e.clientX - d.startX;
-    const dy = e.clientY - d.startY;
-    if (Math.hypot(dx, dy) > DRAG_CLICK_PX) movedRef.current = true;
-    setOffsets((prev) => ({
-      ...prev,
-      [photo.src]: { x: d.origX + dx, y: d.origY + dy },
-    }));
-  }, []);
-
-  const releaseDrag = useCallback((e, photo, { openIfTap } = { openIfTap: false }) => {
-    const d = dragSessionRef.current;
-    if (!d || d.src !== photo.src) return;
-    try {
-      e.currentTarget.releasePointerCapture(e.pointerId);
-    } catch {
-      /* already released */
-    }
-    if (openIfTap && !movedRef.current) onPhotoClick(photo);
-    dragSessionRef.current = null;
-    setDraggingSrc(null);
-  }, [onPhotoClick]);
+export default function Home() {
+  const mainProjects = projects.filter((p) => !p.compact);
+  const compact = projects.find((p) => p.compact);
+  const sidebarLinks = [
+    { label: "Experience", href: "#experience-heading" },
+    { label: "Projects", href: "#projects-heading" },
+    { label: "Gallery", href: "#gallery-heading" },
+  ];
 
   return (
-    <div
-      role="tabpanel"
-      aria-labelledby={labelledBy}
-      id={panelId}
-      className="relative mx-auto mt-1 w-full overflow-visible"
-    >
-      <div
-        className={[
-          "relative isolate min-h-[min(24rem,88vw)] w-full rounded-xl px-2 py-8 sm:min-h-[26rem] sm:px-3 sm:py-9",
-          "bg-gradient-to-br from-[#e8e4dc] via-[#ebe7e0] to-[#d9d4ca]",
-          "shadow-[inset_0_1px_0_rgba(255,255,255,0.72),inset_0_0_0_1px_rgba(0,0,0,0.05)]",
-          "ring-1 ring-black/[0.06]",
-        ].join(" ")}
-      >
-        <div
-          className="pointer-events-none absolute inset-0 rounded-xl bg-[radial-gradient(ellipse_at_50%_35%,transparent_0%,rgba(0,0,0,0.04)_100%)]"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-0 rounded-xl opacity-[0.35] mix-blend-multiply [background-image:repeating-linear-gradient(90deg,transparent,transparent_1px,rgba(0,0,0,0.012)_1px,rgba(0,0,0,0.012)_2px),repeating-linear-gradient(0deg,transparent,transparent_1px,rgba(0,0,0,0.012)_1px,rgba(0,0,0,0.012)_2px)]"
-          aria-hidden
-        />
-
-        {items.map((photo, i) => {
-          const slot = POLAROID_SLOTS[i] ?? POLAROID_SLOTS[POLAROID_SLOTS.length - 1];
-          const off = offsets[photo.src] ?? { x: 0, y: 0 };
-          const isDragging = draggingSrc === photo.src;
-          return (
-            <div
-              key={photo.src}
-              tabIndex={0}
-              aria-grabbed={isDragging}
-              onPointerDown={(e) => handlePointerDown(e, photo)}
-              onPointerMove={(e) => handlePointerMove(e, photo)}
-              onPointerUp={(e) => releaseDrag(e, photo, { openIfTap: true })}
-              onPointerCancel={(e) => releaseDrag(e, photo, { openIfTap: false })}
-              className={[
-                "group/polaroid absolute w-[34%] max-w-[7.25rem] touch-none outline-none sm:w-[30%] sm:max-w-[8rem]",
-                "cursor-grab transition-[opacity,z-index] duration-150 ease-out active:cursor-grabbing",
-                "focus-visible:!z-[60] focus-visible:ring-2 focus-visible:ring-[#5c6658]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#ebe7e0]",
-                "hover:!z-[55]",
-                `z-[${slot.z}]`,
-                isDragging ? "!z-[70] opacity-90" : "",
-              ].join(" ")}
-              style={{
-                left: slot.left,
-                top: slot.top,
-                transform: `translate(${off.x}px, ${off.y}px)`,
-              }}
-            >
-              <div
-                className="origin-center"
-                style={{ transform: `rotate(${slot.rotate}deg)` }}
-              >
-                <div
-                  className={[
-                    "origin-center transition-transform duration-200 ease-out will-change-transform",
-                    "group-hover/polaroid:scale-[1.03]",
-                    isDragging ? "scale-[0.98]" : "",
-                  ].join(" ")}
-                >
-              <div
-                className={[
-                  "select-none rounded-[2px] bg-[#faf9f7] p-1.5 pb-2 shadow-[0_6px_14px_-4px_rgba(0,0,0,0.14),0_2px_5px_-2px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.05)]",
-                  "ring-1 ring-white/90",
-                ].join(" ")}
-              >
-                <div
-                  className="relative aspect-square w-full overflow-hidden bg-neutral-200 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] touch-none select-none"
-                >
-                  <Image
-                    src={photo.src}
-                    alt=""
-                    draggable={false}
-                    fill
-                    className="pointer-events-none object-cover saturate-[1.02] contrast-[1.02]"
-                    sizes="(max-width: 640px) 34vw, 128px"
-                  />
-                  <div
-                    className="pointer-events-none absolute inset-0 opacity-[0.92]"
-                    style={{
-                      background:
-                        "linear-gradient(145deg, rgba(255,255,255,0.52) 0%, rgba(255,255,255,0.06) 18%, transparent 42%, transparent 55%, rgba(0,0,0,0.05) 100%)",
-                      mixBlendMode: "soft-light",
-                    }}
-                    aria-hidden
-                  />
-                  <div
-                    className="pointer-events-none absolute inset-0 opacity-30"
-                    style={{
-                      background:
-                        "linear-gradient(180deg, rgba(255,255,255,0.35) 0%, transparent 12%, transparent 88%, rgba(0,0,0,0.08) 100%)",
-                    }}
-                    aria-hidden
-                  />
-                  <div
-                    className="pointer-events-none absolute inset-0 opacity-[0.14] mix-blend-overlay [background-image:repeating-linear-gradient(-12deg,rgba(255,255,255,0.09)_0_1px,transparent_1px_3px)]"
-                    aria-hidden
-                  />
-                </div>
-                {photo.caption ? (
-                  <p className="mx-auto mt-1.5 min-h-[1.85rem] max-w-[95%] text-center font-medium lowercase leading-snug tracking-tight text-neutral-500 [text-shadow:0_1px_0_rgba(255,255,255,0.9)] text-[10px] sm:text-[11px]">
-                    {photo.caption}
-                  </p>
-                ) : null}
-              </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <p className="mt-2 text-center text-[11px] lowercase leading-normal text-neutral-400 sm:text-xs">
-        drag to move · tap to enlarge
-      </p>
-    </div>
-  );
-}
-
-/** Section titles */
-const sectionHeading =
-  "mb-2.5 text-base font-semibold lowercase tracking-tight text-[#5c6658]";
-
-/** Soft highlight — dusty, no ring */
-const hl =
-  "rounded-sm bg-[#e8ebe4] px-1 py-0.5 font-normal !text-neutral-800 [box-decoration-break:clone]";
-
-/** Org row */
-const expOrgChip =
-  "inline-flex h-7 max-w-full items-center gap-1.5 rounded-sm border border-[#c5cbbf]/80 bg-[#f4f5f3] pl-0.5 pr-2.5";
-const expOrgIconTile =
-  "flex size-5 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-white";
-const expOrgLink =
-  "whitespace-nowrap text-sm font-medium leading-none lowercase !text-neutral-800 no-underline decoration-neutral-400 underline-offset-[3px] transition-colors hover:!text-neutral-950 hover:underline";
-
-/** Project row title */
-const projTitleLink =
-  "text-base font-medium lowercase !text-neutral-900 no-underline decoration-neutral-300 underline-offset-[3px] transition-colors hover:!text-neutral-950 hover:underline hover:decoration-neutral-400";
-
-const projCompactLink =
-  "text-[15px] font-medium lowercase !text-neutral-900 no-underline underline-offset-[3px] transition-colors hover:underline";
-
-const skills = {
-  languages: ["python", "typescript", "javascript", "java", "html/CSS", "SQL", "VBA", "bash"],
-  frameworks: ["react", "react native", "next.js", "node.js", "express", "nest.js", "flask", "tailwind", "bootstrap", "pytorch"],
-  tools: ["git", "mongodb", "mysql", "postgresql", "supabase", "selenium", "postman", "figma", "aws", "vercel", "render", "linux", "powerbi", "excel"],
-  concepts: ["REST APIs", "RAG", "OOP", "DSA", "SDLC", "unit testing", "scalability", "SEO", "agile", "UI/UX design", "responsive design"],
-  libraries: ["mediapipe", "opencv", "numpy", "scikit-learn"],
-};
-
-export default function Page2() {
-  const [galleryTab, setGalleryTab] = useState("gallery");
-  const [expandedPhoto, setExpandedPhoto] = useState(null);
-  const [showMyMediaTrackerAppThumb, setShowMyMediaTrackerAppThumb] = useState(false);
-
-  const tabBtnClass = (active) =>
-    [
-      "inline border-0 bg-transparent p-0 m-0 cursor-pointer text-left font-inherit text-sm font-normal lowercase leading-normal transition-colors",
-      active
-        ? "border-b border-[#5c6658] pb-px font-semibold text-neutral-900"
-        : "border-b border-transparent pb-px text-neutral-500 hover:text-neutral-700",
-    ].join(" ");
-
-  const projectCards = projects.filter((p) => !p.compact);
-  const compactProjectLine = projects.find((p) => p.compact);
-
-  return (
-    <div className="profile-redesign min-h-screen w-full bg-white font-sans text-[15px] leading-[1.58] text-neutral-800 antialiased">
-      <main className="mx-auto w-full max-w-2xl px-3 py-5 sm:px-4 sm:py-6">
-        {/* Header */}
-        <header className="mb-4 flex items-center gap-4 text-left">
-          <div className="relative h-[5.5rem] w-[5.5rem] shrink-0 overflow-hidden rounded-2xl border-[6px] border-white bg-neutral-100 ring-1 ring-[#c5cbbf]/80 sm:h-28 sm:w-28">
-            <Image
-              src="/images/profile_pic.png"
-              alt="isha shenoy"
-              fill
-              className="object-cover"
-              sizes="112px"
-              priority
-            />
-          </div>
-          <div className="min-w-0">
-            <h1 className="text-[1.375rem] font-medium lowercase leading-[1.2] tracking-[-0.03em] text-neutral-900 sm:text-[1.625rem]">
+    <div className="min-h-screen pb-24 pt-16">
+      <div className="mx-auto flex w-full max-w-[1600px] gap-10 px-5 sm:px-8">
+        <main className="min-w-0 flex-1">
+          <header className="mb-14">
+            <h1 className="w-fit text-left text-[clamp(2.25rem,12.5vw,7rem)] font-bold uppercase leading-[0.92] tracking-tight text-[var(--fg)]">
               isha shenoy
             </h1>
-            <p className="text-[15px] leading-relaxed text-neutral-700 lowercase">
-              <span className="font-medium text-neutral-900">
-                management eng @ <span className={hl}>university of waterloo</span>
-              </span>
-            </p>
-            <p className="text-neutral-600">seeking summer 2026 co-op</p>
-            <p className="mt-1.5 flex flex-row flex-wrap items-center justify-start gap-x-3 gap-y-1 text-sm font-normal lowercase leading-normal text-neutral-600 underline decoration-neutral-300 underline-offset-[3px]">
-              <a href="mailto:ishenoy@uwaterloo.ca" target="_blank" rel="noopener noreferrer">email</a>
-              <a href="https://github.com/ishashenoy" target="_blank" rel="noopener noreferrer">github</a>
-              <a href="https://www.linkedin.com/in/ishashenoy/" target="_blank" rel="noopener noreferrer">linkedin</a>
-              <a href="https://mytria.app/profile/ichiberry" target="_blank" rel="noopener noreferrer">mytria</a>
-              <a href="https://x.com/ichiberries" target="_blank" rel="noopener noreferrer">x</a>
-              <a
-                href="https://drive.google.com/file/d/14mkg2P8_zrI10RepVzGZ21CnGgXMCRx3/view"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${hl} underline hover:!text-neutral-900`}
-              >
-                resume
-              </a>
-            </p>
-          </div>
-        </header>
-        <hr className="my-4 border-0 border-t border-dashed border-neutral-300" />
-
-        <section className="mt-4">
-          <h2 className={sectionHeading}>experience</h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
-            <article className="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-[#dfe3db] bg-white">
-              <button
-                type="button"
-                onClick={() => setShowMyMediaTrackerAppThumb((prev) => !prev)}
-                className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100 text-left"
-                aria-label="Toggle MyMediaTracker thumbnail view"
-                title="Click to switch image"
-              >
-                <Image
-                  src={
-                    showMyMediaTrackerAppThumb
-                      ? "/images/thumb/mymediatracker-app.png"
-                      : "/images/thumb/mymediatracker.png"
-                  }
-                  alt="MyMediaTracker"
-                  fill
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                  sizes="(max-width: 640px) 100vw, 420px"
-                />
-              </button>
-              <div className="flex flex-col gap-2.5 border-t border-neutral-100 p-3">
-                <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm lowercase leading-snug text-neutral-700">
-                  <span className="font-medium text-neutral-800">founder @</span>
-                  <span className={expOrgChip}>
-                    <span className={expOrgIconTile} aria-hidden>
-                      <Image
-                        src="/images/icons/mytria.png"
-                        alt=""
-                        width={14}
-                        height={14}
-                        className="object-contain"
-                      />
-                    </span>
+            <div className="mt-3 flex w-fit flex-wrap items-center gap-x-4 gap-y-3 text-[15px] font-semibold text-[var(--muted)]">
+              <div className="inline-flex items-center gap-2">
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#eeeeee] px-4 py-2 text-sm font-medium text-[#1a1a1a] transition hover:bg-[#e4e4e4]"
+                >
+                  <MdEmail className="h-4 w-4 shrink-0" aria-hidden />
+                  Email
+                </a>
+                <a
+                  href={RESUME_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#eeeeee] px-4 py-2 text-sm font-medium text-[#1a1a1a] transition hover:bg-[#e4e4e4]"
+                >
+                  <MdDescription className="h-4 w-4 shrink-0" aria-hidden />
+                  Resume
+                </a>
+              </div>
+              <nav className="inline-flex flex-wrap items-center gap-4" aria-label="Social">
+                {social.map((s) => {
+                  const Icon = s.Icon;
+                  return (
                     <a
-                      href="https://mytria.app/"
+                      key={s.href}
+                      href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={expOrgLink}
+                      aria-label={s.label}
+                      className="text-[#1a1a1a] transition hover:text-[#8ea0d8]"
                     >
-                      mytria
+                      <Icon className="h-5 w-5" aria-hidden />
                     </a>
-                  </span>
-                </div>
-                <div>
-                  <ul className="m-0 list-none space-y-2.5 p-0">
-                    <li className="flex gap-2.5 text-[14px] leading-relaxed text-neutral-800 lowercase">
-                      <span className="w-2 shrink-0 text-center text-[#6b7568]" aria-hidden>
-                        ·
-                      </span>
-                      <span>
-                        <span className={hl}>15k+ users, 200k+ titles, 3m+ views</span> online.
-                      </span>
-                    </li>
-                    <li className="flex gap-2.5 text-[14px] leading-relaxed text-neutral-600 lowercase">
-                      <span className="w-2 shrink-0 text-center text-[#6b7568]" aria-hidden>
-                        ·
-                      </span>
-                      <span>full-stack mobile & web architecture end-to-end.</span>
-                    </li>
-                    <li className="flex gap-2.5 text-[14px] leading-relaxed text-neutral-600 lowercase">
-                      <span className="w-2 shrink-0 text-center text-[#6b7568]" aria-hidden>
-                        ·
-                      </span>
-                      <span>product, growth, and user acquisition.</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="flex flex-wrap gap-1.5 border-t border-dashed border-neutral-200 pt-3">
-                  <span className="skill text-xs">React.js</span>
-                  <span className="skill text-xs">Node.js</span>
-                  <span className="skill text-xs">Express.js</span>
-                  <span className="skill text-xs">React Native</span>
-                  <span className="skill text-xs">MongoDB</span>
-                  <span className="skill text-xs">SEO</span>
-                </div>
-              </div>
-            </article>
+                  );
+                })}
+                <a
+                  href={MYTRIA_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Mytria"
+                  className="text-[#1a1a1a] transition hover:text-[#8ea0d8]"
+                >
+                  <Image
+                    src="/images/icons/mytria.png"
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 object-contain"
+                  />
+                </a>
+              </nav>
+            </div>
+          </header>
 
-            <article className="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-[#dfe3db] bg-white">
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100">
-                <Image
-                  src="/images/thumb/grassrootskw.png"
-                  alt="Grassroots KW"
-                  fill
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                  sizes="(max-width: 640px) 100vw, 420px"
-                />
-              </div>
-              <div className="flex flex-col gap-2.5 border-t border-neutral-100 p-3">
-                <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm lowercase leading-snug text-neutral-700">
-                  <span className="font-medium text-neutral-800">web developer @</span>
-                  <span className={expOrgChip}>
-                    <span className={expOrgIconTile} aria-hidden>
-                      <Image
-                        src="/images/icons/grassroots-kw.png"
-                        alt=""
-                        width={14}
-                        height={14}
-                        className="object-contain"
-                      />
-                    </span>
-                    <a
-                      href="https://www.grassrootskw.org/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={expOrgLink}
-                    >
-                      grassroots kw
-                    </a>
-                  </span>
-                </div>
-                <div>
-                  <ul className="m-0 list-none space-y-2.5 p-0">
-                    <li className="flex gap-2.5 text-[14px] leading-relaxed text-neutral-800 lowercase">
-                      <span className="w-2 shrink-0 text-center text-[#6b7568]" aria-hidden>
-                        ·
-                      </span>
-                      <span>
-                        funded by <span className={hl}>bloomberg philanthropies</span>.
-                      </span>
-                    </li>
-                    <li className="flex gap-2.5 text-[14px] leading-relaxed text-neutral-600 lowercase">
-                      <span className="w-2 shrink-0 text-center text-[#6b7568]" aria-hidden>
-                        ·
-                      </span>
-                      <span>climate advocacy platform in typescript & next.js.</span>
-                    </li>
-                    <li className="flex gap-2.5 text-[14px] leading-relaxed text-neutral-600 lowercase">
-                      <span className="w-2 shrink-0 text-center text-[#6b7568]" aria-hidden>
-                        ·
-                      </span>
-                      <span>playwright pipeline for biweekly data refresh.</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="flex flex-wrap gap-1.5 border-t border-dashed border-neutral-200 pt-3">
-                  <span className="skill text-xs">Automation</span>
-                  <span className="skill text-xs">Playwright</span>
-                  <span className="skill text-xs">TypeScript</span>
-                  <span className="skill text-xs">Next.js</span>
-                </div>
-              </div>
-            </article>
-          </div>
+          <div className="w-full">
+            <div className="mb-14">
+              <p className="text-lg leading-relaxed text-[var(--muted)]">
+                engineering @{" "}
+                <span className="bg-[#ff1493] px-1 text-white">university of waterloo</span>{" "}
+                🪿
+              </p>
+              <p className="mt-5 text-lg leading-relaxed text-[var(--muted)]">
+                web dev, mobile dev, ai, ml, systems, product
+              </p>
+              <p className="mt-5 text-lg leading-relaxed text-[var(--muted)]">
+                i love people, love to talk, love to learn.{" "}
+                <span className="bg-[#ff1493] px-1 text-white">let&apos;s chat!</span>
+              </p>
+            </div>
+
+        <section aria-labelledby="experience-heading" className="mb-24">
+          <h2
+            id="experience-heading"
+            className="mb-8 w-fit text-left text-[2rem] font-semibold lowercase leading-none tracking-tight text-[var(--fg)]"
+          >
+            experience
+          </h2>
+          <ul className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            {experience.map((job, index) => {
+              return (
+                <li key={job.id} className="min-w-0">
+                  <article className="group">
+                    {job.link ? (
+                      <a
+                        href={job.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block overflow-hidden rounded-2xl bg-[#eceae6] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--link)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
+                        aria-label={`${job.title} (opens in a new tab)`}
+                      >
+                        <div className="relative aspect-[16/10] w-full">
+                          {job.thumb_url ? (
+                            <Image
+                              src={job.thumb_url}
+                              alt={`${job.title} preview`}
+                              fill
+                              sizes="(max-width: 1024px) 100vw, 50vw"
+                              className="object-cover transition duration-200 group-hover:scale-[1.01]"
+                              priority={index === 0}
+                            />
+                          ) : (
+                            <div className="flex h-full w-full items-center justify-center text-4xl font-semibold tracking-tight text-[var(--muted)]">
+                              {job.initials}
+                            </div>
+                          )}
+                        </div>
+                      </a>
+                    ) : null}
+
+                    <div className="mt-4 flex items-center justify-between gap-3">
+                      <div className="text-[1.85rem] font-semibold lowercase leading-none tracking-tight text-[var(--fg)]">
+                        {job.title}
+                      </div>
+                      {job.link ? (
+                        <a
+                          href={job.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${job.title} website`}
+                          className="shrink-0 text-[#1a1a1a] transition hover:text-[var(--link)]"
+                        >
+                          <LuExternalLink className="h-6 w-6" aria-hidden />
+                        </a>
+                      ) : null}
+                    </div>
+
+                    <p className="mt-2 text-[16px] capitalize text-[var(--muted)]">{job.role}</p>
+                    <p className="mt-1 text-[clamp(1.05rem,1.9vw,1.35rem)] leading-[1.25] tracking-tight text-[var(--muted)]">
+                      {job.summary}
+                    </p>
+                  </article>
+                </li>
+              );
+            })}
+          </ul>
         </section>
 
-        <hr className="my-4 border-0 border-t border-dashed border-neutral-300" />
-
-        <section className="mt-4">
-          <h2 className={sectionHeading}>projects</h2>
-          <ul className="m-0 list-none divide-y divide-neutral-100 overflow-hidden rounded-xl border border-neutral-200/80 bg-white p-0">
-            {projectCards.map((project) => {
-              const href = project.links?.demo ?? project.links?.github;
-              const thumb = (
-                <div className="relative aspect-square w-[4.5rem] shrink-0 overflow-hidden rounded-md bg-neutral-100 sm:w-20">
-                  <Image
-                    src={project.thumb_url}
-                    alt=""
-                    fill
-                    className="object-cover transition-transform duration-500 ease-out group-hover/row:scale-105"
-                    sizes="(max-width: 640px) 72px, 80px"
-                  />
-                </div>
-              );
+        <section aria-labelledby="projects-heading">
+          <h2
+            id="projects-heading"
+            className="mb-8 w-fit text-left text-[2rem] font-semibold lowercase leading-none tracking-tight text-[var(--fg)]"
+          >
+            projects
+          </h2>
+          <ul className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            {mainProjects.map((project, index) => {
+              const href =
+                project.links?.github ?? project.links?.demo ?? project.links?.link ?? null;
+              const ExternalIcon = project.links?.github ? SiGithub : LuExternalLink;
               return (
-                <li
-                  key={project.id}
-                  className="group/row flex gap-3 px-3 py-3 sm:gap-3.5 sm:px-3.5 sm:py-3.5"
-                >
-                  {href ? (
-                    <a
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="shrink-0"
+                <li key={project.id} className="min-w-0">
+                  <article className="group">
+                    <Link
+                      href={`/projects/${project.id}`}
+                      className="block overflow-hidden rounded-2xl bg-[#eceae6] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--link)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
+                      aria-label={`${project.title} case study`}
                     >
-                      {thumb}
-                    </a>
-                  ) : (
-                    thumb
-                  )}
-                  <div className="min-w-0 flex-1 lowercase">
-                    <div className="leading-snug">
+                      <div className="relative aspect-[16/10] w-full">
+                        <Image
+                          src={project.thumb_url}
+                          alt={`${project.title} preview`}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 50vw"
+                          className="object-cover transition duration-200 group-hover:scale-[1.01]"
+                          priority={index === 0}
+                        />
+                      </div>
+                    </Link>
+
+                    <div className="mt-4 flex items-center justify-between gap-3">
+                      <Link
+                        href={`/projects/${project.id}`}
+                        className="text-[1.85rem] font-semibold lowercase leading-none tracking-tight text-[var(--fg)] transition hover:text-[var(--link)]"
+                      >
+                        {project.title}
+                      </Link>
                       {href ? (
                         <a
                           href={href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={projTitleLink}
+                          aria-label={`${project.title} external link`}
+                          className="shrink-0 text-[#1a1a1a] transition hover:text-[var(--link)]"
                         >
-                          {project.title}
+                          <ExternalIcon className="h-6 w-6" aria-hidden />
                         </a>
-                      ) : (
-                        <span className="text-base font-medium text-neutral-900">{project.title}</span>
-                      )}
-                      {project.date ? (
-                        <span className="text-sm font-normal tabular-nums text-neutral-400">
-                          {" "}
-                          · {project.date}
-                        </span>
                       ) : null}
                     </div>
-                    <div className="mt-1.5 text-[15px] leading-relaxed text-neutral-600">
+
+                    {project.date ? (
+                      <p className="mt-2 text-[16px] capitalize text-[var(--muted)]">{project.date}</p>
+                    ) : null}
+                    <div className="mt-1 text-[clamp(1.05rem,1.9vw,1.35rem)] leading-[1.25] tracking-tight text-[var(--muted)]">
                       {project.desc}
                     </div>
-                    <div className="mt-2 flex flex-wrap gap-1.5 border-t border-dashed border-neutral-200/90 pt-2">
-                      {project.tech.map((tech) => (
-                        <span key={tech} className="skill text-xs font-normal">
-                          {tech}
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {project.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-md border border-[var(--border)] bg-white/50 px-2 py-0.5 text-xs text-[var(--fg)]"
+                        >
+                          {t}
                         </span>
                       ))}
                     </div>
-                  </div>
+                  </article>
                 </li>
               );
             })}
           </ul>
-          {compactProjectLine ? (
-            <div className="mt-3 rounded-lg border border-neutral-200/70 bg-neutral-50/50 px-3 py-2.5 text-[15px] leading-relaxed text-neutral-600 lowercase">
-              <p>
-                <a
-                  href={compactProjectLine.links?.pomodoro}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={projCompactLink}
-                >
-                  pomodoro pals
-                </a>
-                ,{" "}
-                <a
-                  href={compactProjectLine.links?.matchme}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={projCompactLink}
-                >
-                  match me
-                </a>{" "}
-                — small web apps built for fun
-              </p>
-              <div className="mt-2 flex flex-wrap gap-1.5 border-t border-dashed border-neutral-200/80 pt-2">
-                {compactProjectLine.tech.map((tech) => (
-                  <span key={tech} className="skill text-xs font-normal">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
+
+          {compact?.links ? (
+            <p className="mt-16 text-[15px] leading-relaxed text-[var(--muted)]">
+              Also:{" "}
+              <a
+                href={compact.links.pomodoro}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--link)] hover:underline"
+              >
+                Pomodoro Pals
+              </a>
+              ,{" "}
+              <a
+                href={compact.links.matchme}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--link)] hover:underline"
+              >
+                Match Me
+              </a>
+              {" — "}
+              small web experiments.
+            </p>
           ) : null}
         </section>
-
-        <hr className="my-4 border-0 border-t border-dashed border-neutral-300" />
-
-        <section className="mt-4">
-          <h2 className={sectionHeading}>skills</h2>
-          {Object.entries(skills).map(([group, items]) => (
-            <p
-              key={group}
-              className="mb-2.5 text-[15px] leading-relaxed text-neutral-700 last:mb-0 lowercase"
-            >
-              <span className="font-medium text-neutral-900">{group}</span>
-              <span className="text-neutral-400"> — </span>
-              {items.map((item, i) => (
-                <span key={item}>
-                  {item}
-                  {i < items.length - 1 ? ", " : ""}
-                </span>
-              ))}
-            </p>
-          ))}
-        </section>
-
-        <hr className="my-4 border-0 border-t border-dashed border-neutral-300" />
-        <div
-          className="mb-2 flex flex-wrap items-baseline gap-x-4 gap-y-1"
-          role="tablist"
-          aria-label="Gallery sections"
-        >
-          <button
-            type="button"
-            role="tab"
-            aria-selected={galleryTab === "gallery"}
-            id="gallery-tab-gallery"
-            className={tabBtnClass(galleryTab === "gallery")}
-            onClick={() => setGalleryTab("gallery")}
-          >
-            gallery
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={galleryTab === "art"}
-            id="gallery-tab-art"
-            className={tabBtnClass(galleryTab === "art")}
-            onClick={() => setGalleryTab("art")}
-          >
-            art
-          </button>
-        </div>
-        {galleryTab === "gallery" ? (
-          <PolaroidGalleryTray
-            items={galleryPhotos}
-            onPhotoClick={setExpandedPhoto}
-            panelId="gallery-panel-photos"
-            labelledBy="gallery-tab-gallery"
-          />
-        ) : (
-          <PolaroidGalleryTray
-            items={artPhotos}
-            onPhotoClick={setExpandedPhoto}
-            panelId="gallery-panel-art"
-            labelledBy="gallery-tab-art"
-          />
-        )}
-      </main>
-
-      {expandedPhoto ? (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4 py-6"
-          onClick={() => setExpandedPhoto(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Expanded image"
-        >
-          <div className="relative w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              onClick={() => setExpandedPhoto(null)}
-              className="absolute right-0 top-[-2.25rem] text-sm font-medium tracking-wide text-neutral-300 hover:text-white"
-            >
-              close
-            </button>
-            <div className="relative w-full overflow-hidden bg-neutral-900">
-              <Image
-                src={expandedPhoto.src}
-                alt={expandedPhoto.caption || "Expanded image"}
-                width={1600}
-                height={1200}
-                className="h-auto max-h-[80vh] w-full object-contain"
-                sizes="(max-width: 1024px) 100vw, 1024px"
-              />
-            </div>
-            {expandedPhoto.caption ? (
-              <p className="mt-3 text-center text-sm leading-relaxed text-neutral-300">{expandedPhoto.caption}</p>
-            ) : null}
           </div>
-        </div>
-      ) : null}
+        </main>
 
-      <MusicPlayer iconFill="#5c6658" />
+        <aside className="sticky top-16 hidden h-fit w-56 shrink-0 rounded-xl border border-[var(--border)] bg-white/70 p-4 backdrop-blur-sm lg:block">
+          <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">
+            navigate
+          </h3>
+          <nav className="mt-3 flex flex-col gap-2" aria-label="Page sections">
+            {sidebarLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-[15px] text-[var(--fg)] transition hover:text-[var(--link)]"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+          <div className="mt-4 border-t border-[var(--border)] pt-4">
+            <p className="text-xs uppercase tracking-[0.1em] text-[var(--muted)]">contact</p>
+            <a
+              href={`mailto:${EMAIL}`}
+              className="mt-2 block text-[14px] text-[var(--fg)] transition hover:text-[var(--link)]"
+            >
+              {EMAIL}
+            </a>
+          </div>
+        </aside>
+      </div>
+
+      <section id="gallery-heading">
+      <CollagePlayground />
+      </section>
+
+      <div className="w-full px-5 sm:px-8">
+        <footer className="mt-24 border-t border-[var(--border)] pt-8 text-[13px] text-[var(--muted)]">
+          <p>© {new Date().getFullYear()} isha shenoy</p>
+          <div className="mt-4 flex items-center gap-3">
+            <button type="button" aria-label="Previous member">
+              ←
+            </button>
+            <a
+              href="https://www.uwaterloo.network"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Visit uwaterloo.network"
+            >
+              <img
+                alt="UWaterloo Webring"
+                src="https://www.uwaterloo.network/icon.svg"
+                className="h-8 w-8"
+              />
+            </a>
+            <button type="button" aria-label="Next member">
+              →
+            </button>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }

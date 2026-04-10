@@ -1,24 +1,33 @@
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
+import { Lora } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const openRunde = localFont({
+  src: [
+    { path: "./fonts/OpenRunde-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/OpenRunde-Medium.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/OpenRunde-Semibold.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/OpenRunde-Bold.woff2", weight: "700", style: "normal" },
+  ],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const lora = Lora({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-serif",
+  display: "swap",
 });
 
 export const metadata = {
   title: "isha shenoy",
-  description: "isha Shenoy's portfolio website.",
+  description: "Portfolio — projects and contact.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.className}`}
-      >
-        {children}
-      </body>
+    <html lang="en" className={`${openRunde.variable} ${lora.variable}`}>
+      <body className={`${openRunde.className} antialiased`}>{children}</body>
     </html>
   );
 }
