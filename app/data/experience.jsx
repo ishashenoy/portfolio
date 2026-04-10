@@ -4,22 +4,6 @@ const hl =
 /** Optional thumbnails: /public/images/thumb/ — inline logo in the title pill reuses thumb_url. */
 export const experience = [
   {
-    id: "atkins-realis",
-    role: "incoming 2026",
-    title: "atkinsréalis",
-    summary: "working on multi-million-dollar nuclear infrastructure projects!",
-    thumb_url: "/images/thumb/atkinsrealis.jpg",
-    initials: "AR",
-    link: "https://www.atkinsrealis.com/",
-    bullets: (
-      <>
-        <li>built internal tools to improve engineering team velocity.</li>
-        <li>contributed to software features across planning, delivery, and testing.</li>
-        <li>collaborated with engineers and stakeholders on production requirements.</li>
-      </>
-    ),
-  },
-  {
     id: "mytria",
     role: "founder",
     title: "mytria",
@@ -63,6 +47,22 @@ export const experience = [
         </li>
         <li>climate advocacy platform in typescript & next.js.</li>
         <li>playwright pipeline for biweekly data refresh.</li>
+      </>
+    ),
+  },
+  {
+    id: "atkins-realis",
+    role: "incoming 2026",
+    title: "atkinsréalis",
+    summary: "working on multi-million-dollar nuclear infrastructure projects!",
+    thumb_url: "/images/thumb/atkinsrealis.jpg",
+    initials: "AR",
+    link: "https://www.atkinsrealis.com/",
+    bullets: (
+      <>
+        <li>built internal tools to improve engineering team velocity.</li>
+        <li>contributed to software features across planning, delivery, and testing.</li>
+        <li>collaborated with engineers and stakeholders on production requirements.</li>
       </>
     ),
   },

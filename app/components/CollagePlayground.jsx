@@ -9,20 +9,15 @@ const allItems = [
   ...collageArt.map((item) => ({ ...item, category: "art" })),
 ];
 
-const GAP = 12;
-
-/** Space reserved under each image for the caption (layout + drag bounds). */
-const CAPTION_BAND = 48;
+const EDGE_PADDING = 6;
+const COLLISION_OVERLAP_ALLOWANCE = 24;
+const CAPTION_BLOCK_HEIGHT = 26;
 
 const CARD_SHADOW_CLASS = "shadow-[0.5px_1px_2px_rgba(20,18,15,0.1)]";
 const CATEGORY_COLORS = {
   gallery: "#aab8e6",
   art: "#e8b1c4",
 };
-
-function itemsWithLayoutHeight(items) {
-  return items.map((item) => ({ ...item, h: item.h + CAPTION_BAND }));
-}
 
 /** True if axis-aligned rects overlap, counting g px minimum gap between edges. */
 function overlapWithGap(a, b, g) {
@@ -51,7 +46,7 @@ function mulberry32(seed) {
  * Scatter items without overlap: try random placement (seeded), then top-left scan.
  * Returns { positionsPct, heightPx } or null if H too small.
  */
-function packNonOverlapping(items, W, H, gap, random) {
+function packNonOverlapping(items, W, H, padding, collisionGap, random) {
   const placed = [];
   const positionsPct = {};
   const sorted = [...items].sort((a, b) => b.w * b.h - a.w * a.h);
@@ -59,18 +54,19 @@ function packNonOverlapping(items, W, H, gap, random) {
   for (const item of sorted) {
     const w = item.w;
     const h = item.h;
-    const maxX = W - w - gap;
-    const maxY = H - h - gap;
-    if (maxX < gap || maxY < gap) {
+    const maxX = W - w - padding;
+    const maxY = H - h - padding;
+    if (maxX < padding || maxY < padding) {
       return null;
     }
 
     let found = null;
     for (let attempt = 0; attempt < 450; attempt++) {
-      const x = gap + random() * (maxX - gap);
-      const y = gap + random() * (maxY - gap);
+      const x = padding + random() * Math.max(0, maxX - padding);
+      const topClusterMaxY = padding + (maxY - padding) * 0.7;
+      const y = padding + random() * Math.max(0, topClusterMaxY - padding);
       const candidate = { x, y, w, h };
-      if (!overlapsAny(candidate, placed, gap)) {
+      if (!overlapsAny(candidate, placed, collisionGap)) {
         found = { x, y };
         placed.push({ x, y, w, h });
         break;
@@ -79,10 +75,10 @@ function packNonOverlapping(items, W, H, gap, random) {
 
     if (!found) {
       const step = 6;
-      outer: for (let y = gap; y <= maxY + 1e-6; y += step) {
-        for (let x = gap; x <= maxX + 1e-6; x += step) {
+      outer: for (let y = padding; y <= maxY + 1e-6; y += step) {
+        for (let x = padding; x <= maxX + 1e-6; x += step) {
           const candidate = { x, y, w, h };
-          if (!overlapsAny(candidate, placed, gap)) {
+          if (!overlapsAny(candidate, placed, collisionGap)) {
             found = { x, y };
             placed.push({ x, y, w, h });
             break outer;
@@ -102,25 +98,26 @@ function packNonOverlapping(items, W, H, gap, random) {
 }
 
 /** Guaranteed fit: simple rows (used if random packing cannot fit). */
-function packRowsFallback(items, W, gap) {
-  let x = gap;
-  let y = gap;
+function packRowsFallback(items, W, padding) {
+  let x = padding;
+  let y = padding;
   let rowH = 0;
   const sorted = [...items].sort((a, b) => b.h - a.h);
   const pixelPos = [];
+  const overlapStep = 16;
 
   for (const item of sorted) {
-    if (x + item.w + gap > W) {
-      x = gap;
-      y += rowH + gap;
+    if (x + item.w + padding > W) {
+      x = padding;
+      y += Math.max(24, rowH - overlapStep);
       rowH = 0;
     }
     pixelPos.push({ id: item.id, x, y, w: item.w, h: item.h });
     rowH = Math.max(rowH, item.h);
-    x += item.w + gap;
+    x += Math.max(24, item.w - overlapStep);
   }
 
-  const heightPx = y + rowH + gap;
+  const heightPx = y + rowH + padding;
   const positionsPct = {};
   for (const p of pixelPos) {
     positionsPct[p.id] = {
@@ -132,28 +129,38 @@ function packRowsFallback(items, W, gap) {
 }
 
 function computeLayout(items, containerWidth) {
-  const layoutItems = itemsWithLayoutHeight(items);
+  const itemsWithCaptionSpace = items.map((item) => ({
+    ...item,
+    h: item.h + CAPTION_BLOCK_HEIGHT,
+  }));
   const W = Math.max(320, containerWidth);
   const minH =
-    typeof window !== "undefined" ? Math.min(window.innerHeight * 0.72, 600) : 600;
+    typeof window !== "undefined" ? Math.min(window.innerHeight * 0.18, 170) : 170;
 
   let H = minH;
   for (let grow = 0; grow < 40; grow++) {
     const rng = mulberry32(0x9e3779b9 + grow * 1315423911);
-    const result = packNonOverlapping(layoutItems, W, H, GAP, rng);
+    const result = packNonOverlapping(
+      itemsWithCaptionSpace,
+      W,
+      H,
+      EDGE_PADDING,
+      -COLLISION_OVERLAP_ALLOWANCE,
+      rng
+    );
     if (result) {
       return {
         positions: result.positionsPct,
-        minHeightPx: Math.max(400, H),
+        minHeightPx: Math.max(120, H),
       };
     }
     H += 72;
   }
 
-  const fallback = packRowsFallback(layoutItems, W, GAP);
+  const fallback = packRowsFallback(itemsWithCaptionSpace, W, EDGE_PADDING);
   return {
     positions: fallback.positionsPct,
-    minHeightPx: Math.max(400, fallback.heightPx + 8),
+    minHeightPx: Math.max(120, fallback.heightPx + 8),
   };
 }
 
@@ -162,7 +169,6 @@ export default function CollagePlayground() {
   const containerRef = useRef(null);
   const [positions, setPositions] = useState(null);
   const [containerMinHeight, setContainerMinHeight] = useState(null);
-  const [imageSizes, setImageSizes] = useState({});
   const dragRef = useRef(null);
   const [draggingId, setDraggingId] = useState(null);
 
@@ -172,16 +178,6 @@ export default function CollagePlayground() {
     return allItems;
   }, [filter]);
 
-  const sizedItems = useMemo(
-    () =>
-      allItems.map((item) => {
-        const measured = imageSizes[item.id];
-        if (!measured) return item;
-        return { ...item, w: measured.w, h: measured.h };
-      }),
-    [imageSizes]
-  );
-
   useLayoutEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -189,7 +185,7 @@ export default function CollagePlayground() {
     const run = () => {
       const w = el.getBoundingClientRect().width;
       if (w < 80) return;
-      const { positions: next, minHeightPx } = computeLayout(sizedItems, w);
+      const { positions: next, minHeightPx } = computeLayout(allItems, w);
       setPositions(next);
       setContainerMinHeight(minHeightPx);
     };
@@ -198,14 +194,11 @@ export default function CollagePlayground() {
     const ro = new ResizeObserver(() => run());
     ro.observe(el);
     return () => ro.disconnect();
-  }, [sizedItems]);
+  }, []);
 
   const onPointerDown = useCallback(
     (e, item) => {
       if (!containerRef.current || !positions?.[item.id]) return;
-      const measured = imageSizes[item.id];
-      const itemW = measured?.w ?? item.w;
-      const itemH = measured?.h ?? item.h;
       e.preventDefault();
       e.currentTarget.setPointerCapture(e.pointerId);
       const rect = containerRef.current.getBoundingClientRect();
@@ -213,14 +206,14 @@ export default function CollagePlayground() {
       const topPx = (positions[item.id].y / 100) * rect.height;
       dragRef.current = {
         id: item.id,
-        w: itemW,
-        h: itemH + CAPTION_BAND,
+        w: item.w,
+        h: item.h + CAPTION_BLOCK_HEIGHT,
         grabDx: e.clientX - rect.left - leftPx,
         grabDy: e.clientY - rect.top - topPx,
       };
       setDraggingId(item.id);
     },
-    [imageSizes, positions]
+    [positions]
   );
 
   useEffect(() => {
@@ -257,8 +250,8 @@ export default function CollagePlayground() {
   };
 
   return (
-    <section className="relative mt-24 w-full bg-white" aria-label="Draggable gallery">
-      <div className="border-t border-[rgba(20,18,15,0.08)] px-5 py-8 sm:px-8">
+    <section className="relative mt-24 w-full bg-black" aria-label="Draggable gallery">
+      <div className="border-t border-white/20 px-5 py-8 sm:px-8">
         <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-x-10 gap-y-3">
           {[
             { key: "all", label: "All" },
@@ -267,7 +260,7 @@ export default function CollagePlayground() {
           ].map(({ key, label }) => (
             <label
               key={key}
-              className="inline-flex cursor-pointer select-none items-center gap-2 font-sans text-[15px] text-[#14120f]"
+              className="inline-flex cursor-pointer select-none items-center gap-2 font-sans text-[15px] text-white"
             >
               <input
                 type="checkbox"
@@ -276,7 +269,7 @@ export default function CollagePlayground() {
                 onChange={() => setFilterExclusive(key)}
               />
               <span
-                className="inline-flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[#14120f] bg-white"
+                className="inline-flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-white bg-black"
                 aria-hidden
               >
                 {filter === key ? (
@@ -284,7 +277,7 @@ export default function CollagePlayground() {
                     className="h-[8px] w-[8px] rounded-full"
                     style={{
                       backgroundColor:
-                        key === "all" ? "#14120f" : CATEGORY_COLORS[key],
+                        key === "all" ? "#ffffff" : CATEGORY_COLORS[key],
                     }}
                   />
                 ) : null}
@@ -296,7 +289,7 @@ export default function CollagePlayground() {
 
         <div
           ref={containerRef}
-          className="relative mx-auto mt-10 w-full min-h-[min(72vh,600px)]"
+          className="relative mx-auto mt-4 w-full min-h-[min(18vh,170px)]"
           style={
             containerMinHeight != null
               ? {
@@ -309,9 +302,6 @@ export default function CollagePlayground() {
             visibleItems.map((item, idx) => {
               const pos = positions[item.id];
               if (!pos) return null;
-              const measured = imageSizes[item.id];
-              const displayW = measured?.w ?? item.w;
-              const displayH = measured?.h ?? item.h;
               return (
                 <div
                   key={item.id}
@@ -321,8 +311,8 @@ export default function CollagePlayground() {
                   style={{
                     left: `${pos.x}%`,
                     top: `${pos.y}%`,
-                    width: displayW,
-                    height: displayH + CAPTION_BAND,
+                    width: item.w,
+                    height: item.h + CAPTION_BLOCK_HEIGHT,
                     zIndex: draggingId === item.id ? 1000 : 10 + (idx % 8),
                     touchAction: "none",
                   }}
@@ -330,41 +320,20 @@ export default function CollagePlayground() {
                 >
                   <div
                     className={`relative w-full ${CARD_SHADOW_CLASS}`}
-                    style={{ height: displayH }}
+                    style={{ height: item.h }}
                   >
                     <Image
                       src={item.src}
                       alt={item.alt}
-                      width={displayW}
-                      height={displayH}
+                      width={item.w}
+                      height={item.h}
                       className="h-auto w-auto"
                       draggable={false}
-                      sizes={`${displayW}px`}
-                      onLoad={(e) => {
-                        const target = e.target;
-                        if (!(target instanceof HTMLImageElement)) return;
-                        const naturalW = target.naturalWidth;
-                        const naturalH = target.naturalHeight;
-                        if (!naturalW || !naturalH) return;
-                        setImageSizes((prev) => {
-                          const existing = prev[item.id];
-                          if (existing?.w === naturalW && existing?.h === naturalH) return prev;
-                          return { ...prev, [item.id]: { w: naturalW, h: naturalH } };
-                        });
-                      }}
+                      sizes={`${item.w}px`}
                     />
-                  </div>
-                  <div className="mt-2 flex w-full shrink-0 justify-center">
-                    <div className="inline-flex max-w-full items-center gap-1.5 rounded-none bg-white/80 px-1.5 py-0.5 backdrop-blur-[2px]">
-                      <span
-                        className="h-2 w-2 shrink-0 rounded-full"
-                        style={{ backgroundColor: CATEGORY_COLORS[item.category] }}
-                        aria-hidden
-                      />
-                      <p className="line-clamp-2 text-left text-[14px] font-medium leading-snug tracking-tight text-[#5c5854]">
-                        {item.caption ?? item.alt}
-                      </p>
-                    </div>
+                    <p className="mt-1 text-center text-[13px] font-light leading-tight text-white">
+                      {item.caption}
+                    </p>
                   </div>
                 </div>
               );

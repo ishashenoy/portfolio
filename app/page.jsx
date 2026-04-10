@@ -4,6 +4,7 @@ import { MdDescription, MdEmail } from "react-icons/md";
 import { LuExternalLink } from "react-icons/lu";
 import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
 import CollagePlayground from "./components/CollagePlayground";
+import SidebarMusicCovers from "./components/SidebarMusicCovers";
 import { experience } from "./data/experience";
 import { projects } from "./data/projects";
 
@@ -91,15 +92,15 @@ export default function Home() {
 
           <div className="w-full">
             <div className="mb-14">
-              <p className="text-lg leading-relaxed text-[var(--muted)]">
+              <p className="text-lg leading-relaxed tracking-tight text-[var(--muted)]">
                 engineering @{" "}
                 <span className="bg-[#ff1493] px-1 text-white">university of waterloo</span>{" "}
                 🪿
               </p>
-              <p className="mt-5 text-lg leading-relaxed text-[var(--muted)]">
+              <p className="mt-5 text-lg leading-relaxed tracking-tight text-[var(--muted)]">
                 web dev, mobile dev, ai, ml, systems, product
               </p>
-              <p className="mt-5 text-lg leading-relaxed text-[var(--muted)]">
+              <p className="mt-5 text-lg leading-relaxed tracking-tight text-[var(--muted)]">
                 i love people, love to talk, love to learn.{" "}
                 <span className="bg-[#ff1493] px-1 text-white">let&apos;s chat!</span>
               </p>
@@ -298,6 +299,9 @@ export default function Home() {
               {EMAIL}
             </a>
           </div>
+          <div className="mt-4 border-t border-[var(--border)] pt-4">
+            <SidebarMusicCovers />
+          </div>
         </aside>
       </div>
 
@@ -306,7 +310,7 @@ export default function Home() {
       </section>
 
       <div className="w-full px-5 sm:px-8">
-        <footer className="mt-24 border-t border-[var(--border)] pt-8 text-[13px] text-[var(--muted)]">
+        <footer className="mt-6 border-t border-[var(--border)] pt-8 text-[13px] text-[var(--muted)]">
           <p>© {new Date().getFullYear()} isha shenoy</p>
           <div className="mt-4 flex items-center gap-3">
             <button type="button" aria-label="Previous member">
