@@ -52,7 +52,7 @@ export const experience = [
   },
   {
     id: "atkins-realis",
-    role: "incoming 2026",
+    role: "incoming S26",
     title: "atkinsréalis",
     summary: "working on multi-million-dollar nuclear infrastructure projects!",
     thumb_url: "/images/thumb/atkinsrealis.jpg",

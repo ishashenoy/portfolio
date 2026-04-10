@@ -36,7 +36,7 @@ export const projects = [
     id: 2,
     date: "2026",
     thumb_url: "/images/thumb/signwave.png",
-    desc: "Real-time computer vision rhythm game that uses a custom-trained PyTorch neural network and MediaPipe hand tracking to turn live hand gestures into interactive gameplay.",
+    desc: "Real-time computer vision rhythm game that uses a custom-trained PyTorch neural network and hand tracking to turn live hand gestures into interactive gameplay.",
     tech: ["Python", "Flask", "PyTorch", "OpenCV", "MediaPipe", "NumPy"],
     links: { github: "https://github.com/ishashenoy/SignWave" },
     detail: {
@@ -54,7 +54,7 @@ export const projects = [
     id: 3,
     date: "2026",
     thumb_url: "/images/thumb/booktok.png",
-    desc: "TikTok-style React Native app with an async pipeline that generates narrated book-preview videos from summaries and keywords.",
+    desc: "TikTok-style app with an async pipeline that generates narrated book-preview videos from summaries and keywords.",
     tech: ["React Native", "MongoDB", "Gemini", "ElevenLabs", "FFmpeg", "Cloudinary"],
     links: { demo: "https://devpost.com/software/booktok-3680je" },
     detail: {

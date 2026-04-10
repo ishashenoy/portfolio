@@ -2,29 +2,17 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
+import { music } from "../data/music";
 
-const TRACKS = [
-  {
-    title: "Nineteen",
-    href: "https://soundcloud.com/robarousal/nineteen-master-digital",
-    artwork: "https://i1.sndcdn.com/artworks-000419144604-1bewlq-large.jpg",
-  },
-  {
-    title: "Eterna Forest",
-    href: "https://soundcloud.com/cyndiquil721/eterna-forest",
-    artwork: "https://i1.sndcdn.com/artworks-000192692027-7n49xs-large.jpg",
-  },
-  {
-    title: "Treehome95 (Instrumental)",
-    href: "https://soundcloud.com/tylerthecreatorofficial/tyler-the-creator-treehome95",
-    artwork: "https://i1.sndcdn.com/artworks-JmFvZ20FPBzN-0-large.jpg",
-  },
-  {
-    title: "The Internet - Curse INSTRUMENTAL",
-    href: "https://soundcloud.com/eyejaymusic/the-internet-curse-instrumental",
-    artwork: "https://i1.sndcdn.com/artworks-000152710339-f3ziz3-large.jpg",
-  },
-];
+const PLAYLIST_URL = (music.soundcloudPlaylistUrl || "").trim();
+const FALLBACK_ARTWORK = "https://a-v2.sndcdn.com/assets/images/sc-icons/ios-a62dfc8a.png";
+
+function toBestArtwork(sound) {
+  const soundArtwork = sound?.artwork_url;
+  const userArtwork = sound?.user?.avatar_url;
+  const src = soundArtwork || userArtwork || FALLBACK_ARTWORK;
+  return src.replace("-large.", "-t500x500.");
+}
 
 function toEmbedUrl(trackUrl) {
   const encoded = encodeURIComponent(trackUrl);
@@ -32,17 +20,16 @@ function toEmbedUrl(trackUrl) {
 }
 
 export default function SidebarMusicCovers() {
-  const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [apiReady, setApiReady] = useState(false);
   const [widgetReady, setWidgetReady] = useState(false);
+  const [displayTitle, setDisplayTitle] = useState("SoundCloud playlist");
+  const [displayArtwork, setDisplayArtwork] = useState(FALLBACK_ARTWORK);
   const iframeRef = useRef(null);
   const widgetRef = useRef(null);
-  const pendingTrackRef = useRef(null);
-  const activeTrack = TRACKS[activeIndex];
-  const activeTrackUrl = activeTrack.href;
+  const shouldAutoplayRef = useRef(false);
 
-  const playerSrc = useMemo(() => toEmbedUrl(TRACKS[0].href), []);
+  const playerSrc = useMemo(() => toEmbedUrl(PLAYLIST_URL), []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -61,33 +48,53 @@ export default function SidebarMusicCovers() {
     if (!iframeRef.current || !apiReady || !window.SC?.Widget) return;
     const widget = window.SC.Widget(iframeRef.current);
     widgetRef.current = widget;
+
+    const updateFromCurrentSound = () => {
+      widget.getCurrentSound((sound) => {
+        if (!sound) return;
+        setDisplayTitle(sound.title || "SoundCloud playlist");
+        setDisplayArtwork(toBestArtwork(sound));
+      });
+    };
+
     widget.bind(window.SC.Widget.Events.READY, () => {
       setWidgetReady(true);
-      if (pendingTrackRef.current) {
-        widget.load(pendingTrackRef.current, { auto_play: true });
-        pendingTrackRef.current = null;
+      updateFromCurrentSound();
+      if (shouldAutoplayRef.current) {
+        widget.play();
+        shouldAutoplayRef.current = false;
       }
     });
-    widget.bind(window.SC.Widget.Events.PLAY, () => setIsPlaying(true));
+    widget.bind(window.SC.Widget.Events.PLAY, () => {
+      setIsPlaying(true);
+      updateFromCurrentSound();
+    });
     widget.bind(window.SC.Widget.Events.PAUSE, () => setIsPlaying(false));
     widget.bind(window.SC.Widget.Events.FINISH, () => setIsPlaying(false));
+
   }, [apiReady]);
 
-  const playTrackByIndex = (index) => {
-    setActiveIndex(index);
-    const widget = widgetRef.current;
-    const nextTrackUrl = TRACKS[index].href;
-    if (!widget || !widgetReady) {
-      pendingTrackRef.current = nextTrackUrl;
-      return;
-    }
-    widget.load(nextTrackUrl, { auto_play: true });
-  };
+  useEffect(() => {
+    let cancelled = false;
+    const oEmbedUrl = `https://soundcloud.com/oembed?format=json&url=${encodeURIComponent(PLAYLIST_URL)}`;
+    fetch(oEmbedUrl)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled || !data) return;
+        setDisplayTitle(data.title || "SoundCloud playlist");
+        setDisplayArtwork(data.thumbnail_url || FALLBACK_ARTWORK);
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const togglePlayback = () => {
     const widget = widgetRef.current;
     if (!widget || !widgetReady) {
-      pendingTrackRef.current = activeTrackUrl;
+      shouldAutoplayRef.current = true;
       return;
     }
     if (isPlaying) {
@@ -98,13 +105,25 @@ export default function SidebarMusicCovers() {
   };
 
   const goPrev = () => {
-    const nextIndex = (activeIndex - 1 + TRACKS.length) % TRACKS.length;
-    playTrackByIndex(nextIndex);
+    const widget = widgetRef.current;
+    if (!widget || !widgetReady) return;
+    widget.prev();
+    widget.getCurrentSound((sound) => {
+      if (!sound) return;
+      setDisplayTitle(sound.title || "SoundCloud playlist");
+      setDisplayArtwork(toBestArtwork(sound));
+    });
   };
 
   const goNext = () => {
-    const nextIndex = (activeIndex + 1) % TRACKS.length;
-    playTrackByIndex(nextIndex);
+    const widget = widgetRef.current;
+    if (!widget || !widgetReady) return;
+    widget.next();
+    widget.getCurrentSound((sound) => {
+      if (!sound) return;
+      setDisplayTitle(sound.title || "SoundCloud playlist");
+      setDisplayArtwork(toBestArtwork(sound));
+    });
   };
 
   return (
@@ -125,8 +144,8 @@ export default function SidebarMusicCovers() {
         <button
           type="button"
           onClick={togglePlayback}
-          aria-label={isPlaying ? `Pause ${activeTrack.title}` : `Play ${activeTrack.title}`}
-          title={activeTrack.title}
+          aria-label={isPlaying ? `Pause ${displayTitle}` : `Play ${displayTitle}`}
+          title={displayTitle}
           className="group relative h-20 w-20 cursor-pointer overflow-hidden rounded-full border border-[var(--border)] bg-white p-0"
         >
           <div
@@ -134,8 +153,8 @@ export default function SidebarMusicCovers() {
             style={{ animationPlayState: isPlaying ? "running" : "paused" }}
           >
             <img
-              src={activeTrack.artwork}
-              alt={activeTrack.title}
+              src={displayArtwork}
+              alt={displayTitle}
               className="h-full w-full rounded-full object-cover"
               loading="lazy"
             />

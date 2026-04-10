@@ -4,7 +4,6 @@ import { MdDescription, MdEmail } from "react-icons/md";
 import { LuExternalLink } from "react-icons/lu";
 import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
 import CollagePlayground from "./components/CollagePlayground";
-import SidebarMusicCovers from "./components/SidebarMusicCovers";
 import { experience } from "./data/experience";
 import { projects } from "./data/projects";
 
@@ -275,33 +274,22 @@ export default function Home() {
           </div>
         </main>
 
-        <aside className="sticky top-16 hidden h-fit w-56 shrink-0 rounded-xl border border-[var(--border)] bg-white/70 p-4 backdrop-blur-sm lg:block">
-          <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">
-            navigate
-          </h3>
-          <nav className="mt-3 flex flex-col gap-2" aria-label="Page sections">
-            {sidebarLinks.map((link) => (
+        <aside className="sticky top-16 hidden h-fit w-[235px] shrink-0 px-6 py-8 lg:block">
+          <nav className="flex flex-col items-end gap-10 text-right" aria-label="Page sections">
+            {sidebarLinks.map((link, index) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="text-[15px] text-[var(--fg)] transition hover:text-[var(--link)]"
+                className={`text-[36px] font-normal leading-none tracking-[-0.02em] transition ${
+                  index === 0
+                    ? "text-[#262626]"
+                    : "text-[#8f8f8f] hover:text-[#5f5f5f]"
+                }`}
               >
-                {link.label}
+                {link.label.toLowerCase()}
               </a>
             ))}
           </nav>
-          <div className="mt-4 border-t border-[var(--border)] pt-4">
-            <p className="text-xs uppercase tracking-[0.1em] text-[var(--muted)]">contact</p>
-            <a
-              href={`mailto:${EMAIL}`}
-              className="mt-2 block text-[14px] text-[var(--fg)] transition hover:text-[var(--link)]"
-            >
-              {EMAIL}
-            </a>
-          </div>
-          <div className="mt-4 border-t border-[var(--border)] pt-4">
-            <SidebarMusicCovers />
-          </div>
         </aside>
       </div>
 
