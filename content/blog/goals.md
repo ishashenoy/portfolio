@@ -18,7 +18,7 @@ i'm still not entirely sure. but i think i'm getting there.
 i ended up giving a very shallow reply, something along the lines of "get a good job" or "start a business".
 
 
-let me explain. you see, in high school, i didn't do much.
+this question was hard for me. you see, in high school, i didn't do much.
 
 i didn't go out much, didn't _really_ have friends, i didn't even go to prom.
 
@@ -30,9 +30,9 @@ why?
 i wasn't quite sure. i wasn't exactly miserable. but i lost motivation for pretty much everything. maybe it was just senioritis. maybe it was something more.
 
 
-after coming to waterloo, a _lot_ has changed. more specifically in my second term. i think i'm more sure of myself now.
+after coming to waterloo, a _lot_ changed. more specifically in my second term. i think i'm more sure of myself now.
 
-i started talking to more people, going to events, and just being present more. i remember the first socratica session i attended, i was blown away by all the talent and creatives i met. it was not only inspiring but also _fun_ to meet new faces and their visions.
+i started talking to more people, going to events, and just being present more. i remember the first socratica session i attended, i was blown away by all the talent and creatives i met. it was not only inspiring but also _fun_.
 
 
 after building mytria, i started to realize something.
