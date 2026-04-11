@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BlogIndexPostList } from "../components/BlogIndexPostList";
+import { BlogReadStatus } from "../components/BlogReadStatus";
 import { getAllPosts } from "../lib/blog";
 
 function formatDate(dateValue) {
@@ -15,11 +15,6 @@ function formatDate(dateValue) {
 
 export default async function BlogPage() {
   const posts = await getAllPosts();
-  const rows = posts.map((post) => ({
-    slug: post.slug,
-    title: post.title,
-    dateLabel: formatDate(post.date),
-  }));
 
   return (
     <>
@@ -29,7 +24,28 @@ export default async function BlogPage() {
         </h1>
       </header>
 
-      <BlogIndexPostList posts={rows} />
+      <section className="border-t border-[var(--border)]">
+        {posts.map((post) => (
+          <Link
+            key={post.slug}
+            href={`/blog/${post.slug}`}
+            className="group grid grid-cols-[1.8fr_1fr_1.6fr] items-start gap-4 border-b border-[var(--border)] py-3 text-[var(--fg)] transition hover:bg-black/[0.02]"
+          >
+            <div className="flex min-w-0 items-start gap-2">
+              <span className="mt-1 text-[13px] leading-none">●</span>
+              <div className="min-w-0">
+                <p className="truncate text-[clamp(1.1rem,2vw,1.35rem)] font-semibold lowercase leading-tight tracking-tight">
+                  {post.title}
+                </p>
+              </div>
+            </div>
+            <p className="pt-0.5 text-[14px] text-[var(--muted)]">
+              {formatDate(post.date)}
+            </p>
+            <BlogReadStatus slug={post.slug} />
+          </Link>
+        ))}
+      </section>
 
       <div className="mt-8">
         <Link href="/" className="text-[var(--link)] hover:underline">

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BlogPostViewCounter } from "../../components/BlogPostViewCounter";
 import { MarkBlogPostRead } from "../../components/MarkBlogPostRead";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
@@ -31,12 +30,9 @@ export default async function BlogPostPage({ params }) {
           <h1 className="mt-5 text-[clamp(1.9rem,4.2vw,2.8rem)] font-bold lowercase leading-tight tracking-tight text-[var(--fg)]">
             {post.title}
           </h1>
-          <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-            {post.date ? (
-              <p className="text-sm lowercase text-[var(--muted)]">{post.date}</p>
-            ) : null}
-            <BlogPostViewCounter slug={post.slug} />
-          </div>
+          {post.date ? (
+            <p className="mt-3 text-sm lowercase text-[var(--muted)]">{post.date}</p>
+          ) : null}
         </header>
 
         <article className="prose prose-neutral max-w-none text-[var(--muted)] prose-headings:lowercase prose-headings:text-[var(--fg)] prose-p:leading-relaxed prose-p:mb-6 [&_p:last-child]:mb-0">
