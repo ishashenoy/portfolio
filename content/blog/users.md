@@ -3,6 +3,9 @@ title: mytria: words from users
 date: 2026-04-05
 ---
 
+things people have said about mytria
+
+
 “i rlly hope this site sticks around for long !!”
 
 “this is so fun its gonna be my 2nd tumblr”

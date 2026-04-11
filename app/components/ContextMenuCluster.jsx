@@ -7,6 +7,13 @@ function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 
+/** Shorten selection text for menu labels (pills are single-line). */
+function truncateForMenuLabel(text, maxChars = 36) {
+  const t = text.trim();
+  if (t.length <= maxChars) return t;
+  return `${t.slice(0, maxChars - 1)}…`;
+}
+
 function isTextInput(el) {
   if (!el || el.nodeType !== 1) return false;
   if (el.tagName === "TEXTAREA") return true;
@@ -120,7 +127,7 @@ function cutFromField(field) {
 }
 
 /** Minimum radius in px when geometry allows (before overlap-based growth). */
-const RING_RADIUS = 72;
+const RING_RADIUS = 52;
 
 /** Tangential gap between pill edges on the ring (px). */
 const RING_GAP = 12;
@@ -208,6 +215,19 @@ function buildMenuItems(event) {
     push("copy", "Copy", () => void writeClipboard(selectedText), "📋");
     if (editSurface) {
       push("cut", "Cut", () => cutFromField(editSurface), "✂️");
+    }
+    const searchQuery = selectedText.trim();
+    if (searchQuery.length > 0) {
+      const preview = truncateForMenuLabel(searchQuery);
+      push(
+        "searchWeb",
+        `Search the web for "${preview}"`,
+        () => {
+          const url = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
+          window.open(url, "_blank", "noopener,noreferrer");
+        },
+        "🔍"
+      );
     }
   }
 

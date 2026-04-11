@@ -50,20 +50,20 @@ export const experience = [
       </>
     ),
   },
-  {
-    id: "atkins-realis",
-    role: "incoming S26",
-    title: "atkinsréalis",
-    summary: "working on multi-million-dollar nuclear infrastructure projects!",
-    thumb_url: "/images/thumb/atkinsrealis.jpg",
-    initials: "AR",
-    link: "https://www.atkinsrealis.com/",
-    bullets: (
-      <>
-        <li>built internal tools to improve engineering team velocity.</li>
-        <li>contributed to software features across planning, delivery, and testing.</li>
-        <li>collaborated with engineers and stakeholders on production requirements.</li>
-      </>
-    ),
-  },
+  // {
+  //   id: "atkins-realis",
+  //   role: "incoming S26",
+  //   title: "atkinsréalis",
+  //   summary: "working on multi-million-dollar nuclear infrastructure projects!",
+  //   thumb_url: "/images/thumb/atkinsrealis.jpg",
+  //   initials: "AR",
+  //   link: "https://www.atkinsrealis.com/",
+  //   bullets: (
+  //     <>
+  //       <li>built internal tools to improve engineering team velocity.</li>
+  //       <li>contributed to software features across planning, delivery, and testing.</li>
+  //       <li>collaborated with engineers and stakeholders on production requirements.</li>
+  //     </>
+  //   ),
+  // },
 ];

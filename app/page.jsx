@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdDescription, MdEmail } from "react-icons/md";
 import { LuExternalLink } from "react-icons/lu";
-import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
+import { SiGithub, SiInstagram, SiLinkedin, SiX } from "react-icons/si";
 import CollagePlayground from "./components/CollagePlayground";
 import HomeSectionNav from "./components/HomeSectionNav";
 import { experience } from "./data/experience";
@@ -17,6 +17,7 @@ const social = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/ishashenoy/", Icon: SiLinkedin },
   { label: "GitHub", href: "https://github.com/ishashenoy", Icon: SiGithub },
   { label: "X", href: "https://x.com/ichiberries", Icon: SiX },
+  { label: "Instagram", href: "https://www.instagram.com/ichiberries/", Icon: SiInstagram },
 ];
 
 export default function Home() {

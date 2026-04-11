@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BlogPostImage } from "../../components/BlogPostImage";
 import { MarkBlogPostRead } from "../../components/MarkBlogPostRead";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
@@ -35,7 +36,15 @@ export default async function BlogPostPage({ params }) {
           ) : null}
         </header>
 
-        <article className="prose prose-neutral max-w-none text-[var(--muted)] prose-headings:lowercase prose-headings:text-[var(--fg)] prose-p:leading-relaxed prose-p:mb-6 [&_p:last-child]:mb-0">
+        <article
+          className={
+            "prose prose-neutral max-w-none text-[var(--muted)] prose-headings:lowercase prose-headings:text-[var(--fg)] prose-p:leading-relaxed prose-p:mb-6 [&_p:last-child]:mb-0 " +
+            "[&_table]:w-full [&_table]:table-fixed [&_table_td]:align-top [&_table_th]:align-top " +
+            "[&_table_td_figure]:!my-2 [&_table_th_figure]:!my-2 " +
+            "[&_table_td_figure_img]:!h-[min(13rem,36vw)] [&_table_td_figure_img]:w-full [&_table_td_figure_img]:!max-h-none [&_table_td_figure_img]:object-cover " +
+            "[&_table_th_figure_img]:!h-[min(13rem,36vw)] [&_table_th_figure_img]:w-full [&_table_th_figure_img]:!max-h-none [&_table_th_figure_img]:object-cover"
+          }
+        >
           <ReactMarkdown
             remarkPlugins={[remarkGfm, remarkBreaks]}
             rehypePlugins={[rehypeRaw]}
@@ -51,18 +60,7 @@ export default async function BlogPostPage({ params }) {
                 </h3>
               ),
               img: ({ src = "", alt = "", title = "" }) => (
-                <figure className="my-8">
-                  <img
-                    src={src}
-                    alt={alt}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-auto w-full rounded-xl border border-[var(--border)] object-cover"
-                  />
-                  {title ? (
-                    <figcaption className="mt-2 text-sm text-[var(--muted)]">{title}</figcaption>
-                  ) : null}
-                </figure>
+                <BlogPostImage src={src} alt={alt} title={title} />
               ),
             }}
           >
