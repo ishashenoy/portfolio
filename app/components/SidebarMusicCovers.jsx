@@ -1,188 +1,218 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { MdPause, MdPlayArrow, MdSkipNext, MdSkipPrevious } from "react-icons/md";
 import { music } from "../data/music";
 
-const PLAYLIST_URL = (music.soundcloudPlaylistUrl || "").trim();
-const FALLBACK_ARTWORK = "https://a-v2.sndcdn.com/assets/images/sc-icons/ios-a62dfc8a.png";
-
-function toBestArtwork(sound) {
-  const soundArtwork = sound?.artwork_url;
-  const userArtwork = sound?.user?.avatar_url;
-  const src = soundArtwork || userArtwork || FALLBACK_ARTWORK;
-  return src.replace("-large.", "-t500x500.");
+/** Accept full playlist URL or raw playlist id (e.g. PL…). */
+function extractPlaylistId(input) {
+  const trimmed = (input || "").trim();
+  if (!trimmed) return "";
+  const fromQuery = trimmed.match(/[?&]list=([^&]+)/);
+  if (fromQuery) return decodeURIComponent(fromQuery[1]);
+  if (/^[A-Za-z0-9_-]+$/.test(trimmed)) return trimmed;
+  return "";
 }
 
-function toEmbedUrl(trackUrl) {
-  const encoded = encodeURIComponent(trackUrl);
-  return `https://w.soundcloud.com/player/?url=${encoded}&color=%238ea0d8&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false`;
+function readVideoTitle(player) {
+  try {
+    const data = player.getVideoData?.();
+    if (data?.title) return data.title;
+  } catch {
+    /* ignore */
+  }
+  return null;
 }
 
 export default function SidebarMusicCovers() {
+  const playlistId = useMemo(
+    () => extractPlaylistId(music.youtubePlaylist),
+    []
+  );
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [apiReady, setApiReady] = useState(false);
-  const [widgetReady, setWidgetReady] = useState(false);
-  const [displayTitle, setDisplayTitle] = useState("SoundCloud playlist");
-  const [displayArtwork, setDisplayArtwork] = useState(FALLBACK_ARTWORK);
-  const iframeRef = useRef(null);
-  const widgetRef = useRef(null);
-  const shouldAutoplayRef = useRef(false);
+  const [trackName, setTrackName] = useState("music");
+  const reactId = useId();
+  const playerContainerId = useMemo(
+    () => `yt-blog-${reactId.replace(/[^a-zA-Z0-9_-]+/g, "-")}`,
+    [reactId]
+  );
+  const playerRef = useRef(null);
+  const shouldPlayAfterReadyRef = useRef(false);
+  const initGenRef = useRef(0);
 
-  const playerSrc = useMemo(() => toEmbedUrl(PLAYLIST_URL), []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.SC?.Widget) {
-      setApiReady(true);
-      return;
-    }
-    const script = document.createElement("script");
-    script.src = "https://w.soundcloud.com/player/api.js";
-    script.async = true;
-    script.onload = () => setApiReady(true);
-    document.body.appendChild(script);
+  const refreshTitle = useCallback((player) => {
+    const t = readVideoTitle(player);
+    if (t) setTrackName(t);
   }, []);
 
   useEffect(() => {
-    if (!iframeRef.current || !apiReady || !window.SC?.Widget) return;
-    const widget = window.SC.Widget(iframeRef.current);
-    widgetRef.current = widget;
-
-    const updateFromCurrentSound = () => {
-      widget.getCurrentSound((sound) => {
-        if (!sound) return;
-        setDisplayTitle(sound.title || "SoundCloud playlist");
-        setDisplayArtwork(toBestArtwork(sound));
-      });
+    if (typeof window === "undefined") return;
+    if (window.YT?.Player) {
+      setApiReady(true);
+      return;
+    }
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      prev?.();
+      setApiReady(true);
     };
-
-    widget.bind(window.SC.Widget.Events.READY, () => {
-      setWidgetReady(true);
-      updateFromCurrentSound();
-      if (shouldAutoplayRef.current) {
-        widget.play();
-        shouldAutoplayRef.current = false;
-      }
-    });
-    widget.bind(window.SC.Widget.Events.PLAY, () => {
-      setIsPlaying(true);
-      updateFromCurrentSound();
-    });
-    widget.bind(window.SC.Widget.Events.PAUSE, () => setIsPlaying(false));
-    widget.bind(window.SC.Widget.Events.FINISH, () => setIsPlaying(false));
-
-  }, [apiReady]);
+    if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      tag.async = true;
+      document.head.appendChild(tag);
+    }
+  }, []);
 
   useEffect(() => {
+    if (!playlistId || !apiReady || !window.YT?.Player) return;
+
+    const gen = ++initGenRef.current;
+    const elId = playerContainerId;
+
+    const ytPlayer = new window.YT.Player(elId, {
+      width: "320",
+      height: "240",
+      playerVars: {
+        listType: "playlist",
+        list: playlistId,
+        autoplay: 0,
+        playsinline: 1,
+        rel: 0,
+      },
+      events: {
+        onReady: (e) => {
+          if (gen !== initGenRef.current) return;
+          playerRef.current = e.target;
+          refreshTitle(e.target);
+          if (shouldPlayAfterReadyRef.current) {
+            shouldPlayAfterReadyRef.current = false;
+            e.target.playVideo();
+            setIsPlaying(true);
+          }
+        },
+        onStateChange: (e) => {
+          if (gen !== initGenRef.current) return;
+          const YT = window.YT;
+          if (!YT) return;
+          if (e.data === YT.PlayerState.PLAYING) {
+            setIsPlaying(true);
+            refreshTitle(e.target);
+          } else if (e.data === YT.PlayerState.PAUSED) {
+            setIsPlaying(false);
+            refreshTitle(e.target);
+          } else if (e.data === YT.PlayerState.ENDED) {
+            setIsPlaying(false);
+          }
+        },
+      },
+    });
+
+    return () => {
+      playerRef.current = null;
+      try {
+        ytPlayer.destroy?.();
+      } catch {
+        /* ignore */
+      }
+    };
+  }, [apiReady, playerContainerId, playlistId, refreshTitle]);
+
+  useEffect(() => {
+    if (!playlistId) return;
     let cancelled = false;
-    const oEmbedUrl = `https://soundcloud.com/oembed?format=json&url=${encodeURIComponent(PLAYLIST_URL)}`;
-    fetch(oEmbedUrl)
+    const pageUrl = `https://www.youtube.com/playlist?list=${encodeURIComponent(playlistId)}`;
+    fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(pageUrl)}&format=json`)
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (cancelled || !data) return;
-        setDisplayTitle(data.title || "SoundCloud playlist");
-        setDisplayArtwork(data.thumbnail_url || FALLBACK_ARTWORK);
+        if (cancelled || !data?.title) return;
+        setTrackName(data.title);
       })
       .catch(() => {});
 
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [playlistId]);
 
   const togglePlayback = () => {
-    const widget = widgetRef.current;
-    if (!widget || !widgetReady) {
-      shouldAutoplayRef.current = true;
+    const player = playerRef.current;
+    if (!player) {
+      shouldPlayAfterReadyRef.current = true;
       return;
     }
     if (isPlaying) {
-      widget.pause();
+      setIsPlaying(false);
+      player.pauseVideo();
     } else {
-      widget.play();
+      setIsPlaying(true);
+      player.playVideo();
     }
   };
 
   const goPrev = () => {
-    const widget = widgetRef.current;
-    if (!widget || !widgetReady) return;
-    widget.prev();
-    widget.getCurrentSound((sound) => {
-      if (!sound) return;
-      setDisplayTitle(sound.title || "SoundCloud playlist");
-      setDisplayArtwork(toBestArtwork(sound));
-    });
+    const player = playerRef.current;
+    if (!player) return;
+    player.previousVideo();
+    window.setTimeout(() => {
+      refreshTitle(player);
+    }, 400);
   };
 
   const goNext = () => {
-    const widget = widgetRef.current;
-    if (!widget || !widgetReady) return;
-    widget.next();
-    widget.getCurrentSound((sound) => {
-      if (!sound) return;
-      setDisplayTitle(sound.title || "SoundCloud playlist");
-      setDisplayArtwork(toBestArtwork(sound));
-    });
+    const player = playerRef.current;
+    if (!player) return;
+    player.nextVideo();
+    window.setTimeout(() => {
+      refreshTitle(player);
+    }, 400);
   };
 
+  if (!playlistId) {
+    return (
+      <p className="text-sm text-[var(--muted)]">
+        Set <code className="text-xs">youtubePlaylist</code> in{" "}
+        <code className="text-xs">app/data/music.jsx</code>.
+      </p>
+    );
+  }
+
   return (
-    <div className="mt-2">
-      <div className="mb-2">
-        <p className="text-xs uppercase tracking-[0.1em] text-[var(--muted)]">music</p>
-      </div>
-      <div className="flex items-center justify-between gap-2">
+    <div className="w-full min-w-0">
+      <p className="mb-3 truncate text-sm font-medium lowercase text-[var(--fg)]">{trackName}</p>
+      <div className="flex flex-wrap items-center gap-2">
         <button
           type="button"
           onClick={goPrev}
           aria-label="Previous track"
-          className="cursor-pointer p-0.5 text-[#222] transition hover:opacity-70"
+          className="inline-flex items-center justify-center rounded-lg bg-[var(--bg)] px-3 py-2 text-[var(--fg)] transition hover:bg-black/[0.04]"
         >
           <MdSkipPrevious className="h-5 w-5" aria-hidden />
         </button>
-
         <button
           type="button"
           onClick={togglePlayback}
-          aria-label={isPlaying ? `Pause ${displayTitle}` : `Play ${displayTitle}`}
-          title={displayTitle}
-          className="group relative h-20 w-20 cursor-pointer overflow-hidden rounded-full border border-[var(--border)] bg-white p-0"
+          aria-label={isPlaying ? "Pause" : "Play"}
+          className="inline-flex items-center justify-center rounded-lg bg-[var(--bg)] px-3 py-2 text-[var(--fg)] transition hover:bg-black/[0.04]"
         >
-          <div
-            className="h-full w-full rounded-full animate-[spin_4.2s_linear_infinite]"
-            style={{ animationPlayState: isPlaying ? "running" : "paused" }}
-          >
-            <img
-              src={displayArtwork}
-              alt={displayTitle}
-              className="h-full w-full rounded-full object-cover"
-              loading="lazy"
-            />
-            <div className="pointer-events-none absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#b9b9b9] bg-white" />
-          </div>
+          {isPlaying ? <MdPause className="h-5 w-5" aria-hidden /> : <MdPlayArrow className="h-5 w-5" aria-hidden />}
         </button>
-
         <button
           type="button"
           onClick={goNext}
           aria-label="Next track"
-          className="cursor-pointer p-0.5 text-[#222] transition hover:opacity-70"
+          className="inline-flex items-center justify-center rounded-lg bg-[var(--bg)] px-3 py-2 text-[var(--fg)] transition hover:bg-black/[0.04]"
         >
           <MdSkipNext className="h-5 w-5" aria-hidden />
         </button>
       </div>
 
-      <iframe
-        ref={iframeRef}
-        title="SoundCloud track player"
-        src={playerSrc}
-        width="1"
-        height="1"
-        allow="autoplay"
-        loading="eager"
-        className="pointer-events-none absolute -left-[9999px] top-0 opacity-0"
-        aria-hidden="true"
-        tabIndex={-1}
+      <div
+        id={playerContainerId}
+        className="pointer-events-none fixed bottom-0 left-0 z-[-1] h-px w-px overflow-hidden opacity-0"
+        aria-hidden
       />
     </div>
   );

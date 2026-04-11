@@ -22,6 +22,9 @@
 
 # misc
 .DS_Store
+
+# local blog view counts (use Upstash Redis in production — see app/lib/blogViewsStore.js)
+/data/blog-views.json
 *.pem
 
 # debug

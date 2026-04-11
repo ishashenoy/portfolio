@@ -4,6 +4,7 @@ import { MdDescription, MdEmail } from "react-icons/md";
 import { LuExternalLink } from "react-icons/lu";
 import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
 import CollagePlayground from "./components/CollagePlayground";
+import HomeSectionNav from "./components/HomeSectionNav";
 import { experience } from "./data/experience";
 import { projects } from "./data/projects";
 
@@ -276,21 +277,7 @@ export default function Home() {
         </main>
 
         <aside className="sticky top-16 hidden h-fit w-[235px] shrink-0 px-6 py-8 lg:block">
-          <nav className="flex flex-col items-end gap-10 text-right" aria-label="Page sections">
-            {sidebarLinks.map((link, index) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className={`text-[36px] font-normal leading-none tracking-[-0.02em] transition ${
-                  index === 0
-                    ? "text-[#262626]"
-                    : "text-[#8f8f8f] hover:text-[#5f5f5f]"
-                }`}
-              >
-                {link.label.toLowerCase()}
-              </a>
-            ))}
-          </nav>
+          <HomeSectionNav links={sidebarLinks} />
         </aside>
       </div>
 
