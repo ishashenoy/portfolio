@@ -7,28 +7,109 @@
 }
 
 :root {
+  color-scheme: light;
   --bg: #ffffff;
   --fg: #14120f;
   --muted: #5c5854;
   --border: rgba(20, 18, 15, 0.12);
   --link: #0d5f7a;
   --link-hover: #094a5f;
+  --surface: #eceae6;
+  --chip-bg: rgba(255, 255, 255, 0.5);
+  --panel-bg: rgba(255, 255, 255, 0.4);
+  --btn-bg: #eeeeee;
+  --btn-fg: #1a1a1a;
+  --btn-hover: #e4e4e4;
+  --icon: #1a1a1a;
+  --social-hover: #8ea0d8;
+  --accent: #ff1493;
+  --accent-fg: #ffffff;
+  --selection-bg: #ff4fb3;
+  --selection-fg: #ffffff;
+  --nav-active: #262626;
+  --nav-muted: #8f8f8f;
+  --nav-hover: #5f5f5f;
+  --hover-surface: rgba(0, 0, 0, 0.02);
+  --card-shadow: rgba(20, 18, 15, 0.1);
+  --collage-section-bg: #000000;
+  --collage-section-fg: #ffffff;
+  --collage-section-border: rgba(255, 255, 255, 0.2);
+  --collage-checkbox-border: #ffffff;
+  --collage-checkbox-bg: #000000;
+  --collage-dot-all: #ffffff;
+  --collage-cat-gallery: #aab8e6;
+  --collage-cat-art: #e8b1c4;
+  --context-pill-top: #ffffff;
+  --context-pill-bottom: #e6e6e6;
+  --context-pill-fg: #004a99;
+  --context-pill-outline: #004a99;
+  --context-pill-shadow: rgba(0, 0, 0, 0.2);
+  --lightbox-scrim: rgba(0, 0, 0, 0.88);
+  --lightbox-fg: rgba(255, 255, 255, 0.9);
+  --lightbox-fg-muted: rgba(255, 255, 255, 0.85);
+  --lightbox-close-hover-bg: rgba(255, 255, 255, 0.1);
+  --lightbox-ring: rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #000000;
+  --fg: #efedf0;
+  --muted: #a3a7ab;
+  --border: rgba(235, 237, 240, 0.12);
+  --link: #f2a085;
+  --link-hover: #f6b5a0;
+  --surface: #131519;
+  --chip-bg: rgba(0, 0, 0, 0.45);
+  --panel-bg: rgba(0, 0, 0, 0.4);
+  --btn-bg: #111111;
+  --btn-fg: #e5e5e5;
+  --btn-hover: #1b1b1b;
+  --icon: #e5e5e5;
+  --social-hover: #715f27;
+  --accent: #00eb6c;
+  --accent-fg: #000000;
+  --selection-bg: #00b04c;
+  --selection-fg: #000000;
+  --nav-active: #d9d9d9;
+  --nav-muted: #707070;
+  --nav-hover: #a0a0a0;
+  --hover-surface: rgba(255, 255, 255, 0.04);
+  --card-shadow: rgba(235, 237, 240, 0.12);
+  --collage-section-bg: #ffffff;
+  --collage-section-fg: #000000;
+  --collage-section-border: rgba(0, 0, 0, 0.2);
+  --collage-checkbox-border: #000000;
+  --collage-checkbox-bg: #ffffff;
+  --collage-dot-all: #000000;
+  --collage-cat-gallery: #554719;
+  --collage-cat-art: #174e3b;
+  --context-pill-top: #000000;
+  --context-pill-bottom: #191919;
+  --context-pill-fg: #ffb566;
+  --context-pill-outline: #ffb566;
+  --context-pill-shadow: rgba(255, 255, 255, 0.15);
+  --lightbox-scrim: rgba(255, 255, 255, 0.88);
+  --lightbox-fg: rgba(0, 0, 0, 0.9);
+  --lightbox-fg-muted: rgba(0, 0, 0, 0.85);
+  --lightbox-close-hover-bg: rgba(0, 0, 0, 0.08);
+  --lightbox-ring: rgba(0, 0, 0, 0.55);
 }
 
 html {
-  background-color: #fff;
+  background-color: var(--bg);
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #fff;
+  background-color: var(--bg);
   color: var(--fg);
   font-feature-settings: "kern" 1, "liga" 1;
 }
 
 ::selection {
-  background: #ff4fb3;
-  color: #ffffff;
+  background: var(--selection-bg);
+  color: var(--selection-fg);
 }

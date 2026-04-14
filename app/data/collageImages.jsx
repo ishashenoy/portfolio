@@ -9,9 +9,9 @@ export const collageGallery = [
 ];
 
 export const collageArt = [
-  { id: "a1", src: "/images/art/art1.jpg", alt: "Art 1", caption: "watercolor on paper", w: 170, h: 128 },
-  { id: "a2", src: "/images/art/art2.jpg", alt: "Art 2", caption: "lips (digital)", w: 200, h: 150 },
-  { id: "a4", src: "/images/art/art4.jpg", alt: "Art 4", caption: "balloon  (digital)", w: 175, h: 131 },
-  { id: "a5", src: "/images/art/art5.jpg", alt: "Art 5", caption: "3D model (blender)", w: 195, h: 146 },
-  { id: "a6", src: "/images/art/art6.jpg", alt: "Art 6", caption: "smudge art (photoshop)", w: 205, h: 154 },
+  { id: "a1", src: "/images/art/art1.jpg", alt: "Art 1", w: 170, h: 128 },
+  { id: "a2", src: "/images/art/art2.jpg", alt: "Art 2", w: 200, h: 150 },
+  { id: "a4", src: "/images/art/art4.jpg", alt: "Art 4", w: 175, h: 131 },
+  { id: "a5", src: "/images/art/art5.jpg", alt: "Art 5", w: 195, h: 146 },
+  { id: "a6", src: "/images/art/art6.jpg", alt: "Art 6", w: 205, h: 154 },
 ];

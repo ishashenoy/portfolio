@@ -45,7 +45,7 @@ export default function HomeSectionNav({ links }) {
             key={link.href}
             href={link.href}
             className={`text-[36px] font-normal leading-none tracking-[-0.02em] transition ${
-              isActive ? "text-[#262626]" : "text-[#8f8f8f] hover:text-[#5f5f5f]"
+              isActive ? "text-[var(--nav-active)]" : "text-[var(--nav-muted)] hover:text-[var(--nav-hover)]"
             }`}
           >
             {link.label.toLowerCase()}

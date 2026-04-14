@@ -1,5 +1,5 @@
 const hl =
-  "rounded-md border border-[var(--border)] bg-[#eceae6] px-1.5 py-0.5 text-[var(--fg)]";
+  "rounded-md border border-[var(--border)] bg-[var(--surface)] px-1.5 py-0.5 text-[var(--fg)]";
 
 /** Optional thumbnails: /public/images/thumb/ — inline logo in the title pill reuses thumb_url. */
 export const experience = [
@@ -10,7 +10,7 @@ export const experience = [
     summary: (
       <>
         Built and scaled a consumer entertainment tracker platform to{" "}
-        <span className="bg-[#ff1493] px-1 text-white">15k+ users</span>, 200k+ titles, and 3m+
+        <span className="bg-[var(--accent)] px-1 text-[var(--accent-fg)]">15k+ users</span>, 200k+ titles, and 3m+
         views ($0 ad spend).
       </>
     ),
@@ -33,7 +33,7 @@ export const experience = [
     title: "grassroots kw",
     summary: (
       <>
-        <span className="bg-[#ff1493] px-1 text-white">Bloomberg Philanthropies</span>-funded
+        <span className="bg-[var(--accent)] px-1 text-[var(--accent-fg)]">Bloomberg Philanthropies</span>-funded
         climate advocacy platform with Next.js and automated data refresh workflows.
       </>
     ),

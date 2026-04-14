@@ -187,7 +187,7 @@ export default function SidebarMusicCovers() {
           type="button"
           onClick={goPrev}
           aria-label="Previous track"
-          className="inline-flex items-center justify-center rounded-lg bg-[var(--bg)] px-3 py-2 text-[var(--fg)] transition hover:bg-black/[0.04]"
+          className="inline-flex items-center justify-center rounded-lg bg-[var(--bg)] px-3 py-2 text-[var(--fg)] transition hover:bg-[var(--hover-surface)]"
         >
           <MdSkipPrevious className="h-5 w-5" aria-hidden />
         </button>
@@ -195,7 +195,7 @@ export default function SidebarMusicCovers() {
           type="button"
           onClick={togglePlayback}
           aria-label={isPlaying ? "Pause" : "Play"}
-          className="inline-flex items-center justify-center rounded-lg bg-[var(--bg)] px-3 py-2 text-[var(--fg)] transition hover:bg-black/[0.04]"
+          className="inline-flex items-center justify-center rounded-lg bg-[var(--bg)] px-3 py-2 text-[var(--fg)] transition hover:bg-[var(--hover-surface)]"
         >
           {isPlaying ? <MdPause className="h-5 w-5" aria-hidden /> : <MdPlayArrow className="h-5 w-5" aria-hidden />}
         </button>
@@ -203,7 +203,7 @@ export default function SidebarMusicCovers() {
           type="button"
           onClick={goNext}
           aria-label="Next track"
-          className="inline-flex items-center justify-center rounded-lg bg-[var(--bg)] px-3 py-2 text-[var(--fg)] transition hover:bg-black/[0.04]"
+          className="inline-flex items-center justify-center rounded-lg bg-[var(--bg)] px-3 py-2 text-[var(--fg)] transition hover:bg-[var(--hover-surface)]"
         >
           <MdSkipNext className="h-5 w-5" aria-hidden />
         </button>

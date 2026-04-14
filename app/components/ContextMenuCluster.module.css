@@ -38,9 +38,13 @@
   padding: 6px 12px;
   border: none;
   border-radius: 999px;
-  background: linear-gradient(to bottom, #ffffff, #e6e6e6);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  color: #004a99;
+  background: linear-gradient(
+    to bottom,
+    var(--context-pill-top),
+    var(--context-pill-bottom)
+  );
+  box-shadow: 0 4px 10px var(--context-pill-shadow);
+  color: var(--context-pill-fg);
   font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1.25;
@@ -52,7 +56,7 @@
 }
 
 .pill:focus-visible {
-  outline: 2px solid #004a99;
+  outline: 2px solid var(--context-pill-outline);
   outline-offset: 2px;
 }
 

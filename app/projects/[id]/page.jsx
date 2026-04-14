@@ -25,8 +25,8 @@ export default async function ProjectPage({ params }) {
           ← Back
         </Link>
 
-        <div className="mt-10 overflow-hidden rounded-lg border border-[var(--border)] bg-white/40">
-          <div className="relative aspect-[16/10] w-full bg-[#eceae6]">
+        <div className="mt-10 overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--panel-bg)]">
+          <div className="relative aspect-[16/10] w-full bg-[var(--surface)]">
             <Image
               src={project.thumb_url}
               alt={`${project.title} preview`}
@@ -63,7 +63,7 @@ export default async function ProjectPage({ params }) {
           {project.tech.map((t) => (
             <span
               key={t}
-              className="rounded-md border border-[var(--border)] bg-white/50 px-2 py-0.5 text-xs text-[var(--fg)]"
+              className="rounded-md border border-[var(--border)] bg-[var(--chip-bg)] px-2 py-0.5 text-xs text-[var(--fg)]"
             >
               {t}
             </span>

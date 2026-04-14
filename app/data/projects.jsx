@@ -12,7 +12,7 @@ export const projects = [
           href="https://events.ycombinator.com/fullstackhackathon"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-[#ff1493] px-1 text-white underline underline-offset-2 hover:opacity-90"
+          className="bg-[var(--accent)] px-1 text-[var(--accent-fg)] underline underline-offset-2 hover:opacity-90"
         >
           Y Combinator Full-Stack Hackathon
         </a>

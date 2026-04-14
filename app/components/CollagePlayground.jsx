@@ -13,11 +13,7 @@ const EDGE_PADDING = 6;
 const COLLISION_OVERLAP_ALLOWANCE = 24;
 const CAPTION_BLOCK_HEIGHT = 26;
 
-const CARD_SHADOW_CLASS = "shadow-[0.5px_1px_2px_rgba(20,18,15,0.1)]";
-const CATEGORY_COLORS = {
-  gallery: "#aab8e6",
-  art: "#e8b1c4",
-};
+const CARD_SHADOW_CLASS = "shadow-[0.5px_1px_2px_var(--card-shadow)]";
 
 /** True if axis-aligned rects overlap, counting g px minimum gap between edges. */
 function overlapWithGap(a, b, g) {
@@ -128,10 +124,14 @@ function packRowsFallback(items, W, padding) {
   return { positionsPct, heightPx };
 }
 
+function layoutHeight(item) {
+  return item.h + (item.category === "art" ? 0 : CAPTION_BLOCK_HEIGHT);
+}
+
 function computeLayout(items, containerWidth) {
   const itemsWithCaptionSpace = items.map((item) => ({
     ...item,
-    h: item.h + CAPTION_BLOCK_HEIGHT,
+    h: layoutHeight(item),
   }));
   const W = Math.max(320, containerWidth);
   const minH =
@@ -255,8 +255,8 @@ export default function CollagePlayground() {
   };
 
   return (
-    <section className="relative mt-24 w-full bg-black" aria-label="Draggable gallery">
-      <div className="border-t border-white/20 px-5 py-8 sm:px-8">
+    <section className="relative mt-24 w-full bg-[var(--collage-section-bg)]" aria-label="Draggable gallery">
+      <div className="border-t border-[var(--collage-section-border)] px-5 py-8 sm:px-8">
         <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-x-10 gap-y-3">
           {[
             { key: "all", label: "All" },
@@ -265,7 +265,7 @@ export default function CollagePlayground() {
           ].map(({ key, label }) => (
             <label
               key={key}
-              className="inline-flex cursor-pointer select-none items-center gap-2 font-sans text-[15px] text-white"
+              className="inline-flex cursor-pointer select-none items-center gap-2 font-sans text-[15px] text-[var(--collage-section-fg)]"
             >
               <input
                 type="checkbox"
@@ -274,7 +274,7 @@ export default function CollagePlayground() {
                 onChange={() => setFilterExclusive(key)}
               />
               <span
-                className="inline-flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-white bg-black"
+                className="inline-flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[var(--collage-checkbox-border)] bg-[var(--collage-checkbox-bg)]"
                 aria-hidden
               >
                 {filter === key ? (
@@ -282,7 +282,11 @@ export default function CollagePlayground() {
                     className="h-[8px] w-[8px] rounded-full"
                     style={{
                       backgroundColor:
-                        key === "all" ? "#ffffff" : CATEGORY_COLORS[key],
+                        key === "all"
+                          ? "var(--collage-dot-all)"
+                          : key === "gallery"
+                            ? "var(--collage-cat-gallery)"
+                            : "var(--collage-cat-art)",
                     }}
                   />
                 ) : null}
@@ -307,6 +311,7 @@ export default function CollagePlayground() {
             visibleItems.map((item, idx) => {
               const pos = positions[item.id];
               if (!pos) return null;
+              const showCaption = item.category !== "art";
               return (
                 <div
                   key={item.id}
@@ -317,7 +322,7 @@ export default function CollagePlayground() {
                     left: `${pos.x}%`,
                     top: `${pos.y}%`,
                     width: item.w,
-                    height: item.h + CAPTION_BLOCK_HEIGHT,
+                    height: layoutHeight(item),
                     zIndex: draggingId === item.id ? 1000 : 10 + (idx % 8),
                     touchAction: "none",
                   }}
@@ -336,9 +341,11 @@ export default function CollagePlayground() {
                       draggable={false}
                       sizes={`${item.w}px`}
                     />
-                    <p className="mt-1 text-center text-[13px] font-light leading-tight text-white">
-                      {item.caption}
-                    </p>
+                    {showCaption ? (
+                      <p className="mt-1 text-center text-[13px] font-light leading-tight text-[var(--collage-section-fg)]">
+                        {item.caption}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
               );

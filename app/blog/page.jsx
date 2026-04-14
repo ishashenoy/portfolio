@@ -29,7 +29,7 @@ export default async function BlogPage() {
           <Link
             key={post.slug}
             href={`/blog/${post.slug}`}
-            className="group grid grid-cols-[1.8fr_1fr_1.6fr] items-start gap-4 border-b border-[var(--border)] py-3 text-[var(--fg)] transition hover:bg-black/[0.02]"
+            className="group grid grid-cols-[1.8fr_1fr_1.6fr] items-start gap-4 border-b border-[var(--border)] py-3 text-[var(--fg)] transition hover:bg-[var(--hover-surface)]"
           >
             <div className="flex min-w-0 items-start gap-2">
               <span className="mt-1 text-[13px] leading-none">●</span>

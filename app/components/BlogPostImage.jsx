@@ -29,7 +29,7 @@ export function BlogPostImage({ src = "", alt = "", title = "" }) {
     typeof document !== "undefined" &&
     createPortal(
       <div
-        className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-black/88 p-4 backdrop-blur-[2px]"
+        className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[var(--lightbox-scrim)] p-4 backdrop-blur-[2px]"
         role="dialog"
         aria-modal="true"
         aria-label={alt || "Image preview"}
@@ -38,7 +38,7 @@ export function BlogPostImage({ src = "", alt = "", title = "" }) {
         <button
           type="button"
           onClick={closeLightbox}
-          className="absolute right-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-full text-white/90 transition hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+          className="absolute right-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-full text-[var(--lightbox-fg)] transition hover:bg-[var(--lightbox-close-hover-bg)] hover:text-[var(--lightbox-fg)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--lightbox-ring)]"
           aria-label="Close preview"
         >
           <MdClose className="h-6 w-6" aria-hidden />
@@ -54,7 +54,7 @@ export function BlogPostImage({ src = "", alt = "", title = "" }) {
             decoding="async"
           />
           {title ? (
-            <p className="mt-4 max-w-2xl text-center text-sm leading-relaxed text-white/85">{title}</p>
+            <p className="mt-4 max-w-2xl text-center text-sm leading-relaxed text-[var(--lightbox-fg-muted)]">{title}</p>
           ) : null}
         </div>
       </div>,

@@ -42,7 +42,7 @@ export default function Home() {
               <div className="inline-flex items-center gap-2">
                 <a
                   href={`mailto:${EMAIL}`}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-[#eeeeee] px-4 py-2 text-sm font-medium text-[#1a1a1a] transition hover:bg-[#e4e4e4]"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[var(--btn-bg)] px-4 py-2 text-sm font-medium text-[var(--btn-fg)] transition hover:bg-[var(--btn-hover)]"
                 >
                   <MdEmail className="h-4 w-4 shrink-0" aria-hidden />
                   Email
@@ -51,7 +51,7 @@ export default function Home() {
                   href={RESUME_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-[#eeeeee] px-4 py-2 text-sm font-medium text-[#1a1a1a] transition hover:bg-[#e4e4e4]"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[var(--btn-bg)] px-4 py-2 text-sm font-medium text-[var(--btn-fg)] transition hover:bg-[var(--btn-hover)]"
                 >
                   <MdDescription className="h-4 w-4 shrink-0" aria-hidden />
                   Resume
@@ -67,7 +67,7 @@ export default function Home() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={s.label}
-                      className="text-[#1a1a1a] transition hover:text-[#8ea0d8]"
+                      className="text-[var(--icon)] transition hover:text-[var(--social-hover)]"
                     >
                       <Icon className="h-5 w-5" aria-hidden />
                     </a>
@@ -78,7 +78,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Mytria"
-                  className="text-[#1a1a1a] transition hover:text-[#8ea0d8]"
+                  className="text-[var(--icon)] transition hover:text-[var(--social-hover)]"
                 >
                   <Image
                     src="/images/icons/mytria.png"
@@ -96,7 +96,7 @@ export default function Home() {
             <div className="mb-14">
               <p className="text-lg leading-relaxed tracking-tight text-[var(--muted)]">
                 engineering @{" "}
-                <span className="bg-[#ff1493] px-1 text-white">university of waterloo</span>{" "}
+                <span className="bg-[var(--accent)] px-1 text-[var(--accent-fg)]">university of waterloo</span>{" "}
                 🪿
               </p>
               <p className="mt-5 text-lg leading-relaxed tracking-tight text-[var(--muted)]">
@@ -104,7 +104,7 @@ export default function Home() {
               </p>
               <p className="mt-5 text-lg leading-relaxed tracking-tight text-[var(--muted)]">
                 i love people, love to talk, love to learn.{" "}
-                <span className="bg-[#ff1493] px-1 text-white">let&apos;s chat!</span>
+                <span className="bg-[var(--accent)] px-1 text-[var(--accent-fg)]">let&apos;s chat!</span>
               </p>
             </div>
 
@@ -125,7 +125,7 @@ export default function Home() {
                         href={job.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block overflow-hidden rounded-2xl bg-[#eceae6] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--link)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
+                        className="block overflow-hidden rounded-2xl bg-[var(--surface)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--link)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
                         aria-label={`${job.title} (opens in a new tab)`}
                       >
                         <div className="relative aspect-[16/10] w-full">
@@ -157,7 +157,7 @@ export default function Home() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${job.title} website`}
-                          className="shrink-0 text-[#1a1a1a] transition hover:text-[var(--link)]"
+                          className="shrink-0 text-[var(--icon)] transition hover:text-[var(--link)]"
                         >
                           <LuExternalLink className="h-6 w-6" aria-hidden />
                         </a>
@@ -192,7 +192,7 @@ export default function Home() {
                   <article className="group">
                     <Link
                       href={`/projects/${project.id}`}
-                      className="block overflow-hidden rounded-2xl bg-[#eceae6] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--link)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
+                      className="block overflow-hidden rounded-2xl bg-[var(--surface)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--link)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
                       aria-label={`${project.title} case study`}
                     >
                       <div className="relative aspect-[16/10] w-full">
@@ -220,7 +220,7 @@ export default function Home() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${project.title} external link`}
-                          className="shrink-0 text-[#1a1a1a] transition hover:text-[var(--link)]"
+                          className="shrink-0 text-[var(--icon)] transition hover:text-[var(--link)]"
                         >
                           <ExternalIcon className="h-6 w-6" aria-hidden />
                         </a>
@@ -237,7 +237,7 @@ export default function Home() {
                       {project.tech.map((t) => (
                         <span
                           key={t}
-                          className="rounded-md border border-[var(--border)] bg-white/50 px-2 py-0.5 text-xs text-[var(--fg)]"
+                          className="rounded-md border border-[var(--border)] bg-[var(--chip-bg)] px-2 py-0.5 text-xs text-[var(--fg)]"
                         >
                           {t}
                         </span>

@@ -1,7 +1,18 @@
 import localFont from "next/font/local";
 import { Lora } from "next/font/google";
 import ContextMenuCluster from "./components/ContextMenuCluster";
+import ThemeToggle from "./components/ThemeToggle";
 import "./globals.css";
+
+const themeInitScript = `
+(function(){
+  try {
+    if (localStorage.getItem("portfolio-theme") === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  } catch (e) {}
+})();
+`;
 
 const openRunde = localFont({
   src: [
@@ -27,10 +38,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${openRunde.variable} ${lora.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${openRunde.variable} ${lora.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className={`${openRunde.className} antialiased`}>
         {children}
         <ContextMenuCluster />
+        <ThemeToggle />
       </body>
     </html>
   );
