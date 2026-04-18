@@ -100,7 +100,7 @@ export default function Home() {
                 🪿
               </p>
               <p className="mt-5 text-lg leading-relaxed tracking-tight text-[var(--muted)]">
-                web dev, mobile dev, ai, ml, systems, product
+                web dev, mobile dev, ai, systems, product
               </p>
               <p className="mt-5 text-lg leading-relaxed tracking-tight text-[var(--muted)]">
                 i love people, love to talk, love to learn.{" "}

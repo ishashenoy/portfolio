@@ -27,7 +27,7 @@ why?
 
 ...
 
-i wasn't quite sure. i wasn't exactly miserable. but i lost motivation for pretty much everything. maybe it was just senioritis. maybe it was something more.
+i wasn't quite sure. i wasn't exactly _miserable_. but i lost motivation for pretty much everything. maybe it was just senioritis. maybe it was something more.
 
 
 after coming to waterloo, a _lot_ changed. more specifically in my second term. i think i'm more sure of myself now.
@@ -47,7 +47,7 @@ i started to remember the reason i liked building in the first place.
 when i made games on scratch as an eight year old, i wasn't doing it for money. i was doing it because it was fun and i wanted other people to have fun too.
 
 
-i guess that's my life goal.
+i guess that's my goal.
 
 
 to have fun and build things that other people can enjoy.
