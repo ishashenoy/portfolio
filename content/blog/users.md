@@ -8,6 +8,8 @@ things people have said about mytria
 
 “i rlly hope this site sticks around for long !!”
 
+"i recently got out of a depressive slump and im slowly rediscovering my love to media. and i found writing/ranting here helps alot."
+
 “this is so fun its gonna be my 2nd tumblr”
 
 “omg this is so amazing im gonna be obsessed with this”
@@ -19,8 +21,6 @@ things people have said about mytria
 | ![my image alt text](/images/blog/users/image2.png) |![my image alt text](/images/blog/users/image1.png) |
 
 “muy buenos los cambios de la app.”
-
-“stuck between gatekeeping and sharing this app💔”
 
 |  |  |
 |---|---|

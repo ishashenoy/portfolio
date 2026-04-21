@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdDescription, MdEmail } from "react-icons/md";
 import { LuExternalLink } from "react-icons/lu";
-import { SiGithub, SiInstagram, SiLinkedin, SiX } from "react-icons/si";
+import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
 import CollagePlayground from "./components/CollagePlayground";
 import HomeSectionNav from "./components/HomeSectionNav";
 import { experience } from "./data/experience";
@@ -12,12 +12,13 @@ const EMAIL = "ishenoy@uwaterloo.ca";
 const RESUME_URL =
   "https://drive.google.com/file/d/14mkg2P8_zrI10RepVzGZ21CnGgXMCRx3/view";
 const MYTRIA_URL = "https://mytria.app/profile/ichiberry";
+const TIKTOK_URL = "https://www.tiktok.com/@qoljee";
+const INSTAGRAM_URL = "https://www.instagram.com/ichiberries/";
 
 const social = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/ishashenoy/", Icon: SiLinkedin },
   { label: "GitHub", href: "https://github.com/ishashenoy", Icon: SiGithub },
   { label: "X", href: "https://x.com/ichiberries", Icon: SiX },
-  { label: "Instagram", href: "https://www.instagram.com/ichiberries/", Icon: SiInstagram },
 ];
 
 export default function Home() {
@@ -100,11 +101,31 @@ export default function Home() {
                 🪿
               </p>
               <p className="mt-5 text-lg leading-relaxed tracking-tight text-[var(--muted)]">
-                web dev, mobile dev, ai, systems, product
+                built, deployed, scaled <span className="bg-[var(--accent)] px-1 text-[var(--accent-fg)]">mytria</span>, a full-stack cross-platform app (15K+ users, 3M+ social views)
               </p>
               <p className="mt-5 text-lg leading-relaxed tracking-tight text-[var(--muted)]">
-                i love people, love to talk, love to learn.{" "}
-                <span className="bg-[var(--accent)] px-1 text-[var(--accent-fg)]">let&apos;s chat!</span>
+                creating tech content on{" "}
+                <a
+                  href={TIKTOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--link)] underline underline-offset-2"
+                >
+                  tiktok
+                </a>{" "}
+                (7M+ views) and{" "}
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--link)] underline underline-offset-2"
+                >
+                  instagram
+                </a>{" "}
+                (3M+ views)
+              </p>
+              <p className="mt-5 text-lg leading-relaxed tracking-tight text-[var(--muted)]">
+                seeking summer 2026, winter 2027 internship opportunities
               </p>
             </div>
 
