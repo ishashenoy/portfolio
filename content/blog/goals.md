@@ -18,16 +18,7 @@ i'm still not entirely sure. but i think i'm getting there.
 i ended up giving a very shallow reply, something along the lines of "get a good job" or "start a business".
 
 
-this question was hard for me. you see, in high school, i didn't do much.
-
-i didn't go out much, didn't _really_ have friends, i didn't even go to prom.
-
-
-why?
-
-...
-
-i wasn't quite sure. i wasn't exactly _miserable_. but i lost motivation for pretty much everything. maybe it was just senioritis. maybe it was something more.
+this question was hard for me. you see, in high school, i didn't do much. i wasn't exactly _miserable_. but i lost motivation for pretty much everything. maybe it was just senioritis. maybe it was something more. i had no _goals_ other than getting into waterloo, and once i had achieved that...there was nothing else.
 
 
 after coming to waterloo, a _lot_ changed. more specifically in my second term. i think i'm more sure of myself now.

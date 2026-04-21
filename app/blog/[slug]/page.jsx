@@ -39,6 +39,7 @@ export default async function BlogPostPage({ params }) {
         <article
           className={
             "prose prose-neutral max-w-none text-[var(--muted)] prose-headings:lowercase prose-headings:text-[var(--fg)] prose-p:leading-relaxed prose-p:mb-6 [&_p:last-child]:mb-0 " +
+            "[&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-5 [&_li]:my-1 " +
             "[&_table]:w-full [&_table]:table-fixed [&_table_td]:align-top [&_table_th]:align-top " +
             "[&_table_td_figure]:!my-2 [&_table_th_figure]:!my-2 " +
             "[&_table_td_figure_img]:!h-[min(13rem,36vw)] [&_table_td_figure_img]:w-full [&_table_td_figure_img]:!max-h-none [&_table_td_figure_img]:object-cover " +
