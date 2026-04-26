@@ -41,4 +41,4 @@ when i made games on scratch as an eight year old, i wasn't doing it for money. 
 i guess that's my goal.
 
 
-to build things that other people can enjoy.
+to build meaningful things that other people can enjoy.

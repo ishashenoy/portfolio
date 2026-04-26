@@ -125,7 +125,7 @@ export default function Home() {
                 (3M+ views)
               </p>
               <p className="mt-5 text-lg leading-relaxed tracking-tight text-[var(--muted)]">
-                seeking summer 2026, winter 2027 internship opportunities
+                seeking fall 2026 internship opportunities
               </p>
             </div>
 
