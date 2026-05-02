@@ -30,6 +30,6 @@ things people have said about mytria
 
 “this website is basically tumblr + pinterest but for nerds”
 
-"Man didn't even realize this was an ad, it worked though because I instantly went and created an account on the site 😭✌️"
+"Man didn't even realize this was an ad, it worked though because I instantly went and created an account on the site 😭✌️" 
 
 “I made a list for stuff I've never watched or going to but it just has a pretty cover, that's why my media is so high haha anyone else do this? reply: I mean... at least u have what you are planning to see, most of mine are shows I dropped at some point lol”
