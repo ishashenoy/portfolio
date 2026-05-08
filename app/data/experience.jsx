@@ -50,20 +50,13 @@ export const experience = [
       </>
     ),
   },
-  // {
-  //   id: "atkins-realis",
-  //   role: "incoming S26",
-  //   title: "atkinsréalis",
-  //   summary: "working on multi-million-dollar nuclear infrastructure projects!",
-  //   thumb_url: "/images/thumb/atkinsrealis.jpg",
-  //   initials: "AR",
-  //   link: "https://www.atkinsrealis.com/",
-  //   bullets: (
-  //     <>
-  //       <li>built internal tools to improve engineering team velocity.</li>
-  //       <li>contributed to software features across planning, delivery, and testing.</li>
-  //       <li>collaborated with engineers and stakeholders on production requirements.</li>
-  //     </>
-  //   ),
-  // },
+  {
+    id: "capston",
+    role: "software engineering intern",
+    title: "capston",
+    summary: " employee #3. building and shipping AI workflow systems end-to-end!",
+    thumb_url: "https://www.capston.ca/opengraph-image.png?opengraph-image.0rkr00j4..vz3.png?dpl=dpl_BGfs81qHarGwqT9njfS13KmL7xTx",
+    initials: "C",
+    link: "https://capston.ca/",
+  },
 ];

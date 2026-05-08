@@ -125,7 +125,7 @@ export default function Home() {
                 (3M+ views)
               </p>
               <p className="mt-5 text-lg leading-relaxed tracking-tight text-[var(--muted)]">
-                seeking fall 2026 internship opportunities
+                open to any opportunities - let's chat!
               </p>
             </div>
 

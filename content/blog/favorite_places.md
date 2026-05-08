@@ -21,6 +21,6 @@ pabbas ice cream parlor - best gadbad in the world
 sai radha paradise
 my bed :P
 bubblaine, la jolla, wuhu island, sulani, lurelin village - can you tell i like the beach?
-qnc - best study spot on campus
+qnc, hagey hall room 1101 - best study spots on campus
 buffalo cheesecake factory - pit stop
 my sims ds (whole game)
