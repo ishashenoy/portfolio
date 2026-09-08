@@ -1,10 +1,8 @@
 ---
 title: mytria: words from users
 date: 2026-04-05
+description: things people have said about mytria
 ---
-
-things people have said about mytria
-
 
 “i rlly hope this site sticks around for long !!”
 

@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import { Lora } from "next/font/google";
+import MusicPlayer from "./components/MusicPlayer";
 import ThemeToggle from "./components/ThemeToggle";
 import "./globals.css";
 
@@ -50,6 +51,7 @@ export default function RootLayout({ children }) {
       <body className={`${openRunde.className} antialiased`}>
         {children}
         <ThemeToggle />
+        <MusicPlayer />
       </body>
     </html>
   );

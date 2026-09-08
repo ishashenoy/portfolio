@@ -1,6 +1,7 @@
 ---
 title: favorite places
 date: 2026-04-10
+description: a few places i keep coming back to
 ---
 
 |  |  |  |

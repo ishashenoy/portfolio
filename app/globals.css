@@ -111,34 +111,8 @@ body {
   font-feature-settings: "kern" 1, "liga" 1;
 }
 
-.blog-shell {
-  min-height: 100vh;
-  min-width: 0;
-  overflow-x: hidden;
-  padding:
-    max(2.75rem, env(safe-area-inset-top))
-    max(1.25rem, env(safe-area-inset-right))
-    max(6rem, env(safe-area-inset-bottom))
-    max(1.25rem, env(safe-area-inset-left));
-}
-
-@media (min-width: 640px) {
-  .blog-shell {
-    padding:
-      4rem
-      max(2rem, env(safe-area-inset-right))
-      max(6rem, env(safe-area-inset-bottom))
-      max(2rem, env(safe-area-inset-left));
-  }
-}
-
 .blog-post-body {
-  font-family: var(--font-v2-roboto), "Roboto", sans-serif;
   overflow-wrap: break-word;
-}
-
-.blog-post-body :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-sans), sans-serif;
 }
 
 .blog-post-body :is(img, video, iframe, figure, table) {
@@ -148,4 +122,18 @@ body {
 ::selection {
   background: var(--selection-bg);
   color: var(--selection-fg);
+}
+
+@keyframes vinyl-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.vinyl-spinning {
+  animation: vinyl-spin 3s linear infinite;
+}
+
+.vinyl-paused {
+  animation: vinyl-spin 3s linear infinite;
+  animation-play-state: paused;
 }

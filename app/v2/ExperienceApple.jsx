@@ -108,7 +108,7 @@ const details = {
     role: "Co-Founder",
     dates: "Jan 2026 – Present",
     body: ["Co-built Munch, a social recipe app, from prototype to MVP."],
-    href: null,
+    href: "https://jointhemunch.app/",
     thumb: "/images/thumb/munch.jpg",
   },
   m: {

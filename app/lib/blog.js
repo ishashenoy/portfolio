@@ -83,6 +83,62 @@ export async function getAllPosts() {
   return posts.sort((a, b) => (b.date || "").localeCompare(a.date || "") || b.slug.localeCompare(a.slug));
 }
 
+export function slugifyHeading(text) {
+  return String(text)
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function tocLabelFromHeading(label) {
+  return label.replace(/^\d+\s*\/\s*/, "").trim() || label;
+}
+
+export function extractHeadings(markdown) {
+  const headings = [];
+  const seen = new Map();
+  const re = /^##\s+(?!#)(.+)$/gm;
+  let match;
+  while ((match = re.exec(markdown))) {
+    const raw = match[1].trim();
+    const label = tocLabelFromHeading(raw);
+    const base = slugifyHeading(label) || "section";
+    const count = (seen.get(base) || 0) + 1;
+    seen.set(base, count);
+    headings.push({
+      id: count === 1 ? base : `${base}-${count}`,
+      label,
+    });
+  }
+  return headings;
+}
+
+function extractDescription(meta, markdown) {
+  if (typeof meta.description === "string" && meta.description.trim()) {
+    return meta.description.trim();
+  }
+
+  const blocks = markdown.replace(/\r\n/g, "\n").split(/\n\s*\n/);
+  for (const block of blocks) {
+    const trimmed = block.trim();
+    if (!trimmed) continue;
+    if (trimmed.startsWith("#") || trimmed.startsWith("|") || trimmed.startsWith("![")) continue;
+    if (/^\*[^*\n]+\*$/.test(trimmed)) continue;
+
+    const text = trimmed
+      .replace(/\*\*([^*]+)\*\*/g, "$1")
+      .replace(/\*([^*]+)\*/g, "$1")
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (text) return text;
+  }
+
+  return "";
+}
+
 export async function getPostBySlug(slug) {
   const safeSlug = slug.replace(/[^a-zA-Z0-9-_]/g, "");
   const fullPath = path.join(blogDir, `${safeSlug}.md`);
@@ -92,6 +148,18 @@ export async function getPostBySlug(slug) {
     slug: safeSlug,
     title: getPostTitle(meta, content, safeSlug),
     date: meta.date || "",
+    description: extractDescription(meta, content),
+    timeline: typeof meta.timeline === "string" ? meta.timeline.trim() : "",
+    tools: typeof meta.tools === "string" ? meta.tools.trim() : "",
+    skills:
+      typeof meta.skills === "string"
+        ? meta.skills
+            .split(",")
+            .map((skill) => skill.trim())
+            .filter(Boolean)
+        : [],
+    credit: typeof meta.credit === "string" ? meta.credit.trim() : "",
+    headings: extractHeadings(content),
     content,
   };
 }
