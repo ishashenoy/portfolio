@@ -28,8 +28,8 @@ export function BlogPostImage({ src = "", alt = "", title = "" }) {
     open &&
     typeof document !== "undefined" &&
     createPortal(
-      <div
-        className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[var(--lightbox-scrim)] p-4 backdrop-blur-[2px]"
+        <div
+        className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[var(--lightbox-scrim)] p-4 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-[2px]"
         role="dialog"
         aria-modal="true"
         aria-label={alt || "Image preview"}
@@ -38,7 +38,7 @@ export function BlogPostImage({ src = "", alt = "", title = "" }) {
         <button
           type="button"
           onClick={closeLightbox}
-          className="absolute right-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-full text-[var(--lightbox-fg)] transition hover:bg-[var(--lightbox-close-hover-bg)] hover:text-[var(--lightbox-fg)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--lightbox-ring)]"
+          className="absolute right-[max(0.75rem,env(safe-area-inset-right))] top-[max(0.75rem,env(safe-area-inset-top))] inline-flex h-11 w-11 items-center justify-center rounded-full text-[var(--lightbox-fg)] transition hover:bg-[var(--lightbox-close-hover-bg)] hover:text-[var(--lightbox-fg)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--lightbox-ring)]"
           aria-label="Close preview"
         >
           <MdClose className="h-6 w-6" aria-hidden />
@@ -63,11 +63,11 @@ export function BlogPostImage({ src = "", alt = "", title = "" }) {
 
   return (
     <>
-      <figure className="my-8">
+      <figure className="my-8 max-w-full min-w-0">
         <button
           type="button"
           onClick={openLightbox}
-          className="group relative block w-full cursor-zoom-in overflow-hidden border border-[var(--border)] bg-transparent p-0 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--link)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
+          className="group relative block w-full max-w-full cursor-zoom-in overflow-hidden border border-[var(--border)] bg-transparent p-0 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--link)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
           aria-label={alt ? `Open larger view: ${alt}` : "Open larger image view"}
         >
           <img
@@ -75,7 +75,7 @@ export function BlogPostImage({ src = "", alt = "", title = "" }) {
             alt={alt}
             loading="lazy"
             decoding="async"
-            className="h-auto w-full object-cover transition duration-200 group-hover:opacity-[0.97]"
+            className="h-auto w-full max-w-full object-cover transition duration-200 group-hover:opacity-[0.97]"
           />
         </button>
         {title ? (

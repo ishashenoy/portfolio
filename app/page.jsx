@@ -3,6 +3,8 @@ import AboutSection from "./v2/AboutSection";
 import BasketNav from "./v2/BasketNav";
 import BlogSection from "./v2/BlogSection";
 import ExperienceApple from "./v2/ExperienceApple";
+import GalleryCollage from "./v2/GalleryCollage";
+import ProjectsSection from "./v2/ProjectsSection";
 import { getAllPosts } from "./lib/blog";
 import styles from "./v2/v2.module.css";
 
@@ -74,7 +76,9 @@ export default async function Home() {
 
         <AboutSection />
         <ExperienceApple />
+        <ProjectsSection />
         <BlogSection posts={posts} />
+        <GalleryCollage />
       </main>
     </div>
   );

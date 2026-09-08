@@ -35,6 +35,12 @@ export const metadata = {
   description: "Portfolio — projects and contact.",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${openRunde.variable} ${lora.variable}`}>

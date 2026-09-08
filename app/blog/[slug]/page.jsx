@@ -31,13 +31,13 @@ export default async function BlogPostPage({ params }) {
     );
 
     return (
-      <div className="w-full max-w-[780px]">
+      <div className="w-full min-w-0 max-w-[780px]">
         <MarkBlogPostRead slug={post.slug} />
         <header className="mb-8">
-          <Link href="/#blog" className="text-[var(--link)] hover:underline">
+          <Link href="/#blog" className="inline-flex min-h-11 items-center text-[var(--link)] hover:underline">
             ← back to blog
           </Link>
-          <h1 className="mt-5 text-[clamp(1.9rem,4.2vw,2.8rem)] font-bold lowercase leading-tight tracking-tight text-[var(--fg)]">
+          <h1 className="mt-5 break-words text-[clamp(1.55rem,8vw,2.8rem)] font-bold lowercase leading-[1.15] tracking-tight text-[var(--fg)]">
             {post.title}
           </h1>
           {post.date ? (
@@ -47,7 +47,7 @@ export default async function BlogPostPage({ params }) {
 
         <article
           className={
-            "blog-post-body prose prose-neutral max-w-none text-[var(--muted)] prose-headings:lowercase prose-headings:text-[var(--fg)] prose-p:leading-relaxed prose-p:mb-6 [&_p:last-child]:mb-0 " +
+            "blog-post-body prose prose-neutral min-w-0 max-w-none overflow-x-hidden text-[var(--muted)] prose-headings:lowercase prose-headings:text-[var(--fg)] prose-p:leading-relaxed prose-p:mb-6 [&_p:last-child]:mb-0 " +
             "[&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-5 [&_li]:my-1 " +
             "[&_table]:w-full [&_table]:table-fixed [&_table_td]:align-top [&_table_th]:align-top " +
             "[&_table_td_figure]:!my-2 [&_table_th_figure]:!my-2 " +

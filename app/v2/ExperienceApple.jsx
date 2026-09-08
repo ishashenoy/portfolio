@@ -7,9 +7,14 @@ import SketchBorder from "./SketchBorder";
 import styles from "./v2.module.css";
 
 const MOTION = "transform 620ms cubic-bezier(0.4, 0, 0.2, 1)";
+const COMPACT_MQ = "(max-width: 800px)";
+
+function isCompactViewport() {
+  return typeof window !== "undefined" && window.matchMedia(COMPACT_MQ).matches;
+}
 
 function appleTransform(stage, apple, open) {
-  if (!open) return "none";
+  if (!open || isCompactViewport()) return "none";
 
   const stageBox = stage.getBoundingClientRect();
   const appleBox = apple.getBoundingClientRect();
@@ -30,7 +35,7 @@ function appleTransform(stage, apple, open) {
 const stickers = [
   {
     id: "hex",
-    src: "/images/experience/sticker-hex.png",
+    src: "/images/experience/capston.png",
     alt: "capston",
     className: "stickerHex",
     width: 143,
@@ -38,7 +43,7 @@ const stickers = [
   },
   {
     id: "oval",
-    src: "/images/experience/sticker-oval.png",
+    src: "/images/experience/grassroots.png",
     alt: "grassroots kw",
     className: "stickerOval",
     width: 101,
@@ -46,7 +51,7 @@ const stickers = [
   },
   {
     id: "flower",
-    src: "/images/experience/sticker-flower.png",
+    src: "/images/experience/munch.png",
     alt: "munch",
     className: "stickerFlower",
     width: 125,
@@ -54,7 +59,7 @@ const stickers = [
   },
   {
     id: "m",
-    src: "/images/experience/sticker-m.png",
+    src: "/images/experience/mytria.png",
     alt: "mytria",
     className: "stickerM",
     width: 133,
@@ -102,12 +107,7 @@ const details = {
     title: "munch",
     role: "Co-Founder",
     dates: "Jan 2026 – Present",
-    body: [
-      "Co-built Munch, a social recipe app, from prototype to MVP.",
-      <>
-        Our launch brought in <Mark>100+ waitlist signups in 24 hours</Mark>.
-      </>,
-    ],
+    body: ["Co-built Munch, a social recipe app, from prototype to MVP."],
     href: null,
     thumb: "/images/thumb/munch.jpg",
   },
@@ -230,9 +230,25 @@ export default function ExperienceApple() {
       placeApple(openRef.current, false);
     }
 
+    const media = window.matchMedia(COMPACT_MQ);
     window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    media.addEventListener("change", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      media.removeEventListener("change", onResize);
+    };
   }, []);
+
+  useEffect(() => {
+    if (!selected || !isCompactViewport()) return undefined;
+
+    const node = document.getElementById(detailsId);
+    const timer = window.setTimeout(() => {
+      node?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 80);
+
+    return () => window.clearTimeout(timer);
+  }, [selected, detailsId]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -292,7 +308,10 @@ export default function ExperienceApple() {
               })}
             </div>
           </div>
-          <p className={`${styles.aboutBody} ${styles.appleNote}`}>(click on a sticker)</p>
+          <p className={`${styles.aboutBody} ${styles.appleNote}`}>
+            <span className={styles.clickHint}>(click on a sticker)</span>
+            <span className={styles.tapHint}>(tap a sticker)</span>
+          </p>
         </div>
 
         <div className={styles.workDetail} id={detailsId} aria-hidden={!open} aria-live="polite">
