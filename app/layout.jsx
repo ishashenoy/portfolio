@@ -1,6 +1,5 @@
 import localFont from "next/font/local";
 import { Lora } from "next/font/google";
-import ContextMenuCluster from "./components/ContextMenuCluster";
 import ThemeToggle from "./components/ThemeToggle";
 import "./globals.css";
 
@@ -44,7 +43,6 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${openRunde.className} antialiased`}>
         {children}
-        <ContextMenuCluster />
         <ThemeToggle />
       </body>
     </html>

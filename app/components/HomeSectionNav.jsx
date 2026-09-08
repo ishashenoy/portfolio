@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const SECTION_IDS = ["experience-heading", "projects-heading", "gallery-heading"];
+const SECTION_IDS = ["experience-heading", "projects-heading"];
 
 function sectionAnchorActive(scrollLine) {
   let current = SECTION_IDS[0];

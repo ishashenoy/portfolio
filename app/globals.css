@@ -109,6 +109,14 @@ body {
   font-feature-settings: "kern" 1, "liga" 1;
 }
 
+.blog-post-body {
+  font-family: var(--font-v2-roboto), "Roboto", sans-serif;
+}
+
+.blog-post-body :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-sans), sans-serif;
+}
+
 ::selection {
   background: var(--selection-bg);
   color: var(--selection-fg);

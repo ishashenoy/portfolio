@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useCallback, useSyncExternalStore } from "react";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 
@@ -35,11 +36,14 @@ function getServerSnapshot() {
 }
 
 export default function ThemeToggle() {
+  const pathname = usePathname();
   const dark = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const toggle = useCallback(() => {
     applyTheme(!getSnapshot());
   }, []);
+
+  if (pathname === "/") return null;
 
   return (
     <button

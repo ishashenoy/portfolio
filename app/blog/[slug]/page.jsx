@@ -8,6 +8,15 @@ import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 import { getAllPosts, getPostBySlug, preserveExtraMarkdownBlankLines } from "../../lib/blog";
 
+function isImageOnlyParagraph(node) {
+  const children = node?.children ?? [];
+  const content = children.filter((child) => {
+    if (child.type === "text") return child.value.trim().length > 0;
+    return true;
+  });
+  return content.length === 1 && content[0]?.tagName === "img";
+}
+
 export async function generateStaticParams() {
   const posts = await getAllPosts();
   return posts.map((post) => ({ slug: post.slug }));
@@ -25,7 +34,7 @@ export default async function BlogPostPage({ params }) {
       <div className="w-full max-w-[780px]">
         <MarkBlogPostRead slug={post.slug} />
         <header className="mb-8">
-          <Link href="/blog" className="text-[var(--link)] hover:underline">
+          <Link href="/#blog" className="text-[var(--link)] hover:underline">
             ← back to blog
           </Link>
           <h1 className="mt-5 text-[clamp(1.9rem,4.2vw,2.8rem)] font-bold lowercase leading-tight tracking-tight text-[var(--fg)]">
@@ -38,7 +47,7 @@ export default async function BlogPostPage({ params }) {
 
         <article
           className={
-            "prose prose-neutral max-w-none text-[var(--muted)] prose-headings:lowercase prose-headings:text-[var(--fg)] prose-p:leading-relaxed prose-p:mb-6 [&_p:last-child]:mb-0 " +
+            "blog-post-body prose prose-neutral max-w-none text-[var(--muted)] prose-headings:lowercase prose-headings:text-[var(--fg)] prose-p:leading-relaxed prose-p:mb-6 [&_p:last-child]:mb-0 " +
             "[&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-5 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-5 [&_li]:my-1 " +
             "[&_table]:w-full [&_table]:table-fixed [&_table_td]:align-top [&_table_th]:align-top " +
             "[&_table_td_figure]:!my-2 [&_table_th_figure]:!my-2 " +
@@ -60,6 +69,8 @@ export default async function BlogPostPage({ params }) {
                   {children}
                 </h3>
               ),
+              p: ({ node, children }) =>
+                isImageOnlyParagraph(node) ? children : <p>{children}</p>,
               img: ({ src = "", alt = "", title = "" }) => (
                 <BlogPostImage src={src} alt={alt} title={title} />
               ),
