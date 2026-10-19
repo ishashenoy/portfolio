@@ -17,3 +17,8 @@ export const collageArt = [
   { id: "a5", src: "/images/art/art5.jpg", alt: "Art 5", w: 195, h: 146 },
   { id: "a6", src: "/images/art/art6.jpg", alt: "Art 6", w: 205, h: 154 },
 ];
+
+export const footerQuote = "A pig who doesn't fly is just a pig.";
+
+/** Photos shown in the collage footer, in the order they appear. */
+export const footerPhotos = [...collageGallery, ...collageArt].slice(0, footerQuote.split(" ").length);

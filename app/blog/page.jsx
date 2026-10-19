@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function BlogIndex() {
-  redirect("/#blog");
+  redirect("/v2#blog");
 }

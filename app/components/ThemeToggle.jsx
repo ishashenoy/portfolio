@@ -43,7 +43,7 @@ export default function ThemeToggle() {
     applyTheme(!getSnapshot());
   }, []);
 
-  if (pathname === "/" || pathname?.startsWith("/blog")) return null;
+  if (pathname === "/" || pathname === "/v2" || pathname === "/writing" || pathname === "/photos" || pathname?.startsWith("/blog")) return null;
 
   return (
     <button

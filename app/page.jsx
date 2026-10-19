@@ -1,85 +1,53 @@
-import { Dawning_of_a_New_Day, Inter, Roboto } from "next/font/google";
-import AboutSection from "./v2/AboutSection";
-import BasketNav from "./v2/BasketNav";
-import BlogSection from "./v2/BlogSection";
-import ExperienceApple from "./v2/ExperienceApple";
-import GalleryCollage from "./v2/GalleryCollage";
-import ProjectsSection from "./v2/ProjectsSection";
-import { getAllPosts } from "./lib/blog";
-import styles from "./v2/v2.module.css";
+import { Roboto } from "next/font/google";
+import ExperiencePreview, { ExperienceLink } from "./components/ExperiencePreview";
 
 const roboto = Roboto({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-v2-roboto",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-v2-inter",
-});
-
-const dawning = Dawning_of_a_New_Day({
   weight: "400",
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-v2-dawning",
 });
 
-const EMAIL = "ishenoy@uwaterloo.ca";
 const RESUME_URL =
   "https://drive.google.com/file/d/14mkg2P8_zrI10RepVzGZ21CnGgXMCRx3/view";
 
-const nav = [
-  { label: "about", href: "#about", className: "about" },
-  { label: "work", href: "#work", className: "work" },
-  { label: "blog", href: "#blog", className: "blog" },
-  { label: "resume", href: RESUME_URL, className: "resume", external: true },
-];
+const newTab = { target: "_blank", rel: "noopener noreferrer" };
 
-const social = [
-  { label: "linkedin", href: "https://www.linkedin.com/in/ishashenoy/" },
-  { label: "github", href: "https://github.com/ishashenoy" },
-  { label: "email", href: `mailto:${EMAIL}` },
-  { label: "X", href: "https://x.com/ichiberries" },
-];
-
-export default async function Home() {
-  const posts = await getAllPosts();
-
+export default function Home() {
   return (
-    <div className={`${styles.root} ${roboto.variable} ${inter.variable} ${dawning.variable} ${roboto.className}`}>
-      <main className={styles.page}>
-        <header className={styles.header}>
-          <h1 className={styles.name}>isha shenoy</h1>
-          <nav className={styles.socialNav} aria-label="Social">
-            {social.map((item) => (
-              <a
-                key={item.label}
-                className={styles.social}
-                href={item.href}
-                {...(item.href.startsWith("mailto:")
-                  ? {}
-                  : { target: "_blank", rel: "noopener noreferrer" })}
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-        </header>
-
-        <div className={styles.stage}>
-          <BasketNav items={nav} />
-        </div>
-
-        <AboutSection />
-        <ExperienceApple />
-        <ProjectsSection />
-        <BlogSection posts={posts} />
-        <GalleryCollage />
-      </main>
+    <div
+      className={roboto.className}
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <ExperiencePreview>
+      <div style={{ letterSpacing: "-0.04em", textAlign: "center" }}>
+        isha shenoy
+        <br />
+        <br />
+        incoming @ <ExperienceLink href="https://nokia.com" label="nokia" src="https://www.nokia.com/sites/default/files/2025-08/https_www.nokia_.com_sites_default_files_styles_scale_1440_no_crop_public_2023-02_nokia-refreshed-logo-1_1.jpg">nokia</ExperienceLink>
+        <br />
+        curr @ <ExperienceLink href="https://mytria.app" label="mytria" src="/images/thumb/mymediatracker.png">mytria</ExperienceLink> <ExperienceLink href="https://jointhemunch.app" label="munch" src="/images/thumb/munch.jpg">munch</ExperienceLink>
+        <br />
+        prev @ <ExperienceLink href="https://capston.ca" label="capston" src="https://www.capston.ca/opengraph-image.png?opengraph-image.0rkr00j4..vz3.png?dpl=dpl_BGfs81qHarGwqT9njfS13KmL7xTx">capston</ExperienceLink>
+        <br />
+        <br />
+        <a href="/writing">writing</a>{" "}
+        <a href="/photos">photos</a>
+        <br />
+        <br />
+        <a href={RESUME_URL} {...newTab}>resume</a>{" "}
+        <a href="mailto:ishenoy@uwaterloo.ca" {...newTab}>email</a>
+        <br />
+        <a href="https://www.linkedin.com/in/ishashenoy/" {...newTab}>linkedin</a>{" "}
+        <a href="https://github.com/ishashenoy" {...newTab}>github</a>{" "}
+        <a href="https://x.com/ichiberries" {...newTab}>x</a>{" "}
+        <a href="https://mytria.app/profile/ichiberry" {...newTab}>mytria</a>
+      </div>
+      </ExperiencePreview>
     </div>
   );
 }

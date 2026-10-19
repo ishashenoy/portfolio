@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { collageArt, collageGallery } from "../data/collageImages";
+import { footerPhotos, footerQuote } from "../data/collageImages";
 import styles from "./v2.module.css";
 
-const QUOTE = "A pig who doesn't fly is just a pig.";
+const QUOTE = footerQuote;
 const WORDS = QUOTE.split(" ");
-const PHOTOS = [...collageGallery, ...collageArt].slice(0, WORDS.length);
+const PHOTOS = footerPhotos;
 
 const cells = (() => {
   const next = [];

@@ -19,7 +19,7 @@ export default async function ProjectPage({ params }) {
     <div className="min-h-screen px-5 py-12 sm:px-8">
       <div className="w-full">
         <Link
-          href="/"
+          href="/v2"
           className="text-[13px] font-medium uppercase tracking-[0.16em] text-[var(--muted)] hover:text-[var(--fg)]"
         >
           ← Back

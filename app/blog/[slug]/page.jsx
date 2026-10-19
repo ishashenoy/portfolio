@@ -55,7 +55,7 @@ export default async function BlogPostPage({ params }) {
       <div className={styles.frame}>
         <MarkBlogPostRead slug={post.slug} />
         <aside className={styles.sidebar}>
-          <Link href="/#blog" className={styles.back}>
+          <Link href="/writing" className={styles.back}>
             <span className={styles.backArrow} aria-hidden="true">
               ←
             </span>

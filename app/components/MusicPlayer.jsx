@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const TRACK_URL = "https://soundcloud.com/ishas_14/sets/faves?si=3b515896ee06495697d96fab67f5116d";
@@ -20,6 +21,7 @@ function useIsDesktop() {
 }
 
 export default function MusicPlayer({ iconFill = "#1a1a1a" }) {
+  const pathname = usePathname();
   const isDesktop = useIsDesktop();
   const iframeRef = useRef(null);
   const widgetRef = useRef(null);
@@ -36,7 +38,7 @@ export default function MusicPlayer({ iconFill = "#1a1a1a" }) {
   };
 
   useEffect(() => {
-    if (!isDesktop) return undefined;
+    if (pathname === "/" || pathname === "/writing" || pathname === "/photos" || !isDesktop) return undefined;
 
     const init = () => {
       if (!iframeRef.current || !window.SC) return;
@@ -69,9 +71,9 @@ export default function MusicPlayer({ iconFill = "#1a1a1a" }) {
       widgetRef.current = null;
       if (document.body.contains(script)) document.body.removeChild(script);
     };
-  }, [isDesktop]);
+  }, [isDesktop, pathname]);
 
-  if (!isDesktop) return null;
+  if (pathname === "/" || pathname === "/writing" || pathname === "/photos" || !isDesktop) return null;
 
   const toggle = () => {
     if (!widgetRef.current || !readyRef.current) return;
